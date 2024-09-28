@@ -5,6 +5,7 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 8px;
   margin-top: 20px;
+  margin-left: 10px;
 }
 
 .banner-description {
@@ -32,7 +33,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
+  width: calc(100% - 20px);
   align-items: flex-end;
   padding: 0px 10px;
   gap: 10px;

@@ -19,9 +19,31 @@ export default ({
         scrollContainer.scrollLeft += event.deltaY > 0 ? 50 : -50;
       };
 
+      let startX: number;
+
+      const handleTouchStart = (e: any) => {
+        console.log(123);
+        startX = e.touches[0].clientX;
+      };
+
+      const handleTouchMove = (e: any) => {
+        const moveX = e.touches[0].clientX - startX;
+
+        scrollContainer.scrollLeft += moveX > 0 ? 50 : -50;
+        startX = 0;
+      };
+
       scrollContainer.addEventListener("wheel", handlescroll);
 
-      return () => scrollContainer.removeEventListener("wheel", handlescroll);
+      scrollContainer.addEventListener("touchstart", handleTouchStart);
+
+      scrollContainer.addEventListener("touchmove", handleTouchMove);
+
+      return () => {
+        scrollContainer.removeEventListener("wheel", handlescroll);
+        scrollContainer.removeEventListener("touchstart", handleTouchStart);
+        scrollContainer.removeEventListener("touchmove", handlescroll);
+      };
     }
   }, [scrollContainer]);
 
@@ -34,10 +56,10 @@ export default ({
             onClickGroup: (e: number) => {
               setbuttonactive(e);
               if (scrollContainer) {
-                scrollContainer.scrollTo({
+                /*scrollContainer.scrollTo({
                   left: e * 100,
                   behavior: "smooth",
-                });
+                });*/
               }
             },
             key: index,

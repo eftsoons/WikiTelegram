@@ -6,7 +6,7 @@ import { type Navigator } from "react-router-dom";
 import { Chain } from "../svg";
 import { Cell } from "../components/";
 
-import { Nitro, Whatis, Xp } from "../assets/img";
+import { Nitro } from "../assets/img";
 
 export default ({ reactNavigator }: { reactNavigator: Navigator }) => {
   const infodiv = [

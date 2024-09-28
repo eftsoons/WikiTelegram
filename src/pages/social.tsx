@@ -40,8 +40,8 @@ export default ({ reactNavigator }: { reactNavigator: Navigator }) => {
             fontSize: "18px",
             lineHeight: "22px",
             display: "flex",
-            alignItems: "self-end",
-            height: "100%",
+            alignItems: "center",
+            height: "70px",
           }}
         >
           MAGAZINE
