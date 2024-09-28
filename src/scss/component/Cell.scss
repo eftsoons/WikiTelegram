@@ -1,0 +1,72 @@
+.cell {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+.cell-before {
+  width: 70px;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.cell-main {
+  display: block;
+  width: 80%;
+}
+
+.cell-header {
+  display: flex;
+  align-items: center;
+}
+
+.cell-span {
+  display: block;
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+  letter-spacing: 0.02em;
+  opacity: 0.8;
+  white-space: normal;
+  word-wrap: break-word;
+  max-height: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cell-header-span {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 22px;
+  /* identical to box height */
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 70%;
+}
+
+.call-header-after {
+  border: 1px solid;
+  border-radius: 10px 0px 0px 10px;
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: 0.02em;
+  padding: 0px 5px;
+  width: 46px;
+  height: 18px;
+  position: absolute;
+  right: 0;
+}
