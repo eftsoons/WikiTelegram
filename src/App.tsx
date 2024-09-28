@@ -9,6 +9,7 @@ import {
   bindViewportCSSVars,
   initMiniApp,
   postEvent,
+  retrieveLaunchParams,
   useLaunchParams,
   useThemeParams,
   useViewport,
@@ -16,11 +17,20 @@ import {
 
 import { MotionConfig } from "framer-motion";
 
+import axios from "axios";
+import axiosRetry from "axios-retry";
+
+axiosRetry(axios, {
+  retries: Infinity,
+  retryDelay: axiosRetry.exponentialDelay,
+});
+
 function App() {
   const [miniApp] = initMiniApp();
   const themeParams = useThemeParams();
   const viewport = useViewport();
   const lp = useLaunchParams();
+  const launchParams = retrieveLaunchParams();
 
   useEffect(() => {
     miniApp.ready();
@@ -41,6 +51,18 @@ function App() {
   useEffect(() => {
     return viewport && bindViewportCSSVars(viewport);
   }, [viewport]);
+
+  useEffect(() => {
+    async function CheckAdmin() {
+      const checkadmin = await axios.post("http://localhost:8852/", {
+        initData: launchParams.initDataRaw,
+      });
+
+      console.log(checkadmin.data);
+    }
+
+    CheckAdmin();
+  }, []);
 
   return (
     <AppRoot

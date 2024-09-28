@@ -3,7 +3,7 @@ import { useIntegration } from "@telegram-apps/react-router-integration";
 import { Navigate, Route, Router, Routes } from "react-router-dom";
 import { useMemo } from "react";
 
-import { Study, Explore, Social, Settings, Monet } from "../pages";
+import { Study, Explore, Social, Settings, Monet, StudyPage } from "../pages";
 
 import { MainWindow } from "../components";
 
@@ -27,6 +27,10 @@ export default () => {
           }
         >
           <Route index element={<Study reactNavigator={reactNavigator} />} />
+          <Route
+            path="/study/:name"
+            element={<StudyPage reactNavigator={reactNavigator} />}
+          />
           <Route
             path="/explore"
             element={<Explore reactNavigator={reactNavigator} />}
