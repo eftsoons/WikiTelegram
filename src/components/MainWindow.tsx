@@ -9,9 +9,11 @@ import { motion } from "framer-motion";
 export default ({
   selected,
   reactNavigator,
+  root,
 }: {
   selected: string;
   reactNavigator: Navigator;
+  root: HTMLElement;
 }) => {
   const lp = useLaunchParams();
 
@@ -62,7 +64,10 @@ export default ({
           className={`tabbar-element ${selected == "/" ? "active" : ""}`}
           onClick={() => {
             reactNavigator.push("/");
+
+            document.body.className = "left";
             document.body.style.backgroundPositionX = "0%";
+            root.className = "right";
           }}
         >
           STUDY
@@ -73,7 +78,8 @@ export default ({
           }`}
           onClick={() => {
             reactNavigator.push("/explore");
-            document.body.style.backgroundPositionX = "50%";
+            document.body.className = "center";
+            root.className = "center";
           }}
         >
           EXPLORE
@@ -82,7 +88,9 @@ export default ({
           className={`tabbar-element ${selected == "/social" ? "active" : ""}`}
           onClick={() => {
             reactNavigator.push("/social");
-            document.body.style.backgroundPositionX = "100%";
+
+            document.body.className = "right";
+            root.className = "left";
           }}
         >
           SOCIAL

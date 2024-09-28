@@ -7,6 +7,6 @@ import "./scss/main.scss";
 
 createRoot(document.getElementById("root")!).render(
   <SDKProvider acceptCustomStyles>
-    <App />
+    <App root={document.getElementById("root")!} />
   </SDKProvider>
 );

@@ -92,6 +92,12 @@ export default ({ reactNavigator }: { reactNavigator: Navigator }) => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            width: "100%",
+          }}
         >
           <InfoDiv text="P2P торговля">
             <Cell

@@ -5,20 +5,47 @@
 * {
   margin: 0;
   padding: 0;
-  scrollbar-width: none;
   user-select: none;
 }
 
 body {
   height: 100vh;
   overflow: hidden;
-  background-image: url("/background.png");
-  background-size: 300% 100%;
-  transition: background-position 0.5s ease;
-  background-blend-mode: multiply;
+  background-image: url("/background2.png");
+  background-size: 200% 50%;
+  background-position-y: 0%;
+  background-repeat: no-repeat;
+  background-color: rgb(37, 37, 37);
 }
 
 #root {
   height: 100%;
   overflow-y: scroll;
+  background-image: url("/background3.png");
+  background-size: 200% 50%;
+  background-position-x: 100%;
+  background-position-y: 100%;
+  background-repeat: no-repeat;
+}
+
+.left {
+  transition: background-position-x 0.25s ease;
+
+  background-position-x: 0% !important;
+}
+
+.center {
+  transition: background-position-x 0.25s ease;
+
+  background-position-x: 50% !important;
+}
+
+.right {
+  transition: background-position-x 0.25s ease;
+
+  background-position-x: 100% !important;
+}
+
+::-webkit-scrollbar {
+  display: none;
 }

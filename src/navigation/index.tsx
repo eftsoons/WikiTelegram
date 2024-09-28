@@ -7,7 +7,7 @@ import { Study, Explore, Social, Settings, Monet, StudyPage } from "../pages";
 
 import { MainWindow } from "../components";
 
-export default () => {
+export default ({ root }: { root: HTMLElement }) => {
   const navigator = useMemo(() => initNavigator("WikiTelegram"), []);
   const [backButton] = initBackButton();
   backButton.hide();
@@ -23,6 +23,7 @@ export default () => {
             <MainWindow
               selected={location.pathname}
               reactNavigator={reactNavigator}
+              root={root}
             />
           }
         >

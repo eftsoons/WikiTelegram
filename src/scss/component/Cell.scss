@@ -21,6 +21,7 @@
 .cell-header {
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 
 .cell-span {
@@ -50,7 +51,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  width: 70%;
+  width: 80%;
 }
 
 .call-header-after {
@@ -68,6 +69,6 @@
   padding: 0px 5px;
   width: 46px;
   height: 18px;
-  position: absolute;
-  right: 0;
+  position: relative;
+  left: 2px;
 }

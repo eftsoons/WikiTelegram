@@ -1,7 +1,12 @@
 .main {
   height: 100%;
   width: 100%;
+  margin-top: 52px;
   margin-bottom: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
   /*&.study {
     background-image: url("/public/background-study.png");

@@ -1,4 +1,4 @@
-import { ReactElement, cloneElement, useEffect } from "react";
+import { ReactElement, cloneElement, useEffect, useRef } from "react";
 
 export default ({
   children,
@@ -9,65 +9,68 @@ export default ({
   active: number;
   setbuttonactive: Function;
 }) => {
-  const scrollContainer = document.querySelector(".button-group");
+  const scrollContainerRef = useRef(null);
 
   useEffect(() => {
-    if (scrollContainer) {
-      const handlescroll: EventListener = (e) => {
-        const wheelEvent = e as WheelEvent;
+    if (scrollContainerRef.current) {
+      const scrollContainer = scrollContainerRef.current as Element;
 
-        wheelEvent.preventDefault();
-        scrollContainer.scrollLeft += wheelEvent.deltaY > 0 ? 50 : -50;
-      };
+      if (scrollContainer) {
+        const handlescroll: EventListener = (e) => {
+          const wheelEvent = e as WheelEvent;
 
-      let startX: number;
+          wheelEvent.preventDefault();
+          scrollContainer.scrollLeft += wheelEvent.deltaY > 0 ? 50 : -50;
+        };
 
-      const handleTouchStart: EventListener = (e) => {
-        const touchEvent = e as TouchEvent;
+        let startX: number;
 
-        touchEvent.preventDefault();
-        startX = touchEvent.touches[0].clientX;
-      };
+        const handleTouchStart: EventListener = (e) => {
+          const touchEvent = e as TouchEvent;
+          startX = touchEvent.touches[0].clientX;
+        };
 
-      const handleTouchMove: EventListener = (e) => {
-        const touchEvent = e as TouchEvent;
+        const handleTouchMove: EventListener = (e) => {
+          const touchEvent = e as TouchEvent;
+          const moveX = touchEvent.touches[0].clientX - startX;
 
-        touchEvent.preventDefault();
-        const moveX = touchEvent.touches[0].clientX - startX;
+          scrollContainer.scrollLeft -= moveX;
 
-        scrollContainer.scrollLeft -= moveX;
+          startX = touchEvent.touches[0].clientX;
+        };
 
-        startX = touchEvent.touches[0].clientX;
-      };
+        scrollContainer.addEventListener("wheel", handlescroll);
 
-      scrollContainer.addEventListener("wheel", handlescroll);
+        scrollContainer.addEventListener("touchstart", handleTouchStart);
 
-      scrollContainer.addEventListener("touchstart", handleTouchStart);
+        scrollContainer.addEventListener("touchmove", handleTouchMove);
 
-      scrollContainer.addEventListener("touchmove", handleTouchMove);
-
-      return () => {
-        scrollContainer.removeEventListener("wheel", handlescroll);
-        scrollContainer.removeEventListener("touchstart", handleTouchStart);
-        scrollContainer.removeEventListener("touchmove", handlescroll);
-      };
+        return () => {
+          scrollContainer.removeEventListener("wheel", handlescroll);
+          scrollContainer.removeEventListener("touchstart", handleTouchStart);
+          scrollContainer.removeEventListener("touchmove", handlescroll);
+        };
+      }
     }
-  }, [scrollContainer]);
+  }, [scrollContainerRef]);
 
   return (
-    <div key={0} className="button-group">
+    <div ref={scrollContainerRef} className="button-group">
       {children &&
         children.map((data, index) => {
           return cloneElement(data, {
             className: active == index ? "button active" : "button",
             onClickGroup: (e: number) => {
-              console.log(data);
-              setbuttonactive(e);
-              if (scrollContainer) {
-                scrollContainer.scrollTo({
-                  left: e * 100,
-                  behavior: "smooth",
-                });
+              if (scrollContainerRef.current) {
+                const scrollContainer = scrollContainerRef.current as Element;
+
+                setbuttonactive(e);
+                if (scrollContainer) {
+                  scrollContainer.scrollTo({
+                    left: e * 100,
+                    behavior: "smooth",
+                  });
+                }
               }
             },
             key: index,

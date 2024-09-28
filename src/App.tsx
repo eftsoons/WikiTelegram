@@ -25,7 +25,7 @@ axiosRetry(axios, {
   retryDelay: axiosRetry.exponentialDelay,
 });
 
-function App() {
+function App({ root }: { root: HTMLElement }) {
   const [miniApp] = initMiniApp();
   const themeParams = useThemeParams();
   const viewport = useViewport();
@@ -37,7 +37,7 @@ function App() {
 
     postEvent("web_app_expand");
 
-    miniApp.setHeaderColor("bg_color");
+    miniApp.setHeaderColor("#232323");
   }, []);
 
   useEffect(() => {
@@ -51,6 +51,8 @@ function App() {
   useEffect(() => {
     return viewport && bindViewportCSSVars(viewport);
   }, [viewport]);
+
+  useEffect(() => {}, []);
 
   useEffect(() => {
     async function CheckAdmin() {
@@ -70,7 +72,7 @@ function App() {
       platform={["macos", "ios"].includes(lp.platform) ? "ios" : "base"}
     >
       <MotionConfig transition={{ duration: 0.5 }}>
-        <Navigator />
+        <Navigator root={root} />
       </MotionConfig>
     </AppRoot>
   );

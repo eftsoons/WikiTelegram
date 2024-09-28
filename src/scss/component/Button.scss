@@ -2,11 +2,10 @@
   display: flex;
   margin-top: 20px;
   width: calc(100% - 20px);
-  overflow-x: scroll !important;
+  overflow-x: hidden;
   white-space: nowrap;
   gap: 10px;
   transition: 0.5s;
-  margin-left: 10px;
   -webkit-overflow-scrolling: touch;
 }
 
@@ -36,11 +35,6 @@
 }
 
 .button:active {
-  transition: 0.25s;
-  background: #f75e25;
-}
-
-.button:hover {
   transition: 0.25s;
   background: #f75e25;
 }
