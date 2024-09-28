@@ -1,0 +1,6 @@
+backendbot/.env
+backendbot/node_modules
+backendbot/dist
+backendserver/node_modules
+backendserver/dist
+fronted/node_modules

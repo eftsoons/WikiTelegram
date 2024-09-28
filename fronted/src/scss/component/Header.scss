@@ -1,0 +1,41 @@
+.header {
+  background-color: rgba(37, 37, 37, 1);
+  backdrop-filter: blur(15px);
+  width: 100%;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+
+  svg {
+    width: 2rem;
+    height: 2rem;
+    margin-right: 1rem;
+  }
+}
+
+input {
+  margin-left: 1rem;
+  border: 0;
+  width: 30%;
+  height: 22px;
+  border-radius: 16px;
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 22px;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.6);
+  padding: 5px;
+  padding-left: 10px;
+  background-color: #161616;
+  transition: 0.5s;
+}
+
+input:focus {
+  outline: none !important;
+  transition: 0.5s;
+  width: 80%;
+}

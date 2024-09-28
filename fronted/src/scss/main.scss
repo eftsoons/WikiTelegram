@@ -1,0 +1,24 @@
+@import "./fonts/fonts.scss"; //убрать или использовать только под некоторые
+@import "./pages.scss";
+@import "./component/";
+
+* {
+  margin: 0;
+  padding: 0;
+  scrollbar-width: none;
+  user-select: none;
+}
+
+body {
+  height: 100vh;
+  overflow: hidden;
+  background-image: url("/background.png");
+  background-size: 300% 100%;
+  transition: background-position 0.25s ease;
+  background-blend-mode: multiply;
+}
+
+#root {
+  height: 100%;
+  overflow-y: scroll;
+}

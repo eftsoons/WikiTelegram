@@ -1,0 +1,40 @@
+.banner {
+  width: calc(100% - 20px);
+  height: 150px;
+  background: rgba(37, 37, 37, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
+.banner-description {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 20px;
+  /* identical to box height */
+  display: flex;
+  align-items: center;
+  letter-spacing: 0.02em;
+
+  color: #ffffff;
+
+  opacity: 0.8;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30%;
+}
+
+.banner-block {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  align-items: flex-end;
+  padding: 0px 10px;
+  gap: 10px;
+  height: 70%;
+}
