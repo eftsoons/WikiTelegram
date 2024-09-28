@@ -13,24 +13,31 @@ export default ({
 
   useEffect(() => {
     if (scrollContainer) {
-      const handlescroll = (event: any) => {
-        //WheelEvent не работает
-        event.preventDefault();
-        scrollContainer.scrollLeft += event.deltaY > 0 ? 50 : -50;
+      const handlescroll: EventListener = (e) => {
+        const wheelEvent = e as WheelEvent;
+
+        wheelEvent.preventDefault();
+        scrollContainer.scrollLeft += wheelEvent.deltaY > 0 ? 50 : -50;
       };
 
       let startX: number;
 
-      const handleTouchStart = (e: any) => {
-        console.log(123);
-        startX = e.touches[0].clientX;
+      const handleTouchStart: EventListener = (e) => {
+        const touchEvent = e as TouchEvent;
+
+        touchEvent.preventDefault();
+        startX = touchEvent.touches[0].clientX;
       };
 
-      const handleTouchMove = (e: any) => {
-        const moveX = e.touches[0].clientX - startX;
+      const handleTouchMove: EventListener = (e) => {
+        const touchEvent = e as TouchEvent;
 
-        scrollContainer.scrollLeft += moveX > 0 ? 50 : -50;
-        startX = 0;
+        touchEvent.preventDefault();
+        const moveX = touchEvent.touches[0].clientX - startX;
+
+        scrollContainer.scrollLeft -= moveX;
+
+        startX = touchEvent.touches[0].clientX;
       };
 
       scrollContainer.addEventListener("wheel", handlescroll);
@@ -54,12 +61,13 @@ export default ({
           return cloneElement(data, {
             className: active == index ? "button active" : "button",
             onClickGroup: (e: number) => {
+              console.log(data);
               setbuttonactive(e);
               if (scrollContainer) {
-                /*scrollContainer.scrollTo({
+                scrollContainer.scrollTo({
                   left: e * 100,
                   behavior: "smooth",
-                });*/
+                });
               }
             },
             key: index,

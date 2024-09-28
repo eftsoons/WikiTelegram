@@ -2,11 +2,12 @@
   display: flex;
   margin-top: 20px;
   width: calc(100% - 20px);
-  overflow-x: hidden !important;
+  overflow-x: scroll !important;
   white-space: nowrap;
   gap: 10px;
   transition: 0.5s;
   margin-left: 10px;
+  -webkit-overflow-scrolling: touch;
 }
 
 .button {
