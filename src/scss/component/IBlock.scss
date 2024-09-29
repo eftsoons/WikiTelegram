@@ -1,0 +1,38 @@
+.i-block {
+  width: 90%;
+  background: rgba(0, 152, 234, 0.2);
+  border-radius: 8px;
+  gap: 10px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.i-block-title {
+  height: 28px;
+  padding: 0px 10px;
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 27px;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 99%;
+}
+
+.i-block-text {
+  margin-top: 10px;
+  padding: 0px 10px;
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+  letter-spacing: 0.02em;
+  color: #ffffff;
+  opacity: 0.8;
+  width: 99%;
+  word-wrap: break-word;
+}

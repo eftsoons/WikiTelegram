@@ -9,7 +9,7 @@ import { Whatis } from "../assets/img";
 export default ({ reactNavigator }: { reactNavigator: Navigator }) => {
   return (
     <motion.div
-      className="main social"
+      className="main"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}

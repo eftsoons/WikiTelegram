@@ -7,6 +7,9 @@ import Border from "./Border";
 import Banner from "./Banner";
 import Button from "./Button";
 import ButtonGroup from "./ButtonGroup";
+import NormalBlock from "./NormalBlock";
+import IBlock from "./iBlock";
+import Citate from "./Citate";
 
 export {
   Icon,
@@ -18,4 +21,7 @@ export {
   Banner,
   Button,
   ButtonGroup,
+  NormalBlock,
+  IBlock,
+  Citate,
 };

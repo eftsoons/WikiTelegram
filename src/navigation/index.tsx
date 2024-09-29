@@ -7,12 +7,56 @@ import { Study, Explore, Social, Settings, Monet, StudyPage } from "../pages";
 
 import { MainWindow } from "../components";
 
+import { Nitro } from "../assets/img";
+import { useState } from "react";
+import { Chain } from "../svg";
+import { Info } from "../type";
+
 export default ({ root }: { root: HTMLElement }) => {
   const navigator = useMemo(() => initNavigator("WikiTelegram"), []);
   const [backButton] = initBackButton();
   backButton.hide();
 
   const [location, reactNavigator] = useIntegration(navigator);
+
+  const [infodiv, setinfodiv] = useState<Info>([
+    {
+      name: "Курс. Блокчейн основы",
+      icon: <Chain />,
+      type: "normal",
+      content: [
+        {
+          before: Nitro,
+          header: "Что такое блокчейн",
+          text: "Что из себя представляет блокчейн и для чего он нужен",
+          content: [
+            {
+              type: "normal",
+              text: "прарапрпрарапрпрарапрпрарапрпрарапрпрарапрпрарапрпрарапр",
+              title:
+                "Доказательства работыДоказательства работыДоказательства работы",
+            },
+            {
+              type: "i",
+              text: "прарапрпрарапрпрарапрпрарапрпрарапрпрарапрпрарапрпрарапр",
+              title:
+                "Доказательства работыДоказательства работыДоказательства работы",
+            },
+            {
+              type: "citate",
+              text: "прарапрпрарапрпрарапрпрарапрпрарапрпрарапрпрарапрпрарапр",
+            },
+          ],
+        },
+        {
+          before: Nitro,
+          header: "Что такое блокчейн",
+          text: "Что из себя представляет блокчейн и для чего он нужен",
+          content: [{ type: "i", text: "asd" }],
+        },
+      ],
+    },
+  ]);
 
   return (
     <Router location={location} navigator={reactNavigator}>
@@ -27,10 +71,21 @@ export default ({ root }: { root: HTMLElement }) => {
             />
           }
         >
-          <Route index element={<Study reactNavigator={reactNavigator} />} />
           <Route
-            path="/study/:name"
-            element={<StudyPage reactNavigator={reactNavigator} />}
+            index
+            element={
+              <Study
+                infodiv={infodiv}
+                setinfodiv={setinfodiv}
+                reactNavigator={reactNavigator}
+              />
+            }
+          />
+          <Route
+            path="/page/:type/:indexmain/:index"
+            element={
+              <StudyPage infodiv={infodiv} reactNavigator={reactNavigator} />
+            }
           />
           <Route
             path="/explore"

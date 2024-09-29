@@ -1,4 +1,4 @@
-export default () => {
+export default ({ onClick }: { onClick?: () => void }) => {
   return (
     <svg
       width="64"
@@ -6,6 +6,7 @@ export default () => {
       viewBox="0 0 64 64"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      onClick={onClick}
     >
       <g clipPath="url(#clip0_616_5274)">
         <path

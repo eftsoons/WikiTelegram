@@ -9,7 +9,6 @@ import {
   bindViewportCSSVars,
   initMiniApp,
   postEvent,
-  retrieveLaunchParams,
   useLaunchParams,
   useThemeParams,
   useViewport,
@@ -30,7 +29,6 @@ function App({ root }: { root: HTMLElement }) {
   const themeParams = useThemeParams();
   const viewport = useViewport();
   const lp = useLaunchParams();
-  const launchParams = retrieveLaunchParams();
 
   useEffect(() => {
     miniApp.ready();
@@ -56,11 +54,11 @@ function App({ root }: { root: HTMLElement }) {
 
   useEffect(() => {
     async function CheckAdmin() {
-      const checkadmin = await axios.post("http://localhost:8852/", {
+      /*const checkadmin = await axios.post("http://localhost:8852/", {
         initData: launchParams.initDataRaw,
       });
 
-      console.log(checkadmin.data);
+      console.log(checkadmin.data);*/
     }
 
     CheckAdmin();

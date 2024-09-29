@@ -22,7 +22,7 @@ export default ({
           onClickGroup(index);
         }
       }}
-      className={className}
+      className={className ? className : "button"}
     >
       {children}
     </button>

@@ -8,6 +8,7 @@ export default ({
   after,
   colorafter,
   onClick,
+  type,
 }: {
   before: ReactNode;
   header: ReactNode;
@@ -16,6 +17,7 @@ export default ({
   after?: string;
   colorafter?: string;
   onClick?: () => void;
+  type?: string;
 }) => {
   return (
     <div
@@ -24,7 +26,10 @@ export default ({
       style={{ opacity: disabled ? "0.3" : "1" }}
     >
       <div className="cell-before">{before}</div>
-      <div className="cell-main">
+      <div
+        className="cell-main"
+        style={{ height: type == "big" ? "128px" : "64px" }}
+      >
         <div className="cell-header">
           <div className="cell-header-span">{header}</div>
           {after && colorafter && (

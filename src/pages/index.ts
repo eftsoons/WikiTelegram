@@ -3,6 +3,6 @@ import Explore from "./explore";
 import Social from "./social";
 import Settings from "./settings";
 import Monet from "./monet";
-import StudyPage from "./studypage";
+import StudyPage from "./paper";
 
 export { Study, Explore, Social, Settings, Monet, StudyPage };

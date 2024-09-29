@@ -1,0 +1,26 @@
+.citate-block {
+  width: 90%;
+  background: rgba(0, 152, 234, 0.2);
+  border-radius: 8px;
+  gap: 10px;
+  padding: 10px;
+}
+
+.citate-block-text {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+  display: flex;
+  align-items: center;
+  letter-spacing: 0.02em;
+
+  color: #ffffff;
+
+  opacity: 0.8;
+
+  border-radius: 1px;
+  border-left: 2px solid white;
+  padding-left: 10px;
+}

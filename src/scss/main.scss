@@ -1,5 +1,4 @@
 @import "./fonts/fonts.scss"; //убрать или использовать только под некоторые
-@import "./pages.scss";
 @import "./component/";
 
 * {
@@ -48,4 +47,15 @@ body {
 
 ::-webkit-scrollbar {
   display: none;
+}
+
+.main {
+  height: 100%;
+  width: 100%;
+  margin-top: 72px;
+  margin-bottom: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }

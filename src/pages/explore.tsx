@@ -5,12 +5,12 @@ import { Border, Cell, InfoDiv } from "../components";
 import { Chain } from "../svg";
 
 import { Xp } from "../assets/img";
-import Explore from "../svg/explore";
+import { Explore } from "../svg";
 
 export default ({ reactNavigator }: { reactNavigator: Navigator }) => {
   return (
     <motion.div
-      className="main explore"
+      className="main"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}

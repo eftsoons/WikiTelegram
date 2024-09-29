@@ -1,6 +1,6 @@
 .button-group {
   display: flex;
-  margin-top: 20px;
+  margin-bottom: 20px;
   width: calc(100% - 20px);
   overflow-x: hidden;
   white-space: nowrap;
@@ -35,6 +35,6 @@
 }
 
 .button:active {
-  transition: 0.25s;
+  transition: 0.1s;
   background: #f75e25;
 }
