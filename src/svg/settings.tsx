@@ -1,16 +1,20 @@
 import { CSSProperties } from "react";
 
 export default ({
-  style,
   onClick,
+  height,
+  width,
+  style,
 }: {
+  onClick?: () => void;
+  height?: string;
+  width?: string;
   style: CSSProperties;
-  onClick: () => void;
 }) => {
   return (
     <svg
-      width="32"
-      height="32"
+      width={width ? width : "32"}
+      height={height ? height : "32"}
       viewBox="0 0 32 32"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

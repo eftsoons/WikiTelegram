@@ -10,7 +10,7 @@
 body {
   height: 100vh;
   overflow: hidden;
-  background-image: url("/background2.png");
+  background-image: url("/backgroundup.png");
   background-size: 200% 50%;
   background-position-y: 0%;
   background-repeat: no-repeat;
@@ -20,7 +20,7 @@ body {
 #root {
   height: 100%;
   overflow-y: scroll;
-  background-image: url("/background3.png");
+  background-image: url("/backgrounddown.png");
   background-size: 200% 50%;
   background-position-x: 100%;
   background-position-y: 100%;

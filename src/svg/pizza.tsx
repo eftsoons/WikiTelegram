@@ -1,11 +1,20 @@
-export default () => {
+export default ({
+  onClick,
+  height,
+  width,
+}: {
+  onClick?: () => void;
+  height?: string;
+  width?: string;
+}) => {
   return (
     <svg
-      width="47"
-      height="46"
+      width={width ? width : "47"}
+      height={height ? height : "46"}
       viewBox="0 0 47 46"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      onClick={onClick}
     >
       <g opacity="0.8">
         <path

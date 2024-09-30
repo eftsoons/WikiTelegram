@@ -17,21 +17,21 @@ export default ({ reactNavigator }: { reactNavigator: Navigator }) => {
     >
       <InfoDiv text="Иследовать" icon={<Explore />}>
         <Cell
-          before={<img style={{ height: "64px", width: "64px" }} src={Xp} />}
+          before={Xp}
           header="TON"
           text="Исследовать продукты и сервисы блокчейна"
           onClick={() => reactNavigator.push("/explore/monet/ton")}
         />
         <Border />
         <Cell
-          before={<img style={{ height: "64px", width: "64px" }} src={Xp} />}
+          before={Xp}
           header="NEAR"
           text="Совсем скоро..."
           disabled={true}
         />
         <Border />
         <Cell
-          before={<img style={{ height: "64px", width: "64px" }} src={Xp} />}
+          before={Xp}
           header="TRON"
           text="Совсем скоро..."
           disabled={true}
@@ -39,21 +39,20 @@ export default ({ reactNavigator }: { reactNavigator: Navigator }) => {
       </InfoDiv>
       <InfoDiv text="Приложения" icon={<Chain />}>
         <Cell
-          before={<img style={{ height: "64px", width: "64px" }} src={Xp} />}
+          before={Xp}
           header="P2E Игры"
           text="Игры с финансовыми механиками, фармингом и заработком монет"
           after="NEW"
-          colorafter="#F75E25"
         />
         <Border />
         <Cell
-          before={<img style={{ height: "64px", width: "64px" }} src={Xp} />}
+          before={Xp}
           header="DeFi"
           text="Награды за выполнение заданий в различных сетях"
         />
         <Border />
         <Cell
-          before={<img style={{ height: "64px", width: "64px" }} src={Xp} />}
+          before={Xp}
           header="Развлечения"
           text="Развлекательные сервисы, которые не дадут заскучать"
         />

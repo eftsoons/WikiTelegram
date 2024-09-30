@@ -41,11 +41,13 @@ export default ({
               );
             case "citate":
               return (
-                <Citate author={data.author ? data.author : "???"}>asd</Citate>
+                <Citate key={index} author={data.author ? data.author : "???"}>
+                  asd
+                </Citate>
               );
             default:
               return (
-                <IBlock title={data.title ? data.title : "???"}>
+                <IBlock key={index} title={data.title ? data.title : "???"}>
                   {data.text}
                 </IBlock>
               );

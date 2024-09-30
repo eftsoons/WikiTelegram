@@ -6,6 +6,5 @@ import Hearth from "./hearth";
 import Web from "./web";
 import Settings from "./settings";
 import Pizza from "./pizza";
-import Ton from "./ton";
 
-export { Chain, Champ, Course, Explore, Hearth, Web, Settings, Pizza, Ton };
+export { Chain, Champ, Course, Explore, Hearth, Web, Settings, Pizza };

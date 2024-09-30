@@ -17,6 +17,7 @@ export default ({
         onChange={() => {
           console.log(123);
         }}
+        className="header-input"
       />
       <Settings
         style={{

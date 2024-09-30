@@ -11,6 +11,7 @@ import Ton from "./ton.png";
 import Tron from "./tron.png";
 import Whatis from "./whatis.png";
 import Xp from "./xp.png";
+import NotImg from "./notimg.png";
 
 export {
   Nitro,
@@ -26,4 +27,5 @@ export {
   Tron,
   Whatis,
   Xp,
+  NotImg,
 };

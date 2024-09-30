@@ -49,20 +49,15 @@ export default ({ reactNavigator }: { reactNavigator: Navigator }) => {
       </Banner>
       <InfoDiv text="Наши ресурсы" icon={<Chain />}>
         <Cell
-          before={
-            <img style={{ height: "64px", width: "64px" }} src={Whatis} />
-          }
+          before={Whatis}
           header="XP Wiki"
           text="Ваш опыт в исследовании блокчейнов"
           after="OFCL"
-          colorafter="#0098EA"
         />
       </InfoDiv>
       <InfoDiv text="Раффлы">
         <Cell
-          before={
-            <img style={{ height: "64px", width: "64px" }} src={Whatis} />
-          }
+          before={Whatis}
           header="Розыгрыши партнёров"
           text="Совсем скоро..."
           disabled={true}

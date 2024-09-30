@@ -10,7 +10,6 @@ import {
   InfoDiv,
 } from "../components";
 import { useState } from "react";
-import { Ton } from "../svg";
 import { Whatis } from "../assets/img";
 
 export default ({ reactNavigator }: { reactNavigator: Navigator }) => {
@@ -76,7 +75,6 @@ export default ({ reactNavigator }: { reactNavigator: Navigator }) => {
             <span style={{}}>THE OPEN</span>
             <span>NETWORK</span>
           </span>
-          <Ton />
         </div>
       </Banner>
       <ButtonGroup active={buttonactive} setbuttonactive={setbuttonactive}>
@@ -101,68 +99,51 @@ export default ({ reactNavigator }: { reactNavigator: Navigator }) => {
         >
           <InfoDiv text="P2P торговля">
             <Cell
-              before={
-                <img style={{ height: "64px", width: "64px" }} src={Whatis} />
-              }
+              before={Whatis}
               header="CryptoBot"
               text="Telegram бот с P2P для покупки криптовалюты без KYC"
               after="TOP"
-              colorafter="#EA9A00"
             />
             <Border />
             <Cell
-              before={
-                <img style={{ height: "64px", width: "64px" }} src={Whatis} />
-              }
+              before={Whatis}
               header="Розыгрыши партнёров"
               text="Совсем скоро..."
             />
             <Border />
             <Cell
-              before={
-                <img style={{ height: "64px", width: "64px" }} src={Whatis} />
-              }
+              before={Whatis}
               header="Розыгрыши партнёров"
               text="Совсем скоро..."
             />
             <Border />
             <Cell
-              before={
-                <img style={{ height: "64px", width: "64px" }} src={Whatis} />
-              }
+              before={Whatis}
               header="Розыгрыши партнёров"
               text="Совсем скоро..."
             />
           </InfoDiv>
           <InfoDiv text="CEX Биржи">
             <Cell
-              before={
-                <img style={{ height: "64px", width: "64px" }} src={Whatis} />
-              }
+              before={Whatis}
               header="Розыгрыши партнёров"
               text="Совсем скоро..."
             />
             <Border />
             <Cell
-              before={
-                <img style={{ height: "64px", width: "64px" }} src={Whatis} />
-              }
+              before={Whatis}
               header="Розыгрыши партнёров"
               text="Совсем скоро..."
             />
             <Border />
             <Cell
-              before={
-                <img style={{ height: "64px", width: "64px" }} src={Whatis} />
-              }
+              before={Whatis}
               header="Розыгрыши партнёров"
               text="Совсем скоро..."
             />
             <Border />
             <Cell
-              before={
-                <img style={{ height: "64px", width: "64px" }} src={Whatis} />
-              }
+              before={Whatis}
               header="Розыгрыши партнёров"
               text="Совсем скоро..."
             />

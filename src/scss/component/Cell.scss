@@ -8,21 +8,20 @@
 
 .cell-before {
   margin-left: 10px;
-  margin-right: 0.5rem;
+  margin-right: 1rem;
   display: flex;
 }
 
 .cell-main {
   display: flex;
   flex-direction: column;
-  width: calc(80% - 90px);
-  justify-content: center;
 }
 
 .cell-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
 }
 
 .cell-span {
@@ -39,6 +38,7 @@
   max-height: 100px;
   overflow: hidden;
   text-overflow: ellipsis;
+  width: 100%;
 }
 
 .cell-header-span {
@@ -71,4 +71,69 @@
   height: 18px;
   position: relative;
   left: 2px;
+}
+
+.cell-play {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 20px;
+  padding: 10px;
+}
+
+.cell-main-play {
+  width: 100%;
+  height: 132px;
+}
+
+.cell-before-play {
+  height: 84px;
+  width: 100%;
+}
+
+.cell-span-play {
+  margin-top: 5px;
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 20px;
+  display: flex;
+  align-items: center;
+  letter-spacing: 0.02em;
+  color: #ffffff;
+  justify-content: center;
+}
+
+.cell-settings {
+  position: absolute;
+  background: rgba(37, 37, 37, 1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  right: 0;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 10px;
+  gap: 20px;
+  z-index: 1;
+}
+
+.cell-settings-items {
+  width: 89px;
+  height: 14px;
+
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 22px;
+  /* identical to box height */
+  display: flex;
+  align-items: center;
+  letter-spacing: 0.02em;
+
+  color: #ffffff;
+
+  opacity: 0.6;
 }

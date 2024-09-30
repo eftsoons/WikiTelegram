@@ -26,7 +26,6 @@ export default ({ root }: { root: HTMLElement }) => {
       type: "normal",
       content: [
         {
-          before: Nitro,
           header: "Что такое блокчейн",
           text: "Что из себя представляет блокчейн и для чего он нужен",
           content: [
