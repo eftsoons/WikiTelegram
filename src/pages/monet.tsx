@@ -84,6 +84,13 @@ export default ({ reactNavigator }: { reactNavigator: Navigator }) => {
         <Button>NFT</Button>
         <Button>Стейкинг</Button>
         <Button>Обозреватель</Button>
+        <Button
+          onClick={() => {
+            console.log(123);
+          }}
+        >
+          ADD
+        </Button>
       </ButtonGroup>
       {buttonactive == 0 ? (
         <motion.div

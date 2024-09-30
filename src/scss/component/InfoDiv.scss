@@ -1,9 +1,13 @@
 .info {
   background-color: rgba(37, 37, 37, 0.6);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(15px);
+  //backdrop-filter: blur(15px);
   width: 95%;
   margin-bottom: 20px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .info-headerinfo {
@@ -30,6 +34,29 @@
     font-size: 22px;
     line-height: 17px;
     letter-spacing: 0.02em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 1.5rem;
+  }
+
+  input {
+    margin-left: 0.5rem;
+    font-family: "Montserrat";
+    font-style: normal;
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 17px;
+    letter-spacing: 0.02em;
+    height: 48px;
+    width: 100%;
+    background: none;
+    border: none;
+    color: white;
+  }
+
+  input:focus {
+    width: 100%;
   }
 }
 
@@ -51,6 +78,7 @@
   padding: 10px;
   gap: 20px;
   z-index: 1;
+  top: 35px;
 }
 
 .settings-items {

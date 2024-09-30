@@ -1,31 +1,45 @@
 .normal-block {
   width: 90%;
-  background-color: red;
-  background: rgba(37, 37, 37, 0.6);
+  background-color: rgba(37, 37, 37, 0.6);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 8px;
-  gap: 10px;
-  padding: 10px;
   margin-bottom: 10px;
+  min-height: 50px;
 }
 
 .normal-block-title {
-  height: 28px;
-  padding: 0px 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 10px;
   font-family: "Montserrat";
   font-style: normal;
   font-weight: 600;
-  font-size: 22px;
   line-height: 27px;
   letter-spacing: 0.02em;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  width: 99%;
+  width: 95%;
+
+  &.h1 {
+    font-size: 28px;
+    height: 28px;
+  }
+
+  &.h2 {
+    font-size: 24px;
+    height: 24px;
+  }
+
+  &.h3 {
+    font-size: 22px;
+    height: 22px;
+  }
 }
 
 .normal-block-text {
   margin-top: 10px;
+  margin-bottom: 10px;
   padding: 0px 10px;
   font-family: "Montserrat";
   font-style: normal;
@@ -35,6 +49,67 @@
   letter-spacing: 0.02em;
   color: #ffffff;
   opacity: 0.8;
-  width: 99%;
+  width: 95%;
   word-wrap: break-word;
+}
+
+.normal-block-text-input {
+  height: auto;
+  background: none;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 0px 10px;
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+  letter-spacing: 0.02em;
+  color: #ffffff;
+  opacity: 0.8;
+  width: 95%;
+  border: none;
+  resize: none;
+}
+
+.normal-block-text-input:focus {
+  border: none;
+  outline: none;
+}
+
+.normal-block-title-input {
+  width: 95%;
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 600;
+  line-height: 27px;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: none;
+  color: white;
+  border: none;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 10px;
+
+  &.h1 {
+    font-size: 28px;
+    height: 28px;
+  }
+
+  &.h2 {
+    font-size: 24px;
+    height: 24px;
+  }
+
+  &.h3 {
+    font-size: 22px;
+    height: 22px;
+  }
+}
+
+.normal-block-title-input:focus {
+  outline: none !important;
 }

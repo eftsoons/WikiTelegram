@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 
 type Info = Array<{
-  type: "normal" | "big" | "play" | "monet";
+  type: "normal" | "big" | "play";
   name: string;
   icon: ReactNode | null;
   content: Array<{
@@ -9,12 +9,26 @@ type Info = Array<{
     before?: string;
     header: string;
     text: string;
-    content: Array<{
-      type: "normal" | "citate" | "i";
-      text: string;
-      title?: string;
-      author?: string;
-    }>;
+    content: Array<
+      | {
+          type: "normal";
+          content: Array<
+            | {
+                type: "h1" | "h2" | "h3" | "text";
+                text: string;
+              }
+            | {
+                type: "image";
+                content: string | undefined;
+              }
+          >;
+        }
+      | {
+          type: "citate";
+          text: string;
+          author: string;
+        }
+    >;
   }>;
 }>;
 

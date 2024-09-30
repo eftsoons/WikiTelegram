@@ -1,9 +1,19 @@
-export default ({ children, title }: { children: string; title: string }) => {
+import { CSSProperties, ReactNode } from "react";
+
+export default ({
+  children,
+  style,
+}: {
+  children: ReactNode[];
+  style?: CSSProperties;
+}) => {
+  /*<div className="normal-block-title">{title}</div>
+  <div className="normal-block-img"></div>
+  <div className="normal-block-text">{children}</div>*/
+
   return (
-    <div className="normal-block">
-      <div className="normal-block-title">{title}</div>
-      <div className="normal-block-img"></div>
-      <div className="normal-block-text">{children}</div>
+    <div style={style} className="normal-block">
+      {children}
     </div>
   );
 };

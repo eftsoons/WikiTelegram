@@ -26,32 +26,20 @@ export default ({ root }: { root: HTMLElement }) => {
       type: "normal",
       content: [
         {
-          header: "Что такое блокчейн",
-          text: "Что из себя представляет блокчейн и для чего он нужен",
+          header: "123",
+          text: "123",
           content: [
             {
               type: "normal",
-              text: "прарапрпрарапрпрарапрпрарапрпрарапрпрарапрпрарапрпрарапр",
-              title:
-                "Доказательства работыДоказательства работыДоказательства работы",
-            },
-            {
-              type: "i",
-              text: "прарапрпрарапрпрарапрпрарапрпрарапрпрарапрпрарапрпрарапр",
-              title:
-                "Доказательства работыДоказательства работыДоказательства работы",
-            },
-            {
-              type: "citate",
-              text: "прарапрпрарапрпрарапрпрарапрпрарапрпрарапрпрарапрпрарапр",
+              content: [{ type: "h1", text: "asd" }],
             },
           ],
         },
         {
           before: Nitro,
-          header: "Что такое блокчейн",
-          text: "Что из себя представляет блокчейн и для чего он нужен",
-          content: [{ type: "i", text: "asd" }],
+          header: "123",
+          text: "123",
+          content: [{ type: "citate", text: "asd", author: "ad" }],
         },
       ],
     },
@@ -81,9 +69,14 @@ export default ({ root }: { root: HTMLElement }) => {
             }
           />
           <Route
-            path="/page/:type/:indexmain/:index"
+            path="/page/:indexmain/:index"
             element={
-              <StudyPage infodiv={infodiv} reactNavigator={reactNavigator} />
+              <StudyPage
+                infodiv={infodiv}
+                reactNavigator={reactNavigator}
+                setinfodiv={setinfodiv}
+                editor={true}
+              />
             }
           />
           <Route

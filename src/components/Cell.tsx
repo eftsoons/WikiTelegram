@@ -99,8 +99,6 @@ export default ({
     };
   }, []);
 
-  console.log(before);
-
   return type == "play" ? (
     <div
       onClick={() => {
@@ -111,39 +109,14 @@ export default ({
       style={{ opacity: disabled ? "0.3" : "1" }}
       className="cell-main-play"
     >
-      {!edit ? (
-        before ? (
-          <img
-            style={{
-              height: "84px",
-              width: "100%",
-              borderRadius: "8px",
-            }}
-            src={before}
-            onClick={(e) => handledeletedimg(e, indexmain, index)}
-          />
-        ) : (
-          <div
-            style={{
-              height: "84px",
-              width: "100%",
-              borderRadius: "8px",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              backgroundImage: `url("notimg.png")`,
-            }}
-          />
-        )
-      ) : valuephoto ? (
+      {before ? (
         <img
           style={{
             height: "84px",
             width: "100%",
             borderRadius: "8px",
           }}
-          src={valuephoto}
-          onClick={(e) => handledeletedimg(e, indexmain, index)}
+          src={before}
         />
       ) : (
         <div
@@ -180,7 +153,6 @@ export default ({
                 borderRadius: "32px",
               }}
               src={before}
-              onClick={(e) => handledeletedimg(e, indexmain, index)}
             />
           ) : (
             <div
@@ -193,26 +165,7 @@ export default ({
                 alignItems: "center",
                 backgroundImage: `url("notimg.png")`,
               }}
-              onClick={(e) => {
-                e.stopPropagation();
-                const target = e.currentTarget;
-                if (target.children.length > 0 && edit) {
-                  const child = target.children[0];
-                  if (child instanceof HTMLElement) {
-                    child.click();
-                  }
-                }
-              }}
-            >
-              <input
-                type="file"
-                accept="image/*"
-                style={{
-                  display: "none",
-                }}
-                onChange={(e) => handleonchaneimg(e, indexmain, index)}
-              />
-            </div>
+            />
           )
         ) : valuephoto ? (
           <img
@@ -265,159 +218,53 @@ export default ({
           justifyContent: type == "big" ? "" : "center",
         }}
       >
-        <div className="cell-header">
-          <div className="cell-header-span">
+        <div
+          className="cell-header"
+          style={{
+            width:
+              type == "big"
+                ? "calc(var(--tg-viewport-width) - 178px)"
+                : "calc(var(--tg-viewport-width) - 114px)",
+          }}
+        >
+          <div
+            className="cell-header-span"
+            style={{
+              width:
+                type == "big"
+                  ? "calc(var(--tg-viewport-width) - 235px)"
+                  : "calc(var(--tg-viewport-width) - 140px)",
+            }}
+          >
             {!edit ? (
               header
             ) : (
               <input
+                className="cell-input-header"
                 onChange={(e) => {
                   setvalueheader(e.target.value);
                 }}
                 value={valueheader}
               />
             )}
-            {setinfodiv && (
-              <>
-                {settings && (
-                  <div
-                    className="cell-settings"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                    }}
-                    ref={menusettings}
-                  >
-                    <div
-                      className="cell-settings-items"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        if (
-                          setinfodiv &&
-                          (index || index == 0) &&
-                          (indexmain || indexmain == 0)
-                        ) {
-                          setinfodiv((info: Info) => {
-                            const data = [...info];
-                            data[indexmain].content.splice(index, 1);
-
-                            return data;
-                          });
-                        }
-                      }}
-                    >
-                      Deleted
-                    </div>
-                    <Border type="center" />
-                    <div
-                      className="cell-settings-items"
-                      onClick={() => setedit(!edit)}
-                    >
-                      Edit
-                    </div>
-                    <div
-                      className="cell-settings-items"
-                      onClick={() => {
-                        setsettings(false);
-                        setsettingsstatus(true);
-                      }}
-                    >
-                      Status
-                    </div>
-                    <div
-                      className="cell-settings-items"
-                      onClick={() => {
-                        if (
-                          setinfodiv &&
-                          indexmain != undefined &&
-                          index != undefined
-                        ) {
-                          setinfodiv((info: Info) => {
-                            const data = [...info];
-
-                            data[indexmain].content[index].header = valueheader;
-                            data[indexmain].content[index].text = valuetext;
-                            data[indexmain].content[index].before = valuephoto;
-
-                            return data;
-                          });
-                        }
-                      }}
-                    >
-                      Save
-                    </div>
-                  </div>
-                )}
-                {settingsstatus && (
-                  <div
-                    ref={menusettingsstatus}
-                    className="cell-settings"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                    }}
-                  >
-                    <div
-                      className="cell-settings-items"
-                      onClick={() =>
-                        setinfodiv((info: Info) => {
-                          const data = [...info];
-                          data[Number(indexmain)].content[Number(index)].after =
-                            "TOP";
-                          return data;
-                        })
-                      }
-                    >
-                      TOP
-                    </div>
-                    <div
-                      className="cell-settings-items"
-                      onClick={() =>
-                        setinfodiv((info: Info) => {
-                          const data = [...info];
-                          data[Number(indexmain)].content[Number(index)].after =
-                            "OFCL";
-                          return data;
-                        })
-                      }
-                    >
-                      OFCL
-                    </div>
-                    <div
-                      className="cell-settings-items"
-                      onClick={() =>
-                        setinfodiv((info: Info) => {
-                          const data = [...info];
-                          data[Number(indexmain)].content[Number(index)].after =
-                            "NEW";
-                          return data;
-                        })
-                      }
-                    >
-                      NEW
-                    </div>
-                    <div
-                      className="cell-settings-items"
-                      onClick={() =>
-                        setinfodiv((info: Info) => {
-                          const data = [...info];
-                          data[Number(indexmain)].content[Number(index)].after =
-                            undefined;
-                          return data;
-                        })
-                      }
-                    >
-                      Deleted
-                    </div>
-                  </div>
-                )}
-              </>
-            )}
           </div>
           {after ? (
             <div
               className="call-header-after"
               style={{
-                color: after == "TOP" ? "red" : "blue",
-                borderColor: after == "TOP" ? "red" : "blue",
+                color:
+                  after == "TOP"
+                    ? "#EA9A00"
+                    : after == "OFCL"
+                    ? "#0098EA"
+                    : "#F75E25",
+                borderColor:
+                  after == "TOP"
+                    ? "#EA9A00"
+                    : after == "OFCL"
+                    ? "#0098EA"
+                    : "#F75E25",
+                right: type == "big" ? "-5px" : "-2px",
               }}
               ref={buttonopensettings}
               onClick={(e) => {
@@ -437,10 +284,10 @@ export default ({
               style={{
                 height: "15px",
                 width: "15px",
-                marginRight: "5px",
                 display: "flex",
                 justifyContent: "center",
-                alignItems: "center",
+                position: "absolute",
+                right: "2px",
               }}
               ref={buttonopensettings}
               onClick={(e) => {
@@ -458,12 +305,168 @@ export default ({
           )}
         </div>
         {!edit ? (
-          <div className="cell-span">{text}</div>
+          <div
+            className="cell-span"
+            style={{
+              width:
+                type == "big"
+                  ? "calc(var(--tg-viewport-width) - 180px)"
+                  : "calc(var(--tg-viewport-width) - 110px)",
+            }}
+          >
+            {text}
+          </div>
         ) : (
-          <input
+          <textarea
+            style={{
+              width:
+                type == "big"
+                  ? "calc(var(--tg-viewport-width) - 180px)"
+                  : "calc(var(--tg-viewport-width) - 110px)",
+            }}
+            className="cell-input-span"
             onChange={(e) => setvaluetext(e.target.value)}
             value={valuetext}
           />
+        )}
+        {setinfodiv && (
+          <>
+            {settings && (
+              <div
+                className="cell-settings"
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+                ref={menusettings}
+              >
+                <div
+                  className="cell-settings-items"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (
+                      setinfodiv &&
+                      (index || index == 0) &&
+                      (indexmain || indexmain == 0)
+                    ) {
+                      setsettings(false);
+                      setinfodiv((info: Info) => {
+                        const data = [...info];
+                        data[indexmain].content.splice(index, 1);
+
+                        return data;
+                      });
+                    }
+                  }}
+                >
+                  Delete
+                </div>
+                <Border type="center" />
+                <div
+                  className="cell-settings-items"
+                  onClick={() => {
+                    setsettings(false);
+                    setsettingsstatus(true);
+                  }}
+                >
+                  Status
+                </div>
+                {!edit ? (
+                  <div
+                    className="cell-settings-items"
+                    onClick={() => setedit(true)}
+                  >
+                    Edit
+                  </div>
+                ) : (
+                  <div
+                    className="cell-settings-items"
+                    onClick={() => {
+                      if (
+                        setinfodiv &&
+                        indexmain != undefined &&
+                        index != undefined
+                      ) {
+                        setedit(false);
+                        setinfodiv((info: Info) => {
+                          const data = [...info];
+
+                          data[indexmain].content[index].header = valueheader;
+                          data[indexmain].content[index].text = valuetext;
+                          data[indexmain].content[index].before = valuephoto;
+
+                          return data;
+                        });
+                      }
+                    }}
+                  >
+                    Save
+                  </div>
+                )}
+              </div>
+            )}
+            {settingsstatus && (
+              <div
+                ref={menusettingsstatus}
+                className="cell-settings"
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+              >
+                <div
+                  className="cell-settings-items"
+                  onClick={() =>
+                    setinfodiv((info: Info) => {
+                      const data = [...info];
+                      data[Number(indexmain)].content[Number(index)].after =
+                        "TOP";
+                      return data;
+                    })
+                  }
+                >
+                  TOP
+                </div>
+                <div
+                  className="cell-settings-items"
+                  onClick={() =>
+                    setinfodiv((info: Info) => {
+                      const data = [...info];
+                      data[Number(indexmain)].content[Number(index)].after =
+                        "OFCL";
+                      return data;
+                    })
+                  }
+                >
+                  OFCL
+                </div>
+                <div
+                  className="cell-settings-items"
+                  onClick={() =>
+                    setinfodiv((info: Info) => {
+                      const data = [...info];
+                      data[Number(indexmain)].content[Number(index)].after =
+                        "NEW";
+                      return data;
+                    })
+                  }
+                >
+                  NEW
+                </div>
+                <div
+                  className="cell-settings-items"
+                  onClick={() =>
+                    setinfodiv((info: Info) => {
+                      const data = [...info];
+                      data[Number(indexmain)].content[Number(index)].after =
+                        undefined;
+                      return data;
+                    })
+                  }
+                >
+                  None
+                </div>
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>

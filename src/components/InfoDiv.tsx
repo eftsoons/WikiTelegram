@@ -127,47 +127,35 @@ export default ({
             value={valueheader}
           />
         )}
-        {icon ? (
-          <div
-            ref={buttonopensettings}
-            onClick={() => {
-              setsettings(!settings);
+        <div
+          ref={buttonopensettings}
+          onClick={() => {
+            setsettings(!settings);
 
-              if (settngsicon) {
-                setsettings(false);
-                setsettngsicon(false);
-              }
-            }}
-          >
-            {icon}
-          </div>
-        ) : (
-          <div
-            ref={buttonopensettings}
-            onClick={() => {
-              setsettings(!settings);
-
-              if (settngsicon) {
-                setsettings(false);
-                setsettngsicon(false);
-              }
-            }}
-          >
-            <Course />
-          </div>
-        )}
+            if (settngsicon) {
+              setsettings(false);
+              setsettngsicon(false);
+            }
+          }}
+        >
+          {icon ? icon : <Course />}
+        </div>
       </div>
       {setinfodiv && (index || index == 0) && (
         <>
           {settings && (
             <div ref={menusettings} className="settings-menu">
+              <div className="settings-items" onClick={handledeleted}>
+                Delete
+              </div>
+              {/*<Border type="center" />
               <div
                 className="settings-items"
                 onClick={() => {
                   setinfodiv((info: Info) => {
                     const data = [...info];
 
-                    data[index].type = "normal";
+                    data[index].type = "play";
 
                     return data;
                   });
@@ -181,7 +169,7 @@ export default ({
                   setinfodiv((info: Info) => {
                     const data = [...info];
 
-                    data[index].type = "big";
+                    data[index].type = "normal";
 
                     return data;
                   });
@@ -195,28 +183,14 @@ export default ({
                   setinfodiv((info: Info) => {
                     const data = [...info];
 
-                    data[index].type = "play";
+                    data[index].type = "big";
 
                     return data;
                   });
                 }}
               >
                 L App
-              </div>
-              <div
-                className="settings-items"
-                onClick={() => {
-                  setinfodiv((info: Info) => {
-                    const data = [...info];
-
-                    data[index].type = "monet";
-
-                    return data;
-                  });
-                }}
-              >
-                Market App
-              </div>
+              </div>*/}
               <Border type="center" />
               <div className="settings-items">info</div>
               <div
@@ -229,28 +203,29 @@ export default ({
                 icon
               </div>
               <Border type="center" />
-              <div className="settings-items" onClick={handledeleted}>
-                Delete
-              </div>
-              <div className="settings-items" onClick={() => setedit(!edit)}>
-                Edit
-              </div>
-              <div
-                className="settings-items"
-                onClick={() => {
-                  if (setinfodiv && index != undefined) {
-                    setinfodiv((info: Info) => {
-                      const data = [...info];
+              {!edit ? (
+                <div className="settings-items" onClick={() => setedit(true)}>
+                  Edit
+                </div>
+              ) : (
+                <div
+                  className="settings-items"
+                  onClick={() => {
+                    if (setinfodiv && index != undefined) {
+                      setedit(false);
+                      setinfodiv((info: Info) => {
+                        const data = [...info];
 
-                      data[index].name = valueheader;
+                        data[index].name = valueheader;
 
-                      return data;
-                    });
-                  }
-                }}
-              >
-                Save
-              </div>
+                        return data;
+                      });
+                    }
+                  }}
+                >
+                  Save
+                </div>
+              )}
             </div>
           )}
           {settngsicon && (
@@ -302,7 +277,7 @@ export default ({
       </div>
       {edit && (
         <Button
-          style={{ marginTop: "20px", marginBottom: "20px", width: "100%" }}
+          style={{ marginTop: "20px", marginBottom: "20px", width: "95%" }}
           onClick={() => {
             if (setinfodiv && index != undefined) {
               setinfodiv((info: Info) => {

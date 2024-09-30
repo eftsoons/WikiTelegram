@@ -44,18 +44,25 @@ export default ({
                 header={data.header}
                 text={data.text}
                 onClick={() => {
-                  reactNavigator.push(
-                    datamain.type != "monet"
-                      ? `/page/study/${indexmain}/${index}`
-                      : "/explore/monet/ton"
-                  );
+                  reactNavigator.push(`/page/${indexmain}/${index}`);
                 }}
               />
             ))}
           </InfoDiv>
         );
       })}
-      <div style={{ width: "90%", marginTop: "20px" }}>
+      <div
+        style={{
+          width: "90%",
+          marginTop: "10px",
+          display: "flex",
+          gap: "10px",
+          borderRadius: "8px",
+          backgroundColor: "rgba(37, 37, 37, 0.6)",
+          backdropFilter: "blur(15px)",
+          padding: "10px",
+        }}
+      >
         <Button
           onClick={() => {
             const test = [...infodiv];
@@ -70,24 +77,22 @@ export default ({
                   text: "asd",
                   content: [],
                 },
-                {
-                  after: "TOP",
-                  header: "test",
-                  text: "asd",
-                  content: [],
-                },
-                {
-                  after: "TOP",
-                  header: "test",
-                  text: "asd",
-                  content: [],
-                },
-                {
-                  after: "TOP",
-                  header: "test",
-                  text: "asd",
-                  content: [],
-                },
+              ],
+            });
+
+            setinfodiv(test);
+          }}
+        >
+          S
+        </Button>
+        <Button
+          onClick={() => {
+            const test = [...infodiv];
+            test.push({
+              name: "???",
+              type: "normal",
+              icon: null,
+              content: [
                 {
                   after: "TOP",
                   header: "test",
@@ -100,7 +105,29 @@ export default ({
             setinfodiv(test);
           }}
         >
-          ADD
+          M
+        </Button>
+        <Button
+          onClick={() => {
+            const test = [...infodiv];
+            test.push({
+              name: "???",
+              type: "big",
+              icon: null,
+              content: [
+                {
+                  after: "TOP",
+                  header: "test",
+                  text: "asd",
+                  content: [],
+                },
+              ],
+            });
+
+            setinfodiv(test);
+          }}
+        >
+          L
         </Button>
       </div>
     </motion.div>
