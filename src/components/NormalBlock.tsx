@@ -53,12 +53,15 @@ export default ({
                     const data = [...info];
 
                     if (data[index].type != "image") {
-                      data[index].text = e.target.value;
+                      if (e.target.value != "") {
+                        data[index].text = e.target.value;
+                      } else {
+                        data.splice(index, 1);
+                      }
                     }
 
                     return data;
                   });
-                  e.target.value;
                 }}
               />
             ) : (
@@ -72,14 +75,15 @@ export default ({
                 }
                 defaultValue={data.text}
                 onChange={(e) => {
-                  e.target.style.height = e.target.style.height = "auto";
-                  e.target.style.height = `${e.target.scrollHeight}px`;
-
                   setcontent((info) => {
                     const data = [...info];
 
                     if (data[index].type != "image") {
-                      data[index].text = e.target.value;
+                      if (e.target.value != "") {
+                        data[index].text = e.target.value;
+                      } else {
+                        data.splice(index, 1);
+                      }
                     }
 
                     return data;
@@ -272,9 +276,10 @@ export default ({
                 setinfodiv((info: Info) => {
                   const data = [...info];
 
-                  data[Number(indexmain)].content[
-                    Number(indexmain2)
-                  ].content.splice(indexmain3, 1);
+                  data[indexmain].content[indexmain2].content.splice(
+                    indexmain3,
+                    1
+                  );
 
                   return data;
                 })

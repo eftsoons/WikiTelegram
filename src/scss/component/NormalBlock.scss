@@ -7,12 +7,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .normal-block-title {
-  margin-top: 10px;
-  margin-bottom: 10px;
-  margin-left: 10px;
   font-family: "Montserrat";
   font-style: normal;
   font-weight: 600;
@@ -22,6 +21,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   width: 95%;
+  margin-top: 10px;
 
   &.h1 {
     font-size: 28px;
@@ -40,7 +40,6 @@
 }
 
 .normal-block-text {
-  margin-bottom: 10px;
   padding: 0px 10px;
   font-family: "Montserrat";
   font-style: normal;
@@ -57,7 +56,6 @@
 .normal-block-text-input {
   height: auto;
   background: none;
-  margin-bottom: 10px;
   padding: 0px 10px;
   font-family: "Montserrat";
   font-style: normal;
@@ -91,8 +89,6 @@
   color: white;
   border: none;
   margin-top: 10px;
-  margin-bottom: 10px;
-  margin-left: 10px;
 
   &.h1 {
     font-size: 28px;

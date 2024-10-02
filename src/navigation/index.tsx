@@ -29,8 +29,9 @@ export default ({ root }: { root: HTMLElement }) => {
           text: "123",
           content: [
             {
-              type: "normal",
-              content: [{ type: "h1", text: "asd" }],
+              type: "i",
+              title: "???",
+              text: "???",
             },
           ],
         },

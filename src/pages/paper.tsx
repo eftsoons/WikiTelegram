@@ -4,7 +4,7 @@ import { BackButton } from "../scripts";
 import { motion } from "framer-motion";
 import { ButtonGroupTile, ButtonTile, NormalBlock } from "../components";
 import { Info } from "../type";
-import { useState } from "react";
+import IBlock from "../components/iBlock";
 
 export default ({
   reactNavigator,
@@ -15,10 +15,8 @@ export default ({
   reactNavigator: Navigator;
   infodiv: Info;
   setinfodiv: Function;
-  editor?: boolean;
+  editor: boolean;
 }) => {
-  const [edit, setedit] = useState(false);
-
   const { index, indexmain } = useParams();
 
   if (!index || !indexmain) {
@@ -77,26 +75,27 @@ export default ({
       exit={{ opacity: 0 }}
     >
       {infodiv[Number(indexmain)].content[Number(index)].content.map(
-        (datamain, index2) => {
-          return datamain.type == "normal" ? (
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                width: "100%",
-              }}
+        (data, index2) => {
+          return data.type == "normal" ? (
+            <NormalBlock
+              contentmain={data.content}
+              editor={editor ? editor : false}
+              setinfodiv={setinfodiv}
+              indexmain={Number(indexmain)}
+              indexmain2={Number(index)}
+              indexmain3={index2}
+            />
+          ) : data.type == "i" ? (
+            <IBlock
+              setinfodiv={setinfodiv}
+              indexmain={Number(indexmain)}
+              indexmain2={Number(index)}
+              indexmain3={index2}
+              editor={editor}
+              title={data.title}
             >
-              <NormalBlock
-                contentmain={datamain.content}
-                style={{ marginTop: index2 != 0 ? "10px" : "" }}
-                editor={editor ? editor : false}
-                setinfodiv={setinfodiv}
-                indexmain={Number(indexmain)}
-                indexmain2={Number(index)}
-                indexmain3={index2}
-              />
-            </div>
+              {data.text}
+            </IBlock>
           ) : (
             ""
           );
@@ -146,7 +145,23 @@ export default ({
           >
             БЛОК
           </ButtonTile>
-          <ButtonTile>I</ButtonTile>
+          <ButtonTile
+            onClick={() =>
+              setinfodiv((info: Info) => {
+                const data = [...info];
+
+                data[Number(indexmain)].content[Number(index)].content.push({
+                  type: "i",
+                  title: "???",
+                  text: "???",
+                });
+
+                return data;
+              })
+            }
+          >
+            I
+          </ButtonTile>
           <ButtonTile>!!</ButtonTile>
           <ButtonTile>Цитата</ButtonTile>
           <ButtonTile>Автор</ButtonTile>

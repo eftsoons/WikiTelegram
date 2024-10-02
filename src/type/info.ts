@@ -28,6 +28,11 @@ type Info = Array<{
           text: string;
           author: string;
         }
+      | {
+          type: "i";
+          title: string;
+          text: string;
+        }
     >;
   }>;
 }>;
