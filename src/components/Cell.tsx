@@ -312,7 +312,7 @@ export default ({
               display: "flex",
               justifyContent: "center",
               position: "absolute",
-              right: "6px",
+              right: "10px",
             }}
             ref={buttonopensettings}
             onClick={(e) => {
@@ -325,7 +325,7 @@ export default ({
               e.stopPropagation();
             }}
           >
-            <Chain height="18" width="18" />
+            {Icon("Menu", "0.4")}
           </div>
         )}
         {setinfodiv && (
