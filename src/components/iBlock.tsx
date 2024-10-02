@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ButtonGroupTile, ButtonTile } from ".";
+import { ButtonGroupTile, ButtonTile, Icon } from ".";
 import { Info } from "../type";
 
 export default ({
@@ -24,11 +24,14 @@ export default ({
   const [text, settext] = useState(children);
 
   return (
-    <div className="i-block">
+    <div
+      className="i-block"
+      style={{ border: edit ? "1px solid rgba(255,255,255,1)" : "" }}
+    >
       {edit && editor ? (
         <>
-          <div style={{ display: "flex", width: "95%" }}>
-            {"Симвл"}
+          <div style={{ display: "flex", width: "95%", marginTop: "5px" }}>
+            {Icon("info")}
             <input
               className="i-block-title-input"
               defaultValue={titleelement}
@@ -50,8 +53,8 @@ export default ({
         </>
       ) : (
         <>
-          <div style={{ display: "flex", width: "95%" }}>
-            {"Симвл"}
+          <div style={{ display: "flex", width: "95%", marginTop: "5px" }}>
+            {Icon("info")}
             <div className="i-block-title">{title}</div>
           </div>
           <div className="i-block-text">{children}</div>

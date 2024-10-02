@@ -2,7 +2,7 @@ import { type Navigator, Navigate, useParams } from "react-router-dom";
 import { BackButton } from "../scripts";
 
 import { motion } from "framer-motion";
-import { ButtonGroupTile, ButtonTile, NormalBlock } from "../components";
+import { ButtonGroupTile, ButtonTile, Icon, NormalBlock } from "../components";
 import { Info } from "../type";
 import IBlock from "../components/iBlock";
 
@@ -143,7 +143,7 @@ export default ({
               })
             }
           >
-            БЛОК
+            {Icon("Block")}
           </ButtonTile>
           <ButtonTile
             onClick={() =>
@@ -160,11 +160,11 @@ export default ({
               })
             }
           >
-            I
+            {Icon("info")}
           </ButtonTile>
-          <ButtonTile>!!</ButtonTile>
-          <ButtonTile>Цитата</ButtonTile>
-          <ButtonTile>Автор</ButtonTile>
+          <ButtonTile>{Icon("Attern")}</ButtonTile>
+          <ButtonTile>{Icon("Citate")}</ButtonTile>
+          <ButtonTile>{Icon("Email")}</ButtonTile>
         </ButtonGroupTile>
       )}
     </motion.div>

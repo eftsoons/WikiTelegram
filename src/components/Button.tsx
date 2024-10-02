@@ -1,4 +1,4 @@
-import { CSSProperties } from "react";
+import { CSSProperties, ReactNode } from "react";
 
 export default ({
   onClick,
@@ -12,7 +12,7 @@ export default ({
   onClickGroup?: (index: number) => void;
   className?: string;
   index?: number;
-  children?: string;
+  children: ReactNode;
   style?: CSSProperties;
 }) => {
   return (

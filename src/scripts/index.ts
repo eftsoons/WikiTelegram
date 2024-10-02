@@ -1,5 +1,5 @@
 import BackButton from "./backbutton";
-import GetIcons, { Icons } from "./geticons";
+import GetIcons, { IconsAll } from "./geticons";
 
 export { BackButton, GetIcons };
-export type { Icons };
+export type { IconsAll };

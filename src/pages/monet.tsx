@@ -1,16 +1,8 @@
 import { motion } from "framer-motion";
 import { type Navigator } from "react-router-dom";
 import { BackButton } from "../scripts";
-import {
-  Banner,
-  Border,
-  Button,
-  ButtonGroup,
-  Cell,
-  InfoDiv,
-} from "../components";
+import { Banner, Button, ButtonGroup } from "../components";
 import { useState } from "react";
-import { Whatis } from "../assets/img";
 
 export default ({ reactNavigator }: { reactNavigator: Navigator }) => {
   const [buttonactive, setbuttonactive] = useState(0);
@@ -92,7 +84,7 @@ export default ({ reactNavigator }: { reactNavigator: Navigator }) => {
           ADD
         </Button>
       </ButtonGroup>
-      {buttonactive == 0 ? (
+      {/*{buttonactive == 0 ? (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -158,7 +150,7 @@ export default ({ reactNavigator }: { reactNavigator: Navigator }) => {
         </motion.div>
       ) : (
         ""
-      )}
+      )}*/}
     </motion.div>
   );
 };

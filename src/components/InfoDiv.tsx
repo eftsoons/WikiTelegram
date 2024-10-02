@@ -24,11 +24,13 @@ import {
   Web,
 } from "../svg";
 import { Info } from "../type";
-import { Button } from ".";
+import { Button, Icon } from ".";
 
 import { GetIcons } from "../scripts";
 
 import type { Icons } from "../type";
+
+import { IconsAll } from "../scripts";
 
 export default ({
   text,
@@ -56,7 +58,7 @@ export default ({
   const [edit, setedit] = useState<boolean>(false);
   const [valueheader, setvalueheader] = useState<string>(text);
 
-  const handleicon = (element: string) => {
+  const handleicon = (element: IconsAll) => {
     if (setinfodiv && (index || index == 0)) {
       setinfodiv((infodiv: Info) => {
         const seticon = [...infodiv];
@@ -210,7 +212,10 @@ export default ({
                 L App
               </div>*/}
 
-              <div className="settings-items">info</div>
+              <div className="settings-items">
+                {Icon("info")}
+                <span style={{ height: "100%", marginLeft: "10px" }}>info</span>
+              </div>
               <div
                 className="settings-items"
                 onClick={() => {
@@ -218,12 +223,16 @@ export default ({
                   setsettings(false);
                 }}
               >
-                icon
+                {Icon("icon")}
+                <span style={{ height: "100%", marginLeft: "10px" }}>icon</span>
               </div>
               <Border type="center" />
               {!edit ? (
                 <div className="settings-items" onClick={() => setedit(true)}>
-                  Edit
+                  {Icon("Edit")}
+                  <span style={{ height: "100%", marginLeft: "10px" }}>
+                    Edit
+                  </span>
                 </div>
               ) : (
                 <div
@@ -241,12 +250,18 @@ export default ({
                     }
                   }}
                 >
-                  Save
+                  {Icon("Done")}
+                  <span style={{ height: "100%", marginLeft: "10px" }}>
+                    Save
+                  </span>
                 </div>
               )}
               <Border type="center" />
               <div className="settings-items" onClick={handledeleted}>
-                Delete
+                {Icon("Close")}
+                <span style={{ height: "100%", marginLeft: "10px" }}>
+                  Delete
+                </span>
               </div>
             </div>
           )}

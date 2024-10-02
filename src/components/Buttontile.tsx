@@ -1,8 +1,10 @@
+import { ReactNode } from "react";
+
 export default ({
   children,
   onClick,
 }: {
-  children: string;
+  children: ReactNode;
   onClick?: () => void;
 }) => {
   return (

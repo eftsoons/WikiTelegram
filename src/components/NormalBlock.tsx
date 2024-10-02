@@ -1,5 +1,5 @@
 import { CSSProperties, useState } from "react";
-import { ButtonGroupTile, ButtonTile } from ".";
+import { ButtonGroupTile, ButtonTile, Icon } from ".";
 import { Info } from "../type";
 
 export default ({
@@ -37,7 +37,15 @@ export default ({
   const [content, setcontent] = useState(contentmain);
 
   return (
-    <div style={style} className="normal-block">
+    <div
+      style={{
+        border: edit
+          ? "1px solid rgba(255,255,255,1)"
+          : "1px solid rgba(255, 255, 255, 0.1)",
+        ...style,
+      }}
+      className="normal-block"
+    >
       {content.map((data, index) => {
         return data.type != "image" ? (
           editor && edit ? (
@@ -111,6 +119,7 @@ export default ({
             style={{
               height: "150px",
               width: "100%",
+              marginTop: "50px",
             }}
             className="block-image"
             src={data.content}
@@ -132,6 +141,8 @@ export default ({
             style={{
               height: "150px",
               backgroundImage: `url("notimg.png")`,
+              width: "100%",
+              marginTop: "50px",
             }}
             onClick={(e) => {
               e.stopPropagation();
@@ -184,7 +195,7 @@ export default ({
               })
             }
           >
-            h1
+            H1
           </ButtonTile>
           <ButtonTile
             onClick={() =>
@@ -200,7 +211,7 @@ export default ({
               })
             }
           >
-            h2
+            H2
           </ButtonTile>
           <ButtonTile
             onClick={() =>
@@ -216,7 +227,7 @@ export default ({
               })
             }
           >
-            h3
+            H3
           </ButtonTile>
           <ButtonTile
             onClick={() =>
@@ -232,7 +243,7 @@ export default ({
               })
             }
           >
-            text
+            {Icon("Text")}
           </ButtonTile>
           <ButtonTile
             onClick={() =>
@@ -248,7 +259,7 @@ export default ({
               })
             }
           >
-            image
+            {Icon("image")}
           </ButtonTile>
           <ButtonTile
             onClick={() => {

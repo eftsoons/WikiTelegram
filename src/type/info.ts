@@ -1,9 +1,9 @@
-import { Icons } from "../scripts";
+import { IconsAll } from "../scripts";
 
 type Info = Array<{
   type: "normal" | "big" | "play";
   name: string;
-  icon: Icons | null;
+  icon: IconsAll | null;
   content: Array<{
     after?: "TOP" | "OFCL" | "NEW";
     before?: string;

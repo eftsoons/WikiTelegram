@@ -1,12 +1,10 @@
 import { motion } from "framer-motion";
 
 import { type Navigator } from "react-router-dom";
-import { Cell, InfoDiv, Banner } from "../components";
-import { Chain, Pizza } from "../svg";
+import { Banner } from "../components";
+import { Pizza } from "../svg";
 
-import { Whatis } from "../assets/img";
-
-export default ({ reactNavigator }: { reactNavigator: Navigator }) => {
+export default ({}: { reactNavigator: Navigator }) => {
   return (
     <motion.div
       className="main"

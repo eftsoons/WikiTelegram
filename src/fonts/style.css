@@ -1,0 +1,78 @@
+@font-face {
+  font-family: 'tgico';
+  src:  url('fonts/tgico.eot?b2ovav');
+  src:  url('fonts/tgico.eot?b2ovav#iefix') format('embedded-opentype'),
+    url('fonts/tgico.ttf?b2ovav') format('truetype'),
+    url('fonts/tgico.woff?b2ovav') format('woff'),
+    url('fonts/tgico.svg?b2ovav#tgico') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'tgico' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-Attern:before {
+  content: "\e912";
+}
+.icon-Block:before {
+  content: "\e913";
+}
+.icon-Citate:before {
+  content: "\e914";
+}
+.icon-Close:before {
+  content: "\e915";
+}
+.icon-Done:before {
+  content: "\e916";
+}
+.icon-Edit:before {
+  content: "\e917";
+}
+.icon-Email:before {
+  content: "\e918";
+}
+.icon-icon:before {
+  content: "\e919";
+}
+.icon-image:before {
+  content: "\e91a";
+}
+.icon-info:before {
+  content: "\e91b";
+}
+.icon-infowindow:before {
+  content: "\e91c";
+}
+.icon-Lapp:before {
+  content: "\e91d";
+}
+.icon-Mapp:before {
+  content: "\e91e";
+}
+.icon-Menu:before {
+  content: "\e91f";
+}
+.icon-Plus:before {
+  content: "\e920";
+}
+.icon-Sapp:before {
+  content: "\e921";
+}
+.icon-Text:before {
+  content: "\e922";
+}

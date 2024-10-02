@@ -4,6 +4,7 @@ import { Chain } from "../svg";
 import Border from "./Border";
 
 import { type Info } from "../type";
+import { Icon } from ".";
 
 export default ({
   before,
@@ -344,14 +345,20 @@ export default ({
                     setsettingsstatus(true);
                   }}
                 >
-                  Status
+                  {Icon("icon")}
+                  <span style={{ height: "100%", marginLeft: "10px" }}>
+                    Status
+                  </span>
                 </div>
                 {!edit ? (
                   <div
                     className="cell-settings-items"
                     onClick={() => setedit(true)}
                   >
-                    Edit
+                    {Icon("Edit")}
+                    <span style={{ height: "100%", marginLeft: "10px" }}>
+                      Edit
+                    </span>
                   </div>
                 ) : (
                   <div
@@ -375,7 +382,10 @@ export default ({
                       }
                     }}
                   >
-                    Save
+                    {Icon("Done")}
+                    <span style={{ height: "100%", marginLeft: "10px" }}>
+                      Save
+                    </span>
                   </div>
                 )}
                 <Border type="center" />
@@ -398,7 +408,10 @@ export default ({
                     }
                   }}
                 >
-                  Delete
+                  {Icon("Close")}
+                  <span style={{ height: "100%", marginLeft: "10px" }}>
+                    Delete
+                  </span>
                 </div>
               </div>
             )}

@@ -1,9 +1,8 @@
 import { motion } from "framer-motion";
 
-import { Button, InfoDiv } from "../components";
+import { Button, Icon, InfoDiv } from "../components";
 
 import { type Navigator } from "react-router-dom";
-import { Chain } from "../svg";
 import { Cell } from "../components/";
 
 import { type Info } from "../type";
@@ -83,7 +82,7 @@ export default ({
             setinfodiv(test);
           }}
         >
-          S
+          {Icon("Sapp")}
         </Button>
         <Button
           onClick={() => {
@@ -105,7 +104,7 @@ export default ({
             setinfodiv(test);
           }}
         >
-          M
+          {Icon("Mapp")}
         </Button>
         <Button
           onClick={() => {
@@ -127,7 +126,7 @@ export default ({
             setinfodiv(test);
           }}
         >
-          L
+          {Icon("Lapp")}
         </Button>
       </div>
     </motion.div>
