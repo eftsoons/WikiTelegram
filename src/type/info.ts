@@ -1,9 +1,9 @@
-import { ReactNode } from "react";
+import { Icons } from "../scripts";
 
 type Info = Array<{
   type: "normal" | "big" | "play";
   name: string;
-  icon: ReactNode | null;
+  icon: Icons | null;
   content: Array<{
     after?: "TOP" | "OFCL" | "NEW";
     before?: string;

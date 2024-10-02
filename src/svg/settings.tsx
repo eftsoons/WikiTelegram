@@ -9,7 +9,7 @@ export default ({
   onClick?: () => void;
   height?: string;
   width?: string;
-  style: CSSProperties;
+  style?: CSSProperties;
 }) => {
   return (
     <svg

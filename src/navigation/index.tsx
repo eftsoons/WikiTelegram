@@ -9,7 +9,6 @@ import { MainWindow } from "../components";
 
 import { Nitro } from "../assets/img";
 import { useState } from "react";
-import { Chain } from "../svg";
 import { Info } from "../type";
 
 export default ({ root }: { root: HTMLElement }) => {
@@ -22,7 +21,7 @@ export default ({ root }: { root: HTMLElement }) => {
   const [infodiv, setinfodiv] = useState<Info>([
     {
       name: "Курс. Блокчейн основы",
-      icon: <Chain />,
+      icon: "Chain",
       type: "normal",
       content: [
         {

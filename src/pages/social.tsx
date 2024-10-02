@@ -47,7 +47,7 @@ export default ({ reactNavigator }: { reactNavigator: Navigator }) => {
           MAGAZINE
         </span>
       </Banner>
-      <InfoDiv text="Наши ресурсы" icon={<Chain />}>
+      {/*<InfoDiv text="Наши ресурсы" icon={<Chain />}>
         <Cell
           before={Whatis}
           header="XP Wiki"
@@ -63,7 +63,7 @@ export default ({ reactNavigator }: { reactNavigator: Navigator }) => {
           disabled={true}
           onClick={() => reactNavigator.push("/settings")}
         />
-      </InfoDiv>
+      </InfoDiv>*/}
     </motion.div>
   );
 };

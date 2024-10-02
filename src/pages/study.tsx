@@ -31,7 +31,7 @@ export default ({
             key={indexmain}
             index={indexmain}
             text={datamain.name}
-            icon={datamain.icon ? datamain.icon : <Chain />}
+            icon={datamain.icon ? datamain.icon : "Chain"}
             setinfodiv={setinfodiv}
             infodiv={infodiv}
             type={datamain.type}

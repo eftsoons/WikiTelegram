@@ -7,9 +7,28 @@ import {
   useState,
 } from "react";
 import Border from "./Border";
-import { Chain, Champ, Course, Explore } from "../svg";
+import {
+  Chain,
+  Champ,
+  Course,
+  Explore,
+  Fire,
+  Game,
+  Hearth,
+  Idea,
+  Joystick,
+  NFT,
+  Nitro,
+  Reload,
+  Search,
+  Web,
+} from "../svg";
 import { Info } from "../type";
 import { Button } from ".";
+
+import { GetIcons } from "../scripts";
+
+import type { Icons } from "../type";
 
 export default ({
   text,
@@ -21,11 +40,11 @@ export default ({
   infodiv,
 }: {
   text: string;
-  icon?: ReactNode;
+  icon: Icons;
   children: ReactElement[] | ReactElement;
   setinfodiv?: Function;
   index?: number;
-  type?: "normal" | "play" | "big" | "monet";
+  type: "normal" | "play" | "big" | "monet";
   infodiv?: Info;
 }) => {
   const menusettings = useRef<HTMLDivElement | null>(null);
@@ -37,7 +56,7 @@ export default ({
   const [edit, setedit] = useState<boolean>(false);
   const [valueheader, setvalueheader] = useState<string>(text);
 
-  const handleicon = (element: ReactNode) => {
+  const handleicon = (element: string) => {
     if (setinfodiv && (index || index == 0)) {
       setinfodiv((infodiv: Info) => {
         const seticon = [...infodiv];
@@ -110,6 +129,8 @@ export default ({
     };
   }, []);
 
+  const IconComponent = GetIcons(icon);
+
   return (
     <div
       className="info"
@@ -138,16 +159,13 @@ export default ({
             }
           }}
         >
-          {icon ? icon : <Course />}
+          <IconComponent />
         </div>
       </div>
       {setinfodiv && (index || index == 0) && (
         <>
           {settings && (
             <div ref={menusettings} className="settings-menu">
-              <div className="settings-items" onClick={handledeleted}>
-                Delete
-              </div>
               {/*<Border type="center" />
               <div
                 className="settings-items"
@@ -191,7 +209,7 @@ export default ({
               >
                 L App
               </div>*/}
-              <Border type="center" />
+
               <div className="settings-items">info</div>
               <div
                 className="settings-items"
@@ -226,29 +244,64 @@ export default ({
                   Save
                 </div>
               )}
+              <Border type="center" />
+              <div className="settings-items" onClick={handledeleted}>
+                Delete
+              </div>
             </div>
           )}
           {settngsicon && (
             <div ref={menusettingsicon} className="settings-menu-icon">
+              {/*я знаю, что можно сделать табличку и т.д., мне лень*/}
+              <Explore
+                height="24"
+                width="24"
+                onClick={() => handleicon("Explore")}
+              />
+              <Web height="24" width="24" onClick={() => handleicon("Web")} />
+              <Course
+                height="24"
+                width="24"
+                onClick={() => handleicon("Course")}
+              />
               <Chain
                 height="24"
                 width="24"
-                onClick={() => handleicon(<Chain />)}
+                onClick={() => handleicon("Chain")}
               />
               <Champ
                 height="24"
                 width="24"
-                onClick={() => handleicon(<Champ />)}
+                onClick={() => handleicon("Champ")}
               />
-              <Course
+              <Hearth
                 height="24"
                 width="24"
-                onClick={() => handleicon(<Course />)}
+                onClick={() => handleicon("Hearth")}
               />
-              <Explore
+              <Fire height="24" width="24" onClick={() => handleicon("Fire")} />
+              <Idea height="24" width="24" onClick={() => handleicon("Idea")} />
+              <Game height="24" width="24" onClick={() => handleicon("Game")} />
+              <Nitro
                 height="24"
                 width="24"
-                onClick={() => handleicon(<Explore />)}
+                onClick={() => handleicon("Nitro")}
+              />
+              <Joystick
+                height="24"
+                width="24"
+                onClick={() => handleicon("Joystick")}
+              />
+              <NFT height="24" width="24" onClick={() => handleicon("NFT")} />
+              <Reload
+                height="24"
+                width="24"
+                onClick={() => handleicon("Reload")}
+              />
+              <Search
+                height="24"
+                width="24"
+                onClick={() => handleicon("Search")}
               />
             </div>
           )}

@@ -10,6 +10,8 @@ import ButtonGroup from "./ButtonGroup";
 import NormalBlock from "./NormalBlock";
 import IBlock from "./iBlock";
 import Citate from "./Citate";
+import ButtonTile from "./Buttontile";
+import ButtonGroupTile from "./ButtonGroupTile";
 
 export {
   Icon,
@@ -24,4 +26,6 @@ export {
   NormalBlock,
   IBlock,
   Citate,
+  ButtonTile,
+  ButtonGroupTile
 };

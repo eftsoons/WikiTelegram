@@ -1,0 +1,33 @@
+.buttontilegroup {
+  background-color: rgba(37, 37, 37, 0.6);
+  display: flex;
+  width: 80%;
+  border-radius: 8px;
+  gap: 5px;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+.buttontile {
+  border-radius: 8px;
+  background: none;
+  height: 40px;
+  width: 100%;
+  border: none;
+  padding: 5px;
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 22px;
+  letter-spacing: 0.02em;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: 0.1s;
+}
+
+.buttontile:active {
+  transition: 0.1s;
+  background: #f75e25;
+}

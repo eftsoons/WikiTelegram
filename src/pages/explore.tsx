@@ -15,7 +15,7 @@ export default ({ reactNavigator }: { reactNavigator: Navigator }) => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
-      <InfoDiv text="Иследовать" icon={<Explore />}>
+      {/*<InfoDiv text="Иследовать" icon={<Explore />}>
         <Cell
           before={Xp}
           header="TON"
@@ -56,7 +56,7 @@ export default ({ reactNavigator }: { reactNavigator: Navigator }) => {
           header="Развлечения"
           text="Развлекательные сервисы, которые не дадут заскучать"
         />
-      </InfoDiv>
+      </InfoDiv>*/}
     </motion.div>
   );
 };

@@ -215,7 +215,6 @@ export default ({
         style={{
           height: type == "big" ? "128px" : "64px",
           width: "100%",
-          justifyContent: type == "big" ? "" : "center",
         }}
       >
         <div
@@ -248,61 +247,6 @@ export default ({
               />
             )}
           </div>
-          {after ? (
-            <div
-              className="call-header-after"
-              style={{
-                color:
-                  after == "TOP"
-                    ? "#EA9A00"
-                    : after == "OFCL"
-                    ? "#0098EA"
-                    : "#F75E25",
-                borderColor:
-                  after == "TOP"
-                    ? "#EA9A00"
-                    : after == "OFCL"
-                    ? "#0098EA"
-                    : "#F75E25",
-                right: type == "big" ? "-5px" : "-2px",
-              }}
-              ref={buttonopensettings}
-              onClick={(e) => {
-                setsettings(!settings);
-
-                if (settingsstatus) {
-                  setsettings(false);
-                  setsettingsstatus(false);
-                }
-                e.stopPropagation();
-              }}
-            >
-              {after}
-            </div>
-          ) : (
-            <div
-              style={{
-                height: "15px",
-                width: "15px",
-                display: "flex",
-                justifyContent: "center",
-                position: "absolute",
-                right: "2px",
-              }}
-              ref={buttonopensettings}
-              onClick={(e) => {
-                setsettings(!settings);
-
-                if (settingsstatus) {
-                  setsettings(false);
-                  setsettingsstatus(false);
-                }
-                e.stopPropagation();
-              }}
-            >
-              <Chain height="18" width="18" />
-            </div>
-          )}
         </div>
         {!edit ? (
           <div
@@ -329,6 +273,60 @@ export default ({
             value={valuetext}
           />
         )}
+        {after ? (
+          <div
+            className="call-header-after"
+            style={{
+              color:
+                after == "TOP"
+                  ? "#EA9A00"
+                  : after == "OFCL"
+                  ? "#0098EA"
+                  : "#F75E25",
+              borderColor:
+                after == "TOP"
+                  ? "#EA9A00"
+                  : after == "OFCL"
+                  ? "#0098EA"
+                  : "#F75E25",
+            }}
+            ref={buttonopensettings}
+            onClick={(e) => {
+              setsettings(!settings);
+
+              if (settingsstatus) {
+                setsettings(false);
+                setsettingsstatus(false);
+              }
+              e.stopPropagation();
+            }}
+          >
+            {after}
+          </div>
+        ) : (
+          <div
+            style={{
+              height: "15px",
+              width: "15px",
+              display: "flex",
+              justifyContent: "center",
+              position: "absolute",
+              right: "6px",
+            }}
+            ref={buttonopensettings}
+            onClick={(e) => {
+              setsettings(!settings);
+
+              if (settingsstatus) {
+                setsettings(false);
+                setsettingsstatus(false);
+              }
+              e.stopPropagation();
+            }}
+          >
+            <Chain height="18" width="18" />
+          </div>
+        )}
         {setinfodiv && (
           <>
             {settings && (
@@ -339,28 +337,6 @@ export default ({
                 }}
                 ref={menusettings}
               >
-                <div
-                  className="cell-settings-items"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    if (
-                      setinfodiv &&
-                      (index || index == 0) &&
-                      (indexmain || indexmain == 0)
-                    ) {
-                      setsettings(false);
-                      setinfodiv((info: Info) => {
-                        const data = [...info];
-                        data[indexmain].content.splice(index, 1);
-
-                        return data;
-                      });
-                    }
-                  }}
-                >
-                  Delete
-                </div>
-                <Border type="center" />
                 <div
                   className="cell-settings-items"
                   onClick={() => {
@@ -402,6 +378,28 @@ export default ({
                     Save
                   </div>
                 )}
+                <Border type="center" />
+                <div
+                  className="cell-settings-items"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (
+                      setinfodiv &&
+                      (index || index == 0) &&
+                      (indexmain || indexmain == 0)
+                    ) {
+                      setsettings(false);
+                      setinfodiv((info: Info) => {
+                        const data = [...info];
+                        data[indexmain].content.splice(index, 1);
+
+                        return data;
+                      });
+                    }
+                  }}
+                >
+                  Delete
+                </div>
               </div>
             )}
             {settingsstatus && (
