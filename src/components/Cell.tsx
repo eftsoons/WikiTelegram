@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 
-import { Chain } from "../svg";
 import Border from "./Border";
 
 import { type Info } from "../type";

@@ -1,15 +1,9 @@
-@import "variables";
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap");
 
 @font-face {
-  font-family: "#{$icomoon-font-family}";
-  src: url("#{$icomoon-font-path}/#{$icomoon-font-family}.eot");
-  src: url("#{$icomoon-font-path}/#{$icomoon-font-family}.eot")
-      format("embedded-opentype"),
-    url("#{$icomoon-font-path}/#{$icomoon-font-family}.ttf") format("truetype"),
-    url("#{$icomoon-font-path}/#{$icomoon-font-family}.woff") format("woff"),
-    url("#{$icomoon-font-path}/#{$icomoon-font-family}.svg") format("svg");
+  font-family: "tgico";
+  src: url("fonts/tgico.ttf");
   font-weight: normal;
   font-style: normal;
   font-display: block;
