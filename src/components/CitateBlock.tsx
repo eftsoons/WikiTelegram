@@ -3,63 +3,73 @@ import { ButtonGroupTile, ButtonTile, Icon } from ".";
 import { Info } from "../type";
 
 export default ({
-  children,
-  title,
-  editor,
   setinfodiv,
   indexmain,
   indexmain2,
   indexmain3,
+  editor,
+  children,
+  author,
 }: {
-  children: string;
-  title: string;
-  editor: boolean;
   setinfodiv: Function;
   indexmain: number;
   indexmain2: number;
   indexmain3: number;
+  editor: boolean;
+  children: string;
+  author: string;
 }) => {
+  const [authorelement, setauthorelement] = useState(author);
   const [edit, setedit] = useState(false);
-  const [titleelement, settitleelement] = useState(title);
   const [text, settext] = useState(children);
 
   return (
     <div
-      className="i-block"
+      className="citate-block"
       style={{ border: edit ? "1px solid rgba(255,255,255,1)" : "" }}
     >
-      {edit && editor ? (
-        <>
-          <div style={{ display: "flex", width: "95%", marginTop: "5px" }}>
-            {Icon("info")}
-            <input
-              className="i-block-title-input"
-              defaultValue={titleelement}
-              onChange={(e) => {
-                settitleelement(e.target.value);
-              }}
-            />
-          </div>
-          <textarea
-            className="i-block-text-input"
-            defaultValue={text}
-            onChange={(e) => {
-              e.target.style.height = e.target.style.height = "auto";
-              e.target.style.height = `${e.target.scrollHeight}px`;
+      {Icon("Citate", "1", {
+        opacity: "0.6",
+        marginTop: "10px",
+        alignItems: "start !important",
+        marginBottom: "5px",
+        width: "95%",
+        display: "flex",
+        justifyContent: "start",
+      })}
+      {edit ? (
+        <textarea
+          className="citate-block-text-input"
+          defaultValue={text}
+          onChange={(e) => {
+            e.target.style.height = e.target.style.height = "auto";
+            e.target.style.height = `${e.target.scrollHeight}px`;
 
-              settext(e.target.value);
+            settext(e.target.value);
+          }}
+        />
+      ) : (
+        <div className="citate-block-text">{children}</div>
+      )}
+      <div className="citate-block-author">
+        {edit ? (
+          <input
+            className="citate-block-author-input"
+            defaultValue={authorelement}
+            onChange={(e) => {
+              setauthorelement(e.target.value);
             }}
           />
-        </>
-      ) : (
-        <>
-          <div style={{ display: "flex", width: "95%", marginTop: "5px" }}>
-            {Icon("info")}
-            <div className="i-block-title">{title}</div>
-          </div>
-          <div className="i-block-text">{children}</div>
-        </>
-      )}
+        ) : (
+          <span className="citate-block-author-text">{author}</span>
+        )}
+        {Icon("Citate", "1", {
+          transform: "rotate(180deg)",
+          opacity: "0.6",
+          marginRight: "10px",
+          marginBottom: "5px",
+        })}
+      </div>
       {edit && editor ? (
         <ButtonGroupTile style={{ background: "none" }}>
           <ButtonTile
@@ -70,11 +80,11 @@ export default ({
 
                 if (
                   data[indexmain].content[indexmain2].content[indexmain3]
-                    .type == "i"
+                    .type == "citate"
                 ) {
                   data[indexmain].content[indexmain2].content[
                     indexmain3
-                  ].title = titleelement;
+                  ].author = authorelement;
                   data[indexmain].content[indexmain2].content[indexmain3].text =
                     text;
                 }

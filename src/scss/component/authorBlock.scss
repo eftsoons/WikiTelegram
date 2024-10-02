@@ -1,0 +1,67 @@
+.author-block {
+  width: 90%;
+  background: rgba(37, 37, 37, 0.6);
+  border-radius: 8px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.author-block-text {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 20px;
+  height: 22px;
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.author-block-text {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 22px;
+  letter-spacing: 0.02em;
+  color: #ffffff;
+}
+
+.author-block-username {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 22px;
+  /* identical to box height */
+  letter-spacing: 0.02em;
+  opacity: 0.6;
+  color: #ffffff;
+  width: 70%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+.author-block-username-input {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 22px;
+  /* identical to box height */
+  display: flex;
+  align-items: center;
+  letter-spacing: 0.02em;
+  opacity: 0.6;
+  color: #ffffff;
+  width: 70%;
+  background: none;
+  border: none;
+}
+
+.author-block-username-input:focus {
+  outline: none !important;
+}

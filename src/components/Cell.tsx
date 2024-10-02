@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 
 import Border from "./Border";
 
-import { type Info } from "../type";
+import { Allinfo, type Info } from "../type";
 import { Icon } from ".";
 
 export default ({
@@ -16,6 +16,7 @@ export default ({
   setinfodiv,
   indexmain,
   index,
+  typemain,
 }: {
   before: string | undefined;
   header: string;
@@ -27,6 +28,7 @@ export default ({
   setinfodiv?: Function;
   indexmain?: number;
   index?: number;
+  typemain: "explore" | "social" | "study";
 }) => {
   const menusettings = useRef<HTMLDivElement | null>(null);
   const menusettingsstatus = useRef<HTMLDivElement | null>(null);

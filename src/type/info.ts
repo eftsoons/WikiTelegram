@@ -33,8 +33,26 @@ type Info = Array<{
           title: string;
           text: string;
         }
+      | {
+          type: "author";
+          author: string;
+        }
+      | {
+          type: "fire";
+          title: string;
+          content: Array<{ text: string }>;
+        }
+      | {
+          type: "attetion";
+          title: string;
+          text: string;
+        }
     >;
   }>;
 }>;
 
+type Allinfo = { explore: Info; study: Info; social: Info };
+
 export default Info;
+
+export type { Allinfo };

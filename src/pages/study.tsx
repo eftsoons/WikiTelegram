@@ -6,18 +6,35 @@ import { type Navigator } from "react-router-dom";
 import { Cell } from "../components/";
 
 import { type Info } from "../type";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { retrieveLaunchParams } from "@telegram-apps/sdk";
 
-export default ({
-  reactNavigator,
-  infodiv,
-  setinfodiv,
-}: {
-  reactNavigator: Navigator;
-  infodiv: Info;
-  setinfodiv: Function;
-}) => {
+export default ({ reactNavigator }: { reactNavigator: Navigator }) => {
+  const [infodiv, setinfodiv] = useState<Info>([]);
+
+  const launchParams = retrieveLaunchParams();
+
+  useEffect(() => {
+    async function fetchData() {
+      const response = (await axios.post(
+        `${import.meta.env.VITE_API_URL}/info`,
+        {
+          initData: launchParams.initDataRaw,
+          type: "study",
+        }
+      )) as {
+        data: Info;
+      };
+
+      setinfodiv(response.data);
+    }
+
+    fetchData();
+  }, []);
+
   //{index != datamain.content.length - 1 && <Border />}
-  return (
+  return infodiv ? (
     <motion.div
       className="main"
       initial={{ opacity: 0 }}
@@ -34,6 +51,7 @@ export default ({
             setinfodiv={setinfodiv}
             infodiv={infodiv}
             type={datamain.type}
+            typemain={"study"}
           >
             {datamain.content.map((data, index) => (
               <Cell
@@ -43,8 +61,9 @@ export default ({
                 header={data.header}
                 text={data.text}
                 onClick={() => {
-                  reactNavigator.push(`/page/${indexmain}/${index}`);
+                  reactNavigator.push(`/page/study/${indexmain}/${index}`);
                 }}
+                typemain={"study"}
               />
             ))}
           </InfoDiv>
@@ -64,71 +83,79 @@ export default ({
       >
         <Button
           onClick={() => {
-            const test = [...infodiv];
-            test.push({
-              name: "???",
-              type: "play",
-              icon: null,
-              content: [
-                {
-                  after: "TOP",
-                  header: "test",
-                  text: "asd",
-                  content: [],
-                },
-              ],
-            });
+            setinfodiv((info: Info) => {
+              const data = [...info];
+              data.push({
+                name: "???",
+                type: "play",
+                icon: null,
+                content: [
+                  {
+                    after: "TOP",
+                    header: "???",
+                    text: "???",
+                    content: [],
+                  },
+                ],
+              });
 
-            setinfodiv(test);
+              return data;
+            });
           }}
         >
           {Icon("Sapp")}
         </Button>
         <Button
           onClick={() => {
-            const test = [...infodiv];
-            test.push({
-              name: "???",
-              type: "normal",
-              icon: null,
-              content: [
-                {
-                  after: "TOP",
-                  header: "test",
-                  text: "asd",
-                  content: [],
-                },
-              ],
-            });
+            setinfodiv((info: Info) => {
+              const data = [...info];
+              data.push({
+                name: "???",
+                type: "normal",
+                icon: null,
+                content: [
+                  {
+                    after: "TOP",
+                    header: "???",
+                    text: "???",
+                    content: [],
+                  },
+                ],
+              });
 
-            setinfodiv(test);
+              return data;
+            });
           }}
         >
           {Icon("Mapp")}
         </Button>
         <Button
           onClick={() => {
-            const test = [...infodiv];
-            test.push({
-              name: "???",
-              type: "big",
-              icon: null,
-              content: [
-                {
-                  after: "TOP",
-                  header: "test",
-                  text: "asd",
-                  content: [],
-                },
-              ],
-            });
+            setinfodiv((info: Info) => {
+              const data = [...info];
+              data.push({
+                name: "???",
+                type: "big",
+                icon: null,
+                content: [
+                  {
+                    after: "TOP",
+                    header: "???",
+                    text: "???",
+                    content: [],
+                  },
+                ],
+              });
 
-            setinfodiv(test);
+              return data;
+            });
           }}
         >
           {Icon("Lapp")}
         </Button>
       </div>
     </motion.div>
+  ) : (
+    "Ошибка"
   );
 };

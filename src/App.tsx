@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { AppRoot } from "@telegram-apps/telegram-ui";
 
 import Navigator from "./navigation";
@@ -9,6 +9,7 @@ import {
   bindViewportCSSVars,
   initMiniApp,
   postEvent,
+  retrieveLaunchParams,
   useLaunchParams,
   useThemeParams,
   useViewport,
@@ -27,8 +28,11 @@ axiosRetry(axios, {
 function App({ root }: { root: HTMLElement }) {
   const [miniApp] = initMiniApp();
   const themeParams = useThemeParams();
+  const launchParams = retrieveLaunchParams();
   const viewport = useViewport();
   const lp = useLaunchParams();
+
+  const [admin, setadmin] = useState(false);
 
   useEffect(() => {
     miniApp.ready();
@@ -54,11 +58,16 @@ function App({ root }: { root: HTMLElement }) {
 
   useEffect(() => {
     async function CheckAdmin() {
-      /*const checkadmin = await axios.post("http://localhost:8852/", {
-        initData: launchParams.initDataRaw,
-      });
+      const checkadmin = (await axios.post(
+        `${import.meta.env.VITE_API_URL}/admincheck`,
+        {
+          initData: launchParams.initDataRaw,
+        }
+      )) as {
+        data: boolean;
+      };
 
-      console.log(checkadmin.data);*/
+      setadmin(checkadmin.data);
     }
 
     CheckAdmin();

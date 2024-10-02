@@ -7,43 +7,12 @@ import { Study, Explore, Social, Settings, Monet, StudyPage } from "../pages";
 
 import { MainWindow } from "../components";
 
-import { Nitro } from "../assets/img";
-import { useState } from "react";
-import { Info } from "../type";
-
 export default ({ root }: { root: HTMLElement }) => {
   const navigator = useMemo(() => initNavigator("WikiTelegram"), []);
   const [backButton] = initBackButton();
   backButton.hide();
 
   const [location, reactNavigator] = useIntegration(navigator);
-
-  const [infodiv, setinfodiv] = useState<Info>([
-    {
-      name: "Курс. Блокчейн основы",
-      icon: "Chain",
-      type: "normal",
-      content: [
-        {
-          header: "123",
-          text: "123",
-          content: [
-            {
-              type: "i",
-              title: "???",
-              text: "???",
-            },
-          ],
-        },
-        {
-          before: Nitro,
-          header: "123",
-          text: "123",
-          content: [{ type: "citate", text: "asd", author: "ad" }],
-        },
-      ],
-    },
-  ]);
 
   return (
     <Router location={location} navigator={reactNavigator}>
@@ -58,25 +27,11 @@ export default ({ root }: { root: HTMLElement }) => {
             />
           }
         >
+          <Route index element={<Study reactNavigator={reactNavigator} />} />
           <Route
-            index
+            path="/page/:typepage/:indexmain/:index"
             element={
-              <Study
-                infodiv={infodiv}
-                setinfodiv={setinfodiv}
-                reactNavigator={reactNavigator}
-              />
-            }
-          />
-          <Route
-            path="/page/:indexmain/:index"
-            element={
-              <StudyPage
-                infodiv={infodiv}
-                reactNavigator={reactNavigator}
-                setinfodiv={setinfodiv}
-                editor={true}
-              />
+              <StudyPage reactNavigator={reactNavigator} editor={true} />
             }
           />
           <Route

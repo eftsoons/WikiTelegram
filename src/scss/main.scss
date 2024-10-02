@@ -1,11 +1,11 @@
-@import "./fonts/fonts.scss"; //убрать или использовать только под некоторые
+@import "./fonts.scss";
 @import "./component/";
 
 * {
   margin: 0;
   padding: 0;
   user-select: none;
-  color: white
+  color: white;
 }
 
 body {

@@ -119,7 +119,7 @@ export default ({
             style={{
               height: "150px",
               width: "100%",
-              marginTop: "50px",
+              marginTop: "5px",
             }}
             className="block-image"
             src={data.content}
@@ -142,7 +142,7 @@ export default ({
               height: "150px",
               backgroundImage: `url("notimg.png")`,
               width: "100%",
-              marginTop: "50px",
+              marginTop: "5px",
             }}
             onClick={(e) => {
               e.stopPropagation();

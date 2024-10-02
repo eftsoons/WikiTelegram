@@ -8,10 +8,12 @@ import Banner from "./Banner";
 import Button from "./Button";
 import ButtonGroup from "./ButtonGroup";
 import NormalBlock from "./NormalBlock";
-import IBlock from "./iBlock";
-import Citate from "./Citate";
+import IBlock from "./iandatrBlock";
+import Citate from "./CitateBlock";
 import ButtonTile from "./Buttontile";
 import ButtonGroupTile from "./ButtonGroupTile";
+import AuthorBlock from "./authorBlock";
+import FireBlock from "./fireBlock";
 
 export {
   Icon,
@@ -27,5 +29,7 @@ export {
   IBlock,
   Citate,
   ButtonTile,
-  ButtonGroupTile
+  ButtonGroupTile,
+  AuthorBlock,
+  FireBlock,
 };

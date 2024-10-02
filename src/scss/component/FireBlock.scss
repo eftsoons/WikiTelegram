@@ -1,0 +1,60 @@
+.fire-block {
+  width: 90%;
+  background: rgba(247, 94, 37, 0.2);
+  border-radius: 8px;
+  gap: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.fire-block-link {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 22px;
+  /* identical to box height */
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  letter-spacing: 0.02em;
+
+  color: #ffffff;
+  opacity: 0.6;
+  height: 22px;
+  width: 95%;
+}
+
+.fire-block-link-text {
+  width: 95%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+.fire-block-link-input {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 22px;
+  /* identical to box height */
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  letter-spacing: 0.02em;
+
+  color: #ffffff;
+  height: 22px;
+  width: 95%;
+
+  border: none;
+  background: none;
+}
+
+.fire-block-link-input:focus {
+  outline: none !important;
+}

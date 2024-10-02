@@ -28,7 +28,7 @@ import { Button, Icon } from ".";
 
 import { GetIcons } from "../scripts";
 
-import type { Icons } from "../type";
+import type { Allinfo, Icons } from "../type";
 
 import { IconsAll } from "../scripts";
 
@@ -40,6 +40,7 @@ export default ({
   index,
   type,
   infodiv,
+  typemain,
 }: {
   text: string;
   icon: Icons;
@@ -48,6 +49,7 @@ export default ({
   index?: number;
   type: "normal" | "play" | "big" | "monet";
   infodiv?: Info;
+  typemain: "explore" | "social" | "study";
 }) => {
   const menusettings = useRef<HTMLDivElement | null>(null);
   const menusettingsicon = useRef<HTMLDivElement | null>(null);
@@ -72,28 +74,15 @@ export default ({
 
   const handledeleted = () => {
     if (setinfodiv && (index || index == 0)) {
-      setinfodiv(
-        (
-          infodiv: Array<{
-            name: string;
-            icon: ReactNode | null;
-            content: Array<{
-              before: string;
-              header: string;
-              text: string;
-              nextclick: string;
-            }>;
-          }>
-        ) => {
-          const seticon = [...infodiv];
+      setinfodiv((infodiv: Info) => {
+        const seticon = [...infodiv];
 
-          seticon.splice(index, 1);
+        seticon.splice(index, 1);
 
-          setsettings(false);
+        setsettings(false);
 
-          return seticon;
-        }
-      );
+        return seticon;
+      });
     }
   };
 
@@ -351,9 +340,9 @@ export default ({
               setinfodiv((info: Info) => {
                 const data = [...info];
 
-                info[index].content.push({
-                  header: "123",
-                  text: "123",
+                data[index].content.push({
+                  header: "???",
+                  text: "???",
                   content: [],
                 });
 
