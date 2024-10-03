@@ -1,11 +1,4 @@
-import {
-  cloneElement,
-  ReactElement,
-  ReactNode,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { cloneElement, ReactElement, useEffect, useRef, useState } from "react";
 import Border from "./Border";
 import {
   Chain,
@@ -28,7 +21,7 @@ import { Button, Icon } from ".";
 
 import { GetIcons } from "../scripts";
 
-import type { Allinfo, Icons } from "../type";
+import type { Icons } from "../type";
 
 import { IconsAll } from "../scripts";
 
@@ -40,7 +33,6 @@ export default ({
   index,
   type,
   infodiv,
-  typemain,
 }: {
   text: string;
   icon: Icons;

@@ -15,7 +15,6 @@ import { Info } from "../type";
 import IBlock from "../components/iandatrBlock";
 import { Fire } from "../svg";
 import { useEffect, useState } from "react";
-import axios from "axios";
 
 export default ({
   reactNavigator,
@@ -36,8 +35,7 @@ export default ({
 
   useEffect(() => {
     async function fetchData() {
-      const response = await axios.get("");
-
+      //const response = await axios.get("");
       //setinfodiv(response.data);
     }
 

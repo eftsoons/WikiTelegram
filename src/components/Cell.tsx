@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 
 import Border from "./Border";
 
-import { Allinfo, type Info } from "../type";
+import { type Info } from "../type";
 import { Icon } from ".";
 
 export default ({
@@ -16,7 +16,6 @@ export default ({
   setinfodiv,
   indexmain,
   index,
-  typemain,
 }: {
   before: string | undefined;
   header: string;

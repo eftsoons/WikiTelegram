@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 
 import { type Navigator } from "react-router-dom";
-import { Allinfo, Info } from "../type";
+import { Info } from "../type";
 import { Button, Cell, Icon, InfoDiv } from "../components";
 import { useState } from "react";
 /*import { Border, Cell, InfoDiv } from "../components";
