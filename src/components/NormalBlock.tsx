@@ -1,15 +1,13 @@
 import { CSSProperties, useState } from "react";
 import { ButtonGroupTile, ButtonTile, Icon } from ".";
-import { Info } from "../type";
+import { ContentPage } from "../type";
 
-export default ({
+const NormalBlock = ({
   style,
   contentmain,
   editor,
   setinfodiv,
   indexmain,
-  indexmain2,
-  indexmain3,
 }: {
   style?: CSSProperties;
   contentmain: Array<
@@ -20,13 +18,12 @@ export default ({
     | {
         type: "image";
         content: string | undefined;
+        click: number;
       }
   >;
   editor: boolean;
   setinfodiv: Function;
   indexmain: number;
-  indexmain2: number;
-  indexmain3: number;
 }) => {
   /*<div className="normal-block-title">{title}</div>
   <div className="normal-block-img"></div>
@@ -35,6 +32,63 @@ export default ({
   const [edit, setedit] = useState(false);
 
   const [content, setcontent] = useState(contentmain);
+
+  const handleonchaneimg = async (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => {
+    if (e.target.files) {
+      const file = e.target.files[0];
+
+      const dataimg: string = await new Promise<string>((resolve) => {
+        const reader = new FileReader();
+        reader.onload = (event) => resolve(event!.target!.result as string);
+        reader.readAsDataURL(file);
+      });
+
+      const cropHeight = (
+        imgSrc: string,
+        cropHeight: number
+      ): Promise<string> => {
+        return new Promise((resolve) => {
+          const img = new Image();
+          img.src = imgSrc;
+          img.onload = () => {
+            const canvas = document.createElement("canvas");
+            const ctx = canvas.getContext("2d")!;
+
+            canvas.width = img.width;
+            canvas.height = cropHeight;
+
+            ctx.drawImage(
+              img,
+              0,
+              0,
+              img.width,
+              cropHeight,
+              0,
+              0,
+              img.width,
+              cropHeight
+            );
+
+            resolve(canvas.toDataURL());
+          };
+        });
+      };
+
+      const croppedImage = await cropHeight(dataimg, 140);
+
+      setcontent((info) => {
+        const data = [...info];
+        if (data[index].type === "image") {
+          data[index].content = croppedImage;
+        }
+
+        return data;
+      });
+    }
+  };
 
   return (
     <div
@@ -51,6 +105,8 @@ export default ({
           editor && edit ? (
             data.type == "text" ? (
               <textarea
+                name="normal-block-text-input"
+                key={index}
                 className="normal-block-text-input"
                 defaultValue={data.text}
                 onChange={(e) => {
@@ -74,6 +130,8 @@ export default ({
               />
             ) : (
               <input
+                name="normal-block-title-input"
+                key={index}
                 className={
                   data.type == "h1"
                     ? "normal-block-title-input h1"
@@ -101,6 +159,7 @@ export default ({
             )
           ) : (
             <div
+              key={index}
               className={
                 data.type == "text"
                   ? "normal-block-text"
@@ -116,6 +175,7 @@ export default ({
           )
         ) : data.content ? (
           <img
+            key={index}
             style={{
               height: "150px",
               width: "100%",
@@ -138,6 +198,7 @@ export default ({
           />
         ) : (
           <div
+            key={index}
             style={{
               height: "150px",
               backgroundImage: `url("notimg.png")`,
@@ -150,31 +211,33 @@ export default ({
               if (target.children.length > 0 && edit) {
                 const child = target.children[0];
                 if (child instanceof HTMLElement) {
-                  child.click();
+                  if (data.click < 2) {
+                    child.click();
+                    data.click += 1;
+                  } else {
+                    setcontent((info) => {
+                      const data = [...info];
+
+                      data.splice(index, 1);
+
+                      return data;
+                    });
+                  }
                 }
               }
             }}
           >
             <input
+              name="file"
+              key={index}
               type="file"
               accept="image/*"
               style={{
                 display: "none",
               }}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                if (e.target.files) {
-                  const file = e.target.files[0];
-
-                  setcontent((info) => {
-                    const data = [...info];
-                    if (data[index].type == "image") {
-                      data[index].content = URL.createObjectURL(file);
-                    }
-
-                    return data;
-                  });
-                }
-              }}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                handleonchaneimg(e, index)
+              }
             />
           </div>
         );
@@ -253,6 +316,7 @@ export default ({
                 data.push({
                   type: "image",
                   content: undefined,
+                  click: 0,
                 });
 
                 return data;
@@ -264,10 +328,17 @@ export default ({
           <ButtonTile
             onClick={() => {
               setedit(false);
-              setinfodiv((info: Info) => {
+              setinfodiv((info: ContentPage) => {
                 const data = [...info];
 
-                data[indexmain].content[indexmain2].content[indexmain3] = {
+                //гавнокод, но ладно
+                content.map((data) => {
+                  if (data.type == "image") {
+                    data.click = 0;
+                  }
+                });
+
+                data[indexmain] = {
                   type: "normal",
                   content: content,
                 };
@@ -283,14 +354,40 @@ export default ({
         editor && (
           <ButtonGroupTile style={{ background: "none" }}>
             <ButtonTile
-              onClick={() =>
-                setinfodiv((info: Info) => {
+              onClick={() => {
+                setinfodiv((info: ContentPage) => {
                   const data = [...info];
 
-                  data[indexmain].content[indexmain2].content.splice(
-                    indexmain3,
-                    1
-                  );
+                  const element = data.splice(indexmain, 1)[0];
+
+                  data.splice(indexmain - 1, 0, element);
+
+                  return data;
+                });
+              }}
+            >
+              Up
+            </ButtonTile>
+            <ButtonTile
+              onClick={() => {
+                setinfodiv((info: ContentPage) => {
+                  const data = [...info];
+
+                  const element = data.splice(indexmain, 1)[0];
+                  data.splice(indexmain + 1, 0, element);
+
+                  return data;
+                });
+              }}
+            >
+              Down
+            </ButtonTile>
+            <ButtonTile
+              onClick={() =>
+                setinfodiv((info: ContentPage) => {
+                  const data = [...info];
+
+                  data.splice(indexmain, 1);
 
                   return data;
                 })
@@ -305,3 +402,5 @@ export default ({
     </div>
   );
 };
+
+export default NormalBlock;

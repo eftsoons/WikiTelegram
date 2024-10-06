@@ -2,7 +2,7 @@ import { type Navigator } from "react-router-dom";
 import { motion } from "framer-motion";
 import { BackButton } from "../scripts";
 
-export default ({ reactNavigator }: { reactNavigator: Navigator }) => {
+const Settings = ({ reactNavigator }: { reactNavigator: Navigator }) => {
   BackButton(reactNavigator);
 
   return (
@@ -15,3 +15,5 @@ export default ({ reactNavigator }: { reactNavigator: Navigator }) => {
     </motion.div>
   );
 };
+
+export default Settings;

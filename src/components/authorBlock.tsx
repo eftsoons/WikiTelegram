@@ -1,21 +1,17 @@
 import { useState } from "react";
 import { ButtonTile, ButtonGroupTile } from ".";
-import { Info } from "../type";
+import { ContentPage } from "../type";
 import { initUtils } from "@telegram-apps/sdk";
 
-export default ({
+const authorBlock = ({
   editor,
   setinfodiv,
   indexmain,
-  indexmain2,
-  indexmain3,
   children,
 }: {
   editor: boolean;
   setinfodiv: Function;
   indexmain: number;
-  indexmain2: number;
-  indexmain3: number;
   children: string;
 }) => {
   const [edit, setedit] = useState(false);
@@ -32,6 +28,7 @@ export default ({
         <span className="author-block-author">Автор:&nbsp;</span>
         {edit ? (
           <input
+            name="author-block-username-input"
             className="author-block-username-input"
             defaultValue={author}
             onChange={(e) => {
@@ -56,16 +53,11 @@ export default ({
           <ButtonTile
             onClick={() => {
               setedit(false);
-              setinfodiv((info: Info) => {
+              setinfodiv((info: ContentPage) => {
                 const data = [...info];
 
-                if (
-                  data[indexmain].content[indexmain2].content[indexmain3]
-                    .type == "author"
-                ) {
-                  data[indexmain].content[indexmain2].content[
-                    indexmain3
-                  ].author = author;
+                if (data[indexmain].type == "author") {
+                  data[indexmain].author = author;
                 }
 
                 return data;
@@ -79,14 +71,40 @@ export default ({
         editor && (
           <ButtonGroupTile style={{ background: "none" }}>
             <ButtonTile
-              onClick={() =>
-                setinfodiv((info: Info) => {
+              onClick={() => {
+                setinfodiv((info: ContentPage) => {
                   const data = [...info];
 
-                  data[indexmain].content[indexmain2].content.splice(
-                    indexmain3,
-                    1
-                  );
+                  const element = data.splice(indexmain, 1)[0];
+
+                  data.splice(indexmain - 1, 0, element);
+
+                  return data;
+                });
+              }}
+            >
+              Up
+            </ButtonTile>
+            <ButtonTile
+              onClick={() => {
+                setinfodiv((info: ContentPage) => {
+                  const data = [...info];
+
+                  const element = data.splice(indexmain, 1)[0];
+                  data.splice(indexmain + 1, 0, element);
+
+                  return data;
+                });
+              }}
+            >
+              Down
+            </ButtonTile>
+            <ButtonTile
+              onClick={() =>
+                setinfodiv((info: ContentPage) => {
+                  const data = [...info];
+
+                  data.splice(indexmain, 1);
 
                   return data;
                 })
@@ -101,3 +119,5 @@ export default ({
     </div>
   );
 };
+
+export default authorBlock;

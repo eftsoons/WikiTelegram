@@ -1,5 +1,5 @@
 import { type Navigator, Navigate, useParams } from "react-router-dom";
-import { BackButton } from "../scripts";
+import { initPopup } from "@telegram-apps/sdk";
 
 import { motion } from "framer-motion";
 import {
@@ -10,41 +10,198 @@ import {
   FireBlock,
   Icon,
   NormalBlock,
+  PlayBlock,
 } from "../components";
-import { Info } from "../type";
+import { ContentPage } from "../type";
 import IBlock from "../components/iandatrBlock";
-import { Fire } from "../svg";
+import { Fire, Game } from "../svg";
 import { useEffect, useState } from "react";
+import axios from "axios";
+import { initBackButton, retrieveLaunchParams } from "@telegram-apps/sdk";
+import { Wait } from ".";
 
-export default ({
+const Paper = ({
   reactNavigator,
   editor,
 }: {
   reactNavigator: Navigator;
   editor: boolean;
 }) => {
-  const { index, indexmain, typepage } = useParams();
+  const { index, indexmain, typepage, buttonid, idmonet } = useParams();
 
   if (!index || !indexmain || !typepage) {
     return <Navigate to="/" />;
   }
 
-  const [infodiv, setinfodiv] = useState<Info>([]);
+  const [infodiv, setinfodiv] = useState<ContentPage>();
+  const [response, setresponse] = useState<ContentPage>();
 
-  BackButton(reactNavigator);
+  const launchParams = retrieveLaunchParams();
+
+  const [backButton] = initBackButton();
+
+  const popup = initPopup();
 
   useEffect(() => {
     async function fetchData() {
-      //const response = await axios.get("");
-      //setinfodiv(response.data);
+      if (typepage != "monet") {
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_URL}/paper`,
+          {
+            initData: launchParams.initDataRaw,
+            type: typepage,
+            index: indexmain,
+            index2: index,
+            buttonid: buttonid,
+          }
+        );
+
+        setresponse(response.data);
+        setinfodiv(response.data);
+      } else {
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_URL}/monet`,
+          {
+            initData: launchParams.initDataRaw,
+            type: typepage,
+            index: idmonet,
+          }
+        );
+
+        if (buttonid && indexmain && index) {
+          setresponse(
+            response.data.button[buttonid].content[indexmain].content[index]
+              .content
+          );
+          setinfodiv(
+            response.data.button[buttonid].content[indexmain].content[index]
+              .content
+          );
+        }
+      }
     }
 
     fetchData();
   }, []);
 
-  console.log(infodiv[Number(indexmain)]);
+  useEffect(() => {
+    const hanldebackbutton = async () => {
+      //можно было бы по другому сравнение сделать, но ладно
+      if (editor && infodiv != response) {
+        await popup
+          .open({
+            message: "«Сохранить изменения»",
+            buttons: [
+              { id: "yes", type: "default", text: "Да" },
+              { id: "no", type: "destructive", text: "Нет" },
+            ],
+          })
+          .then((buttonId) => {
+            if (buttonId == "yes") {
+              if (typepage != "monet") {
+                axios.post(`${import.meta.env.VITE_API_URL}/paper/save`, {
+                  initData: launchParams.initDataRaw,
+                  type: typepage,
+                  index: indexmain,
+                  index2: index,
+                  data: infodiv,
+                });
+              } else {
+                console.log(infodiv);
+                axios.post(
+                  `${import.meta.env.VITE_API_URL}/monet/info/page/save`,
+                  {
+                    initData: launchParams.initDataRaw,
+                    indexmain: indexmain,
+                    monetindex: idmonet,
+                    buttonid: buttonid,
+                    data: infodiv,
+                    index: index,
+                  }
+                );
+              }
+            }
+          });
+      }
 
-  return (
+      reactNavigator.go(-1);
+    };
+
+    backButton.show();
+    backButton.on("click", hanldebackbutton);
+
+    return () => backButton.off("click", hanldebackbutton);
+  }, [backButton]);
+
+  const handleaddblock = (
+    type: "normal" | "citate" | "author" | "i" | "attetion" | "fire" | "play"
+  ) => {
+    setinfodiv((info) => {
+      if (info) {
+        const data = [...info];
+
+        switch (type) {
+          case "normal":
+            data.push({
+              type: "normal",
+              content: [],
+            });
+
+            break;
+          case "citate":
+            data.push({
+              type: "citate",
+              author: "???",
+              text: "???",
+            });
+            break;
+          case "author":
+            data.push({
+              type: "author",
+              author: "@???",
+            });
+            break;
+          case "i":
+            data.push({
+              type: "i",
+              title: "???",
+              text: "???",
+            });
+
+            break;
+          case "attetion":
+            data.push({
+              type: "attetion",
+              title: "???",
+              text: "???",
+            });
+            break;
+          case "fire":
+            data.push({
+              type: "fire",
+              title: "???",
+              content: [],
+            });
+            break;
+          case "play":
+            data.push({
+              type: "play",
+              title: "???",
+              text: "???",
+              website: "???",
+              website2: "???",
+              websitetelegram: "???",
+              photo: [{ photo: undefined, click: 0 }],
+            });
+            break;
+        }
+
+        return data;
+      }
+    });
+  };
+
+  return infodiv ? (
     <motion.div
       className="main"
       initial={{ opacity: 0 }}
@@ -52,174 +209,104 @@ export default ({
       exit={{ opacity: 0 }}
       key={index}
     >
-      {infodiv[Number(indexmain)]
-        ? infodiv[Number(indexmain)].content[Number(index)].content.map(
-            (data, index2) => {
-              return data.type == "normal" ? (
-                <NormalBlock
-                  contentmain={data.content}
-                  editor={editor ? editor : false}
-                  setinfodiv={setinfodiv}
-                  indexmain={Number(indexmain)}
-                  indexmain2={Number(index)}
-                  indexmain3={index2}
-                />
-              ) : data.type == "i" || data.type == "attetion" ? (
-                <IBlock
-                  setinfodiv={setinfodiv}
-                  indexmain={Number(indexmain)}
-                  indexmain2={Number(index)}
-                  indexmain3={index2}
-                  editor={editor}
-                  title={data.title}
-                  style={
-                    data.type == "attetion"
-                      ? { backgroundColor: "rgba(247, 94, 37, 0.2)" }
-                      : undefined
-                  }
-                >
-                  {data.text}
-                </IBlock>
-              ) : data.type == "citate" ? (
-                <Citate
-                  setinfodiv={setinfodiv}
-                  indexmain={Number(indexmain)}
-                  indexmain2={Number(index)}
-                  indexmain3={index2}
-                  editor={editor}
-                  author={data.author}
-                >
-                  {data.text}
-                </Citate>
-              ) : data.type == "author" ? (
-                <AuthorBlock
-                  setinfodiv={setinfodiv}
-                  indexmain={Number(indexmain)}
-                  indexmain2={Number(index)}
-                  indexmain3={index2}
-                  editor={editor}
-                >
-                  {data.author}
-                </AuthorBlock>
-              ) : (
-                <FireBlock
-                  editor={editor ? editor : false}
-                  setinfodiv={setinfodiv}
-                  indexmain={Number(indexmain)}
-                  indexmain2={Number(index)}
-                  indexmain3={index2}
-                  content={data.content}
-                >
-                  {data.title}
-                </FireBlock>
-              );
+      {infodiv.map((data, index2) => {
+        return data.type == "normal" ? (
+          <NormalBlock
+            key={index2}
+            contentmain={data.content}
+            editor={editor ? editor : false}
+            setinfodiv={setinfodiv}
+            indexmain={index2}
+          />
+        ) : data.type == "i" || data.type == "attetion" ? (
+          <IBlock
+            key={index2}
+            setinfodiv={setinfodiv}
+            indexmain={index2}
+            editor={editor}
+            title={data.title}
+            style={
+              data.type == "attetion"
+                ? { backgroundColor: "rgba(247, 94, 37, 0.2)" }
+                : undefined
             }
-          )
-        : "Ошибка"}
-      {infodiv[Number(indexmain)] && editor && (
+          >
+            {data.text}
+          </IBlock>
+        ) : data.type == "citate" ? (
+          <Citate
+            key={index2}
+            setinfodiv={setinfodiv}
+            indexmain={index2}
+            editor={editor}
+            author={data.author}
+          >
+            {data.text}
+          </Citate>
+        ) : data.type == "author" ? (
+          <AuthorBlock
+            key={index2}
+            setinfodiv={setinfodiv}
+            indexmain={index2}
+            editor={editor}
+          >
+            {data.author}
+          </AuthorBlock>
+        ) : data.type == "fire" ? (
+          <FireBlock
+            key={index2}
+            editor={editor}
+            setinfodiv={setinfodiv}
+            indexmain={index2}
+            content={data.content}
+          >
+            {data.title}
+          </FireBlock>
+        ) : (
+          <PlayBlock
+            key={index2}
+            title={data.title}
+            text={data.text}
+            website={data.website}
+            website2={data.website2}
+            websitetelegram={data.websitetelegram}
+            setinfodiv={setinfodiv}
+            indexmain={index2}
+            editor={editor}
+          >
+            {data.photo}
+          </PlayBlock>
+        );
+      })}
+      {editor && (
         <ButtonGroupTile style={{ marginTop: "20px" }}>
-          <ButtonTile
-            onClick={() =>
-              setinfodiv((info: Info) => {
-                const data = [...info];
-
-                data[Number(indexmain)].content[Number(index)].content.push({
-                  type: "normal",
-                  content: [],
-                });
-
-                return data;
-              })
-            }
-          >
-            {Icon("Block")}
+          <ButtonTile onClick={() => handleaddblock("normal")}>
+            {Icon("Block", "1.5")}
           </ButtonTile>
-          <ButtonTile
-            onClick={() =>
-              setinfodiv((info: Info) => {
-                const data = [...info];
-
-                data[Number(indexmain)].content[Number(index)].content.push({
-                  type: "i",
-                  title: "???",
-                  text: "???",
-                });
-
-                return data;
-              })
-            }
-          >
-            {Icon("info")}
+          <ButtonTile onClick={() => handleaddblock("i")}>
+            {Icon("info", "1.5")}
           </ButtonTile>
-          <ButtonTile
-            onClick={() =>
-              setinfodiv((info: Info) => {
-                const data = [...info];
-
-                data[Number(indexmain)].content[Number(index)].content.push({
-                  type: "attetion",
-                  title: "???",
-                  text: "???",
-                });
-
-                return data;
-              })
-            }
-          >
-            {Icon("Attern")}
+          <ButtonTile onClick={() => handleaddblock("attetion")}>
+            {Icon("Attern", "1.5")}
           </ButtonTile>
-          <ButtonTile
-            onClick={() =>
-              setinfodiv((info: Info) => {
-                const data = [...info];
-
-                data[Number(indexmain)].content[Number(index)].content.push({
-                  type: "fire",
-                  title: "???",
-                  content: [],
-                });
-
-                return data;
-              })
-            }
-          >
+          <ButtonTile onClick={() => handleaddblock("fire")}>
             <Fire height="16px" width="16px" />
           </ButtonTile>
-          <ButtonTile
-            onClick={() =>
-              setinfodiv((info: Info) => {
-                const data = [...info];
-
-                data[Number(indexmain)].content[Number(index)].content.push({
-                  type: "citate",
-                  author: "???",
-                  text: "???",
-                });
-
-                return data;
-              })
-            }
-          >
-            {Icon("Citate")}
+          <ButtonTile onClick={() => handleaddblock("citate")}>
+            {Icon("Citate", "1.5")}
           </ButtonTile>
-          <ButtonTile
-            onClick={() =>
-              setinfodiv((info: Info) => {
-                const data = [...info];
-
-                data[Number(indexmain)].content[Number(index)].content.push({
-                  type: "author",
-                  author: "@???",
-                });
-
-                return data;
-              })
-            }
-          >
-            {Icon("Email")}
+          <ButtonTile onClick={() => handleaddblock("author")}>
+            {Icon("Email", "1.5")}
+          </ButtonTile>
+          <ButtonTile onClick={() => handleaddblock("play")}>
+            <Game height="16px" width="16px" />
           </ButtonTile>
         </ButtonGroupTile>
       )}
     </motion.div>
+  ) : (
+    <Wait />
   );
 };
+
+export default Paper;

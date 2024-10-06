@@ -3,7 +3,7 @@ import icons from "../icon";
 
 export type Icon = keyof typeof icons;
 
-export default (iconname: Icon, size?: string, style?: CSSProperties) => {
+const Icon = (iconname: Icon, size?: string, style?: CSSProperties) => {
   return (
     <span
       className="icon"
@@ -13,3 +13,5 @@ export default (iconname: Icon, size?: string, style?: CSSProperties) => {
     </span>
   );
 };
+
+export default Icon;

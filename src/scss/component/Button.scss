@@ -38,3 +38,20 @@
   transition: 0.1s;
   background: #f75e25;
 }
+
+.button-input {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 22px;
+  letter-spacing: 0.02em;
+  color: #ffffff;
+  background-color: rgba(1, 1, 1, 0);
+  border: none;
+}
+
+.button-input:focus {
+  border: none;
+  outline: none;
+}

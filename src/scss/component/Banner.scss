@@ -38,3 +38,42 @@
   gap: 10px;
   height: 70%;
 }
+
+.banner-settings {
+  margin-bottom: 15px;
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 22px;
+  letter-spacing: 0.02em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.banner-settings-input {
+  border: 0;
+  border-radius: 16px;
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 22px;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.6);
+  padding: 5px;
+  padding-left: 10px;
+  background-color: #161616;
+  margin-bottom: 5px;
+}
+
+.banner-settings-input:focus {
+  border: 0;
+  outline: 0;
+}
+
+.banner-settings-file {
+  border: 0;
+}

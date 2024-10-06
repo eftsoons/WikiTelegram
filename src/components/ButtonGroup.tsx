@@ -1,13 +1,20 @@
 import { ReactElement, cloneElement, useEffect, useRef } from "react";
+import Button from "./Button";
 
-export default ({
+const ButtonGroup = ({
   children,
   active,
   setbuttonactive,
+  editor,
+  editoronClick,
+  onClick,
 }: {
   children: ReactElement[];
   active: number;
   setbuttonactive: Function;
+  editor: boolean;
+  editoronClick?: () => void;
+  onClick?: () => void;
 }) => {
   const scrollContainerRef = useRef(null);
 
@@ -55,7 +62,7 @@ export default ({
   }, [scrollContainerRef]);
 
   return (
-    <div ref={scrollContainerRef} className="button-group">
+    <div onClick={onClick} ref={scrollContainerRef} className="button-group">
       {children &&
         children.map((data, index) => {
           return cloneElement(data, {
@@ -77,6 +84,9 @@ export default ({
             index: index,
           });
         })}
+      {editor && <Button onClick={editoronClick}>ADD</Button>}
     </div>
   );
 };
+
+export default ButtonGroup;

@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 
-export default ({
+const ButtonTille = ({
   children,
   onClick,
 }: {
@@ -13,3 +13,5 @@ export default ({
     </button>
   );
 };
+
+export default ButtonTille;

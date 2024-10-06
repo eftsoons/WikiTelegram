@@ -6,7 +6,7 @@ import { type Navigator } from "react-router-dom";
 import Header from "./Header";
 import { motion } from "framer-motion";
 
-export default ({
+const MainWindow = ({
   selected,
   reactNavigator,
   root,
@@ -19,7 +19,7 @@ export default ({
 
   return (
     <div>
-      <Header selected={selected} reactNavigator={reactNavigator} />
+      {/*<Header selected={selected} reactNavigator={reactNavigator} />*/}
       <Outlet />
       <div
         className="tabbar"
@@ -28,14 +28,14 @@ export default ({
         }}
       >
         {(selected == "/" ||
-          selected.split("/")[1] == "explore" ||
+          selected == "/explore" ||
           selected == "/social") && (
           <motion.div
             initial={{
               left:
                 selected == "/"
                   ? "16%"
-                  : selected.split("/")[1] == "explore"
+                  : selected == "/explore"
                   ? "49.5%"
                   : "83.5%",
             }}
@@ -50,7 +50,7 @@ export default ({
             transition={{ duration: 0.25 }}
             style={{
               borderRadius: "18px",
-              backgroundColor: "#161616",
+              backgroundColor: "rgba(247, 94, 37, 0.1)",
               height: "32px",
               width: "85px",
               position: "absolute",
@@ -73,16 +73,14 @@ export default ({
           STUDY
         </div>
         <div
-          className={`tabbar-element ${
-            selected.split("/")[1] == "explore" ? "active" : ""
-          }`}
+          className={`tabbar-element ${selected == "/explore" ? "active" : ""}`}
           onClick={() => {
             reactNavigator.push("/explore");
             document.body.className = "center";
             root.className = "center";
           }}
         >
-          EXPLORE
+          XPLORE
         </div>
         <div
           className={`tabbar-element ${selected == "/social" ? "active" : ""}`}
@@ -99,3 +97,5 @@ export default ({
     </div>
   );
 };
+
+export default MainWindow;

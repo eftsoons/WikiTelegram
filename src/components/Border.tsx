@@ -1,6 +1,6 @@
 import { CSSProperties } from "react";
 
-export default ({ type, style }: { type?: string; style?: CSSProperties }) => {
+const Border = ({ type, style }: { type?: string; style?: CSSProperties }) => {
   return (
     <div
       className="main-border"
@@ -10,3 +10,5 @@ export default ({ type, style }: { type?: string; style?: CSSProperties }) => {
     </div>
   );
 };
+
+export default Border;

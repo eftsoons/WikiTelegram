@@ -1,6 +1,6 @@
-import { CSSProperties, ReactNode } from "react";
+import { CSSProperties, ReactNode, MouseEvent } from "react";
 
-export default ({
+const Button = ({
   onClick,
   className,
   onClickGroup,
@@ -8,7 +8,7 @@ export default ({
   children,
   style,
 }: {
-  onClick?: () => void;
+  onClick?: (e: MouseEvent<HTMLButtonElement>) => void;
   onClickGroup?: (index: number) => void;
   className?: string;
   index?: number;
@@ -18,9 +18,9 @@ export default ({
   return (
     <button
       style={style}
-      onClick={() => {
+      onClick={(e) => {
         if (onClick) {
-          onClick();
+          onClick(e);
         }
 
         if (onClickGroup && (index || index == 0)) {
@@ -33,3 +33,5 @@ export default ({
     </button>
   );
 };
+
+export default Button;

@@ -1,19 +1,35 @@
-import { ReactNode } from "react";
+import { CSSProperties, ReactNode } from "react";
 
-export default ({
+const Banner = ({
   children,
   description,
   backgroundColor,
+  backgroundImage,
+  onClick,
+  style,
 }: {
-  children: ReactNode;
+  children?: ReactNode;
   description?: ReactNode;
   backgroundColor?: string;
   subdescription?: ReactNode;
+  backgroundImage?: string;
+  onClick?: () => void;
+  style?: CSSProperties;
 }) => {
   return (
-    <div className="banner" style={{ backgroundColor: backgroundColor }}>
+    <div
+      className="banner"
+      style={{
+        backgroundColor: backgroundColor,
+        backgroundImage: `url("${backgroundImage}")`,
+        ...style,
+      }}
+      onClick={onClick}
+    >
       <div className="banner-block">{children}</div>
       <div className="banner-description">{description}</div>
     </div>
   );
 };
+
+export default Banner;

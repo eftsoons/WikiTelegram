@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { AppRoot } from "@telegram-apps/telegram-ui";
 
 import Navigator from "./navigation";
@@ -7,8 +7,10 @@ import {
   bindMiniAppCSSVars,
   bindThemeParamsCSSVars,
   bindViewportCSSVars,
+  initCloudStorage,
   initMiniApp,
   postEvent,
+  retrieveLaunchParams,
   useLaunchParams,
   useThemeParams,
   useViewport,
@@ -27,11 +29,16 @@ axiosRetry(axios, {
 function App({ root }: { root: HTMLElement }) {
   const [miniApp] = initMiniApp();
   const themeParams = useThemeParams();
-  //const launchParams = retrieveLaunchParams();
+  const launchParams = retrieveLaunchParams();
   const viewport = useViewport();
   const lp = useLaunchParams();
 
-  //const [admin, setadmin] = useState(false);
+  const cloudStorage = initCloudStorage();
+
+  const [admin, setadmin] = useState(false);
+  const [training, settraining] = useState(
+    Number(localStorage.getItem("training"))
+  );
 
   useEffect(() => {
     miniApp.ready();
@@ -39,6 +46,7 @@ function App({ root }: { root: HTMLElement }) {
     postEvent("web_app_expand");
 
     miniApp.setHeaderColor("#232323");
+    miniApp.setBgColor("#232323");
   }, []);
 
   useEffect(() => {
@@ -53,24 +61,26 @@ function App({ root }: { root: HTMLElement }) {
     return viewport && bindViewportCSSVars(viewport);
   }, [viewport]);
 
-  useEffect(() => {}, []);
-
   useEffect(() => {
     async function CheckAdmin() {
-      /* const checkadmin = (await axios.post(
+      const checkadmin = (await axios.post(
         `${import.meta.env.VITE_API_URL}/admincheck`,
         {
           initData: launchParams.initDataRaw,
         }
       )) as {
-        data: boolean;
+        data: "error" | boolean;
       };
 
-      setadmin(checkadmin.data);*/
+      setadmin(checkadmin.data != "error" ? checkadmin.data : false);
     }
 
     CheckAdmin();
   }, []);
+
+  cloudStorage.get("training").then((test) => {
+    console.log(test);
+  });
 
   return (
     <AppRoot
@@ -78,7 +88,12 @@ function App({ root }: { root: HTMLElement }) {
       platform={["macos", "ios"].includes(lp.platform) ? "ios" : "base"}
     >
       <MotionConfig transition={{ duration: 0.5 }}>
-        <Navigator root={root} />
+        <Navigator
+          training={training}
+          settraining={settraining}
+          root={root}
+          admin={admin}
+        />
       </MotionConfig>
     </AppRoot>
   );

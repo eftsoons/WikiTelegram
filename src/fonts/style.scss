@@ -2,11 +2,11 @@
 
 @font-face {
   font-family: '#{$icomoon-font-family}';
-  src:  url('#{$icomoon-font-path}/#{$icomoon-font-family}.eot?b2ovav');
-  src:  url('#{$icomoon-font-path}/#{$icomoon-font-family}.eot?b2ovav#iefix') format('embedded-opentype'),
-    url('#{$icomoon-font-path}/#{$icomoon-font-family}.ttf?b2ovav') format('truetype'),
-    url('#{$icomoon-font-path}/#{$icomoon-font-family}.woff?b2ovav') format('woff'),
-    url('#{$icomoon-font-path}/#{$icomoon-font-family}.svg?b2ovav##{$icomoon-font-family}') format('svg');
+  src:  url('#{$icomoon-font-path}/#{$icomoon-font-family}.eot?9x34up');
+  src:  url('#{$icomoon-font-path}/#{$icomoon-font-family}.eot?9x34up#iefix') format('embedded-opentype'),
+    url('#{$icomoon-font-path}/#{$icomoon-font-family}.ttf?9x34up') format('truetype'),
+    url('#{$icomoon-font-path}/#{$icomoon-font-family}.woff?9x34up') format('woff'),
+    url('#{$icomoon-font-path}/#{$icomoon-font-family}.svg?9x34up##{$icomoon-font-family}') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -27,9 +27,14 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-Attern {
+.icon-Attetion {
   &:before {
-    content: $icon-Attern; 
+    content: $icon-Attetion; 
+  }
+}
+.icon-Author {
+  &:before {
+    content: $icon-Author; 
   }
 }
 .icon-Block {
@@ -55,11 +60,6 @@
 .icon-Edit {
   &:before {
     content: $icon-Edit; 
-  }
-}
-.icon-Email {
-  &:before {
-    content: $icon-Email; 
   }
 }
 .icon-icon {
@@ -97,6 +97,11 @@
     content: $icon-Menu; 
   }
 }
+.icon-Play {
+  &:before {
+    content: $icon-Play; 
+  }
+}
 .icon-Plus {
   &:before {
     content: $icon-Plus; 
@@ -105,6 +110,16 @@
 .icon-Sapp {
   &:before {
     content: $icon-Sapp; 
+  }
+}
+.icon-Share {
+  &:before {
+    content: $icon-Share; 
+  }
+}
+.icon-Telegram {
+  &:before {
+    content: $icon-Telegram; 
   }
 }
 .icon-Text {

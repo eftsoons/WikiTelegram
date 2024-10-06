@@ -14,6 +14,8 @@ import ButtonTile from "./Buttontile";
 import ButtonGroupTile from "./ButtonGroupTile";
 import AuthorBlock from "./authorBlock";
 import FireBlock from "./fireBlock";
+import PlayBlock from "./PlayBlock";
+import Next from "./Next";
 
 export {
   Icon,
@@ -32,4 +34,6 @@ export {
   ButtonGroupTile,
   AuthorBlock,
   FireBlock,
+  PlayBlock,
+  Next,
 };

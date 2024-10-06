@@ -1,15 +1,13 @@
 import { CSSProperties, useState } from "react";
 import { ButtonGroupTile, ButtonTile, Icon } from ".";
-import { Info } from "../type";
+import { ContentPage } from "../type";
 
-export default ({
+const iandatrBlock = ({
   children,
   title,
   editor,
   setinfodiv,
   indexmain,
-  indexmain2,
-  indexmain3,
   style,
 }: {
   children: string;
@@ -17,8 +15,6 @@ export default ({
   editor: boolean;
   setinfodiv: Function;
   indexmain: number;
-  indexmain2: number;
-  indexmain3: number;
   style?: CSSProperties;
 }) => {
   const [edit, setedit] = useState(false);
@@ -35,6 +31,7 @@ export default ({
           <div style={{ display: "flex", width: "95%", marginTop: "5px" }}>
             {style ? Icon("Attern") : Icon("info")}
             <input
+              name="i-block-title-input"
               className="i-block-title-input"
               defaultValue={titleelement}
               onChange={(e) => {
@@ -43,6 +40,7 @@ export default ({
             />
           </div>
           <textarea
+            name="i-block-text-input"
             className="i-block-text-input"
             defaultValue={text}
             onChange={(e) => {
@@ -67,20 +65,15 @@ export default ({
           <ButtonTile
             onClick={() => {
               setedit(false);
-              setinfodiv((info: Info) => {
+              setinfodiv((info: ContentPage) => {
                 const data = [...info];
 
                 if (
-                  data[indexmain].content[indexmain2].content[indexmain3]
-                    .type == "i" ||
-                  data[indexmain].content[indexmain2].content[indexmain3]
-                    .type == "attetion"
+                  data[indexmain].type == "i" ||
+                  data[indexmain].type == "attetion"
                 ) {
-                  data[indexmain].content[indexmain2].content[
-                    indexmain3
-                  ].title = titleelement;
-                  data[indexmain].content[indexmain2].content[indexmain3].text =
-                    text;
+                  data[indexmain].title = titleelement;
+                  data[indexmain].text = text;
                 }
 
                 return data;
@@ -94,14 +87,40 @@ export default ({
         editor && (
           <ButtonGroupTile style={{ background: "none" }}>
             <ButtonTile
-              onClick={() =>
-                setinfodiv((info: Info) => {
+              onClick={() => {
+                setinfodiv((info: ContentPage) => {
                   const data = [...info];
 
-                  data[indexmain].content[indexmain2].content.splice(
-                    indexmain3,
-                    1
-                  );
+                  const element = data.splice(indexmain, 1)[0];
+
+                  data.splice(indexmain - 1, 0, element);
+
+                  return data;
+                });
+              }}
+            >
+              Up
+            </ButtonTile>
+            <ButtonTile
+              onClick={() => {
+                setinfodiv((info: ContentPage) => {
+                  const data = [...info];
+
+                  const element = data.splice(indexmain, 1)[0];
+                  data.splice(indexmain + 1, 0, element);
+
+                  return data;
+                });
+              }}
+            >
+              Down
+            </ButtonTile>
+            <ButtonTile
+              onClick={() =>
+                setinfodiv((info: ContentPage) => {
+                  const data = [...info];
+
+                  data.splice(indexmain, 1);
 
                   return data;
                 })
@@ -116,3 +135,5 @@ export default ({
     </div>
   );
 };
+
+export default iandatrBlock;

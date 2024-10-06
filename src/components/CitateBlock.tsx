@@ -1,20 +1,16 @@
 import { useState } from "react";
 import { ButtonGroupTile, ButtonTile, Icon } from ".";
-import { Info } from "../type";
+import { ContentPage } from "../type";
 
-export default ({
+const CitateBlock = ({
   setinfodiv,
   indexmain,
-  indexmain2,
-  indexmain3,
   editor,
   children,
   author,
 }: {
   setinfodiv: Function;
   indexmain: number;
-  indexmain2: number;
-  indexmain3: number;
   editor: boolean;
   children: string;
   author: string;
@@ -39,6 +35,7 @@ export default ({
       })}
       {edit ? (
         <textarea
+          name="citate-block-text-input"
           className="citate-block-text-input"
           defaultValue={text}
           onChange={(e) => {
@@ -54,6 +51,7 @@ export default ({
       <div className="citate-block-author">
         {edit ? (
           <input
+            name="citate-block-author-input"
             className="citate-block-author-input"
             defaultValue={authorelement}
             onChange={(e) => {
@@ -75,18 +73,12 @@ export default ({
           <ButtonTile
             onClick={() => {
               setedit(false);
-              setinfodiv((info: Info) => {
+              setinfodiv((info: ContentPage) => {
                 const data = [...info];
 
-                if (
-                  data[indexmain].content[indexmain2].content[indexmain3]
-                    .type == "citate"
-                ) {
-                  data[indexmain].content[indexmain2].content[
-                    indexmain3
-                  ].author = authorelement;
-                  data[indexmain].content[indexmain2].content[indexmain3].text =
-                    text;
+                if (data[indexmain].type == "citate") {
+                  data[indexmain].author = authorelement;
+                  data[indexmain].text = text;
                 }
 
                 return data;
@@ -100,14 +92,40 @@ export default ({
         editor && (
           <ButtonGroupTile style={{ background: "none" }}>
             <ButtonTile
-              onClick={() =>
-                setinfodiv((info: Info) => {
+              onClick={() => {
+                setinfodiv((info: ContentPage) => {
                   const data = [...info];
 
-                  data[indexmain].content[indexmain2].content.splice(
-                    indexmain3,
-                    1
-                  );
+                  const element = data.splice(indexmain, 1)[0];
+
+                  data.splice(indexmain - 1, 0, element);
+
+                  return data;
+                });
+              }}
+            >
+              Up
+            </ButtonTile>
+            <ButtonTile
+              onClick={() => {
+                setinfodiv((info: ContentPage) => {
+                  const data = [...info];
+
+                  const element = data.splice(indexmain, 1)[0];
+                  data.splice(indexmain + 1, 0, element);
+
+                  return data;
+                });
+              }}
+            >
+              Down
+            </ButtonTile>
+            <ButtonTile
+              onClick={() =>
+                setinfodiv((info: ContentPage) => {
+                  const data = [...info];
+
+                  data.splice(indexmain, 1);
 
                   return data;
                 })
@@ -122,3 +140,5 @@ export default ({
     </div>
   );
 };
+
+export default CitateBlock;

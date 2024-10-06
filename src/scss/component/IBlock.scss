@@ -7,6 +7,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-height: 80px;
 }
 
 .i-block-title {
@@ -50,6 +51,7 @@
   width: 100%;
   background: none;
   border: none;
+  color: white;
 }
 
 .i-block-text-input {

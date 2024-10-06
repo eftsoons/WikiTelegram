@@ -2,7 +2,7 @@ import { Settings } from "../svg";
 
 import { type Navigator } from "react-router-dom";
 
-export default ({
+const Header = ({
   selected,
   reactNavigator,
 }: {
@@ -31,3 +31,5 @@ export default ({
     </div>
   );
 };
+
+export default Header;

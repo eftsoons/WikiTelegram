@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ButtonGroupTile, ButtonTile } from ".";
-import { Info } from "../type";
+import { ContentPage } from "../type";
 import Fire from "../svg/fire";
 import { initUtils } from "@telegram-apps/sdk";
 
@@ -10,16 +10,12 @@ const FireBlock = ({
   editor,
   setinfodiv,
   indexmain,
-  indexmain2,
-  indexmain3,
 }: {
   children: string;
   content: Array<{ text: string }>;
   editor: boolean;
   setinfodiv: Function;
   indexmain: number;
-  indexmain2: number;
-  indexmain3: number;
 }) => {
   const [edit, setedit] = useState(false);
   const [titleelement, settitleelement] = useState(children);
@@ -46,6 +42,7 @@ const FireBlock = ({
           >
             <Fire height="22px" width="16px" />
             <input
+              name="i-block-title-input"
               className="i-block-title-input"
               defaultValue={titleelement}
               onChange={(e) => {
@@ -67,6 +64,7 @@ const FireBlock = ({
                   }}
                 />
                 <input
+                  name="fire-block-input"
                   defaultValue={data.text}
                   onChange={(e) => {
                     setcontentelement((info) => {
@@ -142,19 +140,12 @@ const FireBlock = ({
           <ButtonTile
             onClick={() => {
               setedit(false);
-              setinfodiv((info: Info) => {
+              setinfodiv((info: ContentPage) => {
                 const data = [...info];
 
-                if (
-                  data[indexmain].content[indexmain2].content[indexmain3]
-                    .type == "fire"
-                ) {
-                  data[indexmain].content[indexmain2].content[
-                    indexmain3
-                  ].content = contentelement;
-                  data[indexmain].content[indexmain2].content[
-                    indexmain3
-                  ].title = titleelement;
+                if (data[indexmain].type == "fire") {
+                  data[indexmain].content = contentelement;
+                  data[indexmain].title = titleelement;
                 }
 
                 return data;
@@ -168,14 +159,40 @@ const FireBlock = ({
         editor && (
           <ButtonGroupTile style={{ background: "none" }}>
             <ButtonTile
-              onClick={() =>
-                setinfodiv((info: Info) => {
+              onClick={() => {
+                setinfodiv((info: ContentPage) => {
                   const data = [...info];
 
-                  data[indexmain].content[indexmain2].content.splice(
-                    indexmain3,
-                    1
-                  );
+                  const element = data.splice(indexmain, 1)[0];
+
+                  data.splice(indexmain - 1, 0, element);
+
+                  return data;
+                });
+              }}
+            >
+              Up
+            </ButtonTile>
+            <ButtonTile
+              onClick={() => {
+                setinfodiv((info: ContentPage) => {
+                  const data = [...info];
+
+                  const element = data.splice(indexmain, 1)[0];
+                  data.splice(indexmain + 1, 0, element);
+
+                  return data;
+                });
+              }}
+            >
+              Down
+            </ButtonTile>
+            <ButtonTile
+              onClick={() =>
+                setinfodiv((info: ContentPage) => {
+                  const data = [...info];
+
+                  data.splice(indexmain, 1);
 
                   return data;
                 })

@@ -1,0 +1,148 @@
+.play-block {
+  width: 90%;
+  background: rgba(37, 37, 37, 0.6);
+  border-radius: 8px;
+  gap: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 470px;
+}
+
+.play-block-title {
+  height: 28px;
+  padding: 0px 10px;
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 27px;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 95%;
+  margin-top: 5px;
+}
+
+.play-block-title-input {
+  height: 28px;
+  padding: 0px 10px;
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 27px;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 95%;
+  margin-top: 5px;
+  border: none;
+  background: none;
+}
+
+.play-block-title-input:focus {
+  outline: none;
+  border: none;
+}
+
+.play-block-photo {
+  width: 95%;
+  display: grid;
+  grid-auto-flow: column;
+  gap: 10px;
+  overflow-x: hidden;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+}
+
+.play-block-photo-no {
+  height: 334px;
+  background-image: url("notimg.png");
+  width: 170px;
+  border-radius: 8px;
+}
+
+.play-block-text {
+  padding: 0px 10px;
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+  letter-spacing: 0.02em;
+  color: #ffffff;
+  opacity: 0.8;
+  width: 95%;
+  word-wrap: break-word;
+}
+
+.play-block-button {
+  height: 40px;
+  gap: 10px;
+  display: flex;
+  width: 95%;
+}
+
+.play-block-button-play {
+  background: #f75e25;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 7px 20px;
+  height: 40px;
+  width: 70%;
+  cursor: pointer;
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 22px;
+  letter-spacing: 0.02em;
+  display: flex;
+  justify-content: space-between;
+  justify-items: center;
+  color: white;
+}
+
+.play-block-button-telegram {
+  height: 40px;
+  background: #2aabee;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  width: 15%;
+  cursor: pointer;
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 22px;
+  letter-spacing: 0.02em;
+  color: white;
+}
+
+.play-block-button-input {
+  height: 28px;
+  padding: 0px 10px;
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 27px;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  margin-top: 5px;
+  border: none;
+  background: none;
+  color: white;
+}
+
+.play-block-button-input:focus {
+  outline: none;
+  border: none;
+}

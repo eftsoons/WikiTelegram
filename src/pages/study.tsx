@@ -1,17 +1,24 @@
 import { motion } from "framer-motion";
 
-import { Button, Icon, InfoDiv } from "../components";
+import { Border, Button, Icon, InfoDiv } from "../components";
 
 import { type Navigator } from "react-router-dom";
 import { Cell } from "../components/";
 
 import { type Info } from "../type";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import { retrieveLaunchParams } from "@telegram-apps/sdk";
+import { Wait } from ".";
 
-export default ({ reactNavigator }: { reactNavigator: Navigator }) => {
-  const [infodiv, setinfodiv] = useState<Info>([]);
+const Study = ({
+  reactNavigator,
+  editor,
+}: {
+  reactNavigator: Navigator;
+  editor: boolean;
+}) => {
+  const [infodiv, setinfodiv] = useState<Info>();
 
   const launchParams = retrieveLaunchParams();
 
@@ -33,6 +40,35 @@ export default ({ reactNavigator }: { reactNavigator: Navigator }) => {
     fetchData();
   }, []);
 
+  const handleaddblock = useCallback((type: "big" | "play" | "normal") => {
+    setinfodiv((info) => {
+      if (info) {
+        const data = [...info];
+        data.push({
+          name: "???",
+          type: type,
+          icon: null,
+          info: "",
+          content: [
+            {
+              header: "???",
+              text: "???",
+              content: [],
+            },
+          ],
+        });
+
+        axios.post(`${import.meta.env.VITE_API_URL}/info/save`, {
+          initData: launchParams.initDataRaw,
+          type: "study",
+          data: data,
+        });
+
+        return data;
+      }
+    });
+  }, []);
+
   //{index != datamain.content.length - 1 && <Border />}
   return infodiv ? (
     <motion.div
@@ -47,115 +83,71 @@ export default ({ reactNavigator }: { reactNavigator: Navigator }) => {
             key={indexmain}
             index={indexmain}
             text={datamain.name}
-            icon={datamain.icon ? datamain.icon : "Chain"}
+            icon={
+              datamain.info == ""
+                ? datamain.icon
+                  ? datamain.icon
+                  : "Chain"
+                : "infowindow"
+            }
             setinfodiv={setinfodiv}
             infodiv={infodiv}
             type={datamain.type}
             typemain={"study"}
+            editor={editor}
+            info={datamain.info}
           >
             {datamain.content.map((data, index) => (
-              <Cell
-                key={index}
-                after={data.after}
-                before={data.before}
-                header={data.header}
-                text={data.text}
-                onClick={() => {
-                  reactNavigator.push(`/page/study/${indexmain}/${index}`);
-                }}
-                typemain={"study"}
-              />
+              <div key={index}>
+                <Cell
+                  index={index}
+                  after={data.after}
+                  before={data.before}
+                  header={data.header}
+                  text={data.text}
+                  onClick={() => {
+                    reactNavigator.push(
+                      `/page/study/${indexmain}/${index}/0/0`
+                    );
+                  }}
+                  typemain={"study"}
+                  editor={editor}
+                />
+                {index != datamain.content.length - 1 &&
+                  !(datamain.type == "play") && <Border />}
+              </div>
             ))}
           </InfoDiv>
         );
       })}
-      <div
-        style={{
-          width: "90%",
-          marginTop: "10px",
-          display: "flex",
-          gap: "10px",
-          borderRadius: "8px",
-          backgroundColor: "rgba(37, 37, 37, 0.6)",
-          backdropFilter: "blur(15px)",
-          padding: "10px",
-        }}
-      >
-        <Button
-          onClick={() => {
-            setinfodiv((info: Info) => {
-              const data = [...info];
-              data.push({
-                name: "???",
-                type: "play",
-                icon: null,
-                content: [
-                  {
-                    after: "TOP",
-                    header: "???",
-                    text: "???",
-                    content: [],
-                  },
-                ],
-              });
-
-              return data;
-            });
+      {editor && (
+        <div
+          style={{
+            width: "90%",
+            marginTop: "10px",
+            display: "flex",
+            gap: "10px",
+            borderRadius: "8px",
+            backgroundColor: "rgba(37, 37, 37, 0.6)",
+            backdropFilter: "blur(15px)",
+            padding: "10px",
           }}
         >
-          {Icon("Sapp")}
-        </Button>
-        <Button
-          onClick={() => {
-            setinfodiv((info: Info) => {
-              const data = [...info];
-              data.push({
-                name: "???",
-                type: "normal",
-                icon: null,
-                content: [
-                  {
-                    after: "TOP",
-                    header: "???",
-                    text: "???",
-                    content: [],
-                  },
-                ],
-              });
-
-              return data;
-            });
-          }}
-        >
-          {Icon("Mapp")}
-        </Button>
-        <Button
-          onClick={() => {
-            setinfodiv((info: Info) => {
-              const data = [...info];
-              data.push({
-                name: "???",
-                type: "big",
-                icon: null,
-                content: [
-                  {
-                    after: "TOP",
-                    header: "???",
-                    text: "???",
-                    content: [],
-                  },
-                ],
-              });
-
-              return data;
-            });
-          }}
-        >
-          {Icon("Lapp")}
-        </Button>
-      </div>
+          <Button onClick={() => handleaddblock("play")}>
+            {Icon("Sapp", "1.5")}
+          </Button>
+          <Button onClick={() => handleaddblock("normal")}>
+            {Icon("Mapp", "1.5")}
+          </Button>
+          <Button onClick={() => handleaddblock("big")}>
+            {Icon("Lapp", "1.5")}
+          </Button>
+        </div>
+      )}
     </motion.div>
   ) : (
-    "Ошибка"
+    <Wait />
   );
 };
+
+export default Study;

@@ -1,4 +1,4 @@
-import { cloneElement, ReactElement, useEffect, useRef, useState } from "react";
+import { ReactElement, useEffect, useRef, useState } from "react";
 import Border from "./Border";
 import {
   Chain,
@@ -19,13 +19,25 @@ import {
 import { Info } from "../type";
 import { Button, Icon } from ".";
 
-import { GetIcons } from "../scripts";
+import { GetIcons, InfoDivContext } from "../scripts";
 
 import type { Icons } from "../type";
 
 import { IconsAll } from "../scripts";
+import axios from "axios";
+import { retrieveLaunchParams } from "@telegram-apps/sdk";
+import { motion } from "framer-motion";
 
-export default ({
+/*
+return cloneElement(data, {
+                  type: type,
+                  setinfodiv: setinfodiv,
+                  indexmain: index,
+                  index: index2,
+                  key: index2,
+                });*/
+
+const InfoDiv = ({
   text,
   icon,
   children,
@@ -33,31 +45,62 @@ export default ({
   index,
   type,
   infodiv,
+  typemain,
+  nodeleted,
+  editor,
+  buttonactive,
+  monetindex,
+  info,
 }: {
-  text: string;
-  icon: Icons;
+  text?: string;
+  icon?: Icons | "infowindow";
   children: ReactElement[] | ReactElement;
   setinfodiv?: Function;
   index?: number;
   type: "normal" | "play" | "big" | "monet";
   infodiv?: Info;
-  typemain: "explore" | "social" | "study";
+  typemain: "explore" | "social" | "study" | "monet";
+  nodeleted?: boolean;
+  editor: boolean;
+  buttonactive?: number;
+  monetindex?: number;
+  info: string;
 }) => {
   const menusettings = useRef<HTMLDivElement | null>(null);
   const menusettingsicon = useRef<HTMLDivElement | null>(null);
   const buttonopensettings = useRef<HTMLDivElement | null>(null);
   const [settings, setsettings] = useState<boolean>(false);
   const [settngsicon, setsettngsicon] = useState<boolean>(false);
+  const [infoopen, setinfoopen] = useState<boolean>(false);
 
   const [edit, setedit] = useState<boolean>(false);
-  const [valueheader, setvalueheader] = useState<string>(text);
+  const [valueheader, setvalueheader] = useState<string | undefined>(text);
+  const [infoheader, setinfoheader] = useState<string | undefined>(info);
+
+  const launchParams = retrieveLaunchParams();
 
   const handleicon = (element: IconsAll) => {
     if (setinfodiv && (index || index == 0)) {
+      setsettngsicon(false);
       setinfodiv((infodiv: Info) => {
         const seticon = [...infodiv];
 
         seticon[index].icon = element;
+
+        if (typemain != "monet") {
+          axios.post(`${import.meta.env.VITE_API_URL}/info/save`, {
+            initData: launchParams.initDataRaw,
+            type: typemain,
+            data: seticon,
+          });
+        } else {
+          axios.post(`${import.meta.env.VITE_API_URL}/monet/info/save`, {
+            initData: launchParams.initDataRaw,
+            data: seticon,
+            indexmain: buttonactive,
+            monetindex: monetindex,
+          });
+        }
 
         return seticon;
       });
@@ -65,13 +108,28 @@ export default ({
   };
 
   const handledeleted = () => {
-    if (setinfodiv && (index || index == 0)) {
+    if (setinfodiv && (index || index == 0) && !nodeleted) {
       setinfodiv((infodiv: Info) => {
         const seticon = [...infodiv];
 
         seticon.splice(index, 1);
 
         setsettings(false);
+
+        if (typemain != "monet") {
+          axios.post(`${import.meta.env.VITE_API_URL}/info/save`, {
+            initData: launchParams.initDataRaw,
+            type: typemain,
+            data: seticon,
+          });
+        } else {
+          axios.post(`${import.meta.env.VITE_API_URL}/monet/info/save`, {
+            initData: launchParams.initDataRaw,
+            data: seticon,
+            indexmain: buttonactive,
+            monetindex: monetindex,
+          });
+        }
 
         return seticon;
       });
@@ -112,7 +170,7 @@ export default ({
     };
   }, []);
 
-  const IconComponent = GetIcons(icon);
+  const IconComponent = GetIcons(icon != "infowindow" ? icon : undefined);
 
   return (
     <div
@@ -124,9 +182,10 @@ export default ({
     >
       <div className="info-headerinfo">
         {!edit ? (
-          <span>{text}</span>
+          <span style={{ marginTop: "4px" }}>{text}</span>
         ) : (
           <input
+            name="info-headerinfo-input"
             onChange={(e) => setvalueheader(e.target.value)}
             value={valueheader}
           />
@@ -134,22 +193,58 @@ export default ({
         <div
           ref={buttonopensettings}
           onClick={() => {
-            setsettings(!settings);
+            if (info == "" || editor) {
+              setsettings(!settings);
 
-            if (settngsicon) {
-              setsettings(false);
-              setsettngsicon(false);
+              if (settngsicon) {
+                setsettings(false);
+                setsettngsicon(false);
+              }
+            } else {
+              setinfoopen(!infoopen);
             }
           }}
         >
-          <IconComponent />
+          {info == "" ? (
+            <IconComponent />
+          ) : (
+            Icon("infowindow", "1.5", {
+              marginRight: "10px",
+              transform: infoopen ? "rotate(180deg)" : "",
+              alignItems: "end",
+            })
+          )}
         </div>
       </div>
-      {setinfodiv && (index || index == 0) && (
+      {infoopen && (
+        <motion.div
+          className="infodiv-info"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+        >
+          {editor ? (
+            <textarea
+              name="infodiv-info-input"
+              defaultValue={infoheader}
+              onChange={(e) => {
+                e.target.style.height = e.target.style.height = "auto";
+                e.target.style.height = `${e.target.scrollHeight}px`;
+                setinfoheader(e.target.value);
+              }}
+              className="infodiv-info-input"
+            />
+          ) : (
+            <div className="infodiv-info-div">
+              <span className="infodiv-info-span">{info}</span>
+            </div>
+          )}
+        </motion.div>
+      )}
+      {editor && setinfodiv && (index || index == 0) && (
         <>
           {settings && (
             <div ref={menusettings} className="settings-menu">
-              {/*<Border type="center" />
               <div
                 className="settings-items"
                 onClick={() => {
@@ -158,11 +253,32 @@ export default ({
 
                     data[index].type = "play";
 
+                    if (typemain != "monet") {
+                      axios.post(`${import.meta.env.VITE_API_URL}/info/save`, {
+                        initData: launchParams.initDataRaw,
+                        type: typemain,
+                        data: data,
+                      });
+                    } else {
+                      axios.post(
+                        `${import.meta.env.VITE_API_URL}/monet/info/save`,
+                        {
+                          initData: launchParams.initDataRaw,
+                          data: data,
+                          indexmain: buttonactive,
+                          monetindex: monetindex,
+                        }
+                      );
+                    }
+
                     return data;
                   });
                 }}
               >
-                S App
+                {Icon("Sapp", "1.5")}
+                <span style={{ height: "100%", marginLeft: "10px" }}>
+                  S app
+                </span>
               </div>
               <div
                 className="settings-items"
@@ -172,11 +288,32 @@ export default ({
 
                     data[index].type = "normal";
 
+                    if (typemain != "monet") {
+                      axios.post(`${import.meta.env.VITE_API_URL}/info/save`, {
+                        initData: launchParams.initDataRaw,
+                        type: typemain,
+                        data: data,
+                      });
+                    } else {
+                      axios.post(
+                        `${import.meta.env.VITE_API_URL}/monet/info/save`,
+                        {
+                          initData: launchParams.initDataRaw,
+                          data: data,
+                          indexmain: buttonactive,
+                          monetindex: monetindex,
+                        }
+                      );
+                    }
+
                     return data;
                   });
                 }}
               >
-                M App
+                {Icon("Mapp", "1.5")}
+                <span style={{ height: "100%", marginLeft: "10px" }}>
+                  M app
+                </span>
               </div>
               <div
                 className="settings-items"
@@ -186,17 +323,45 @@ export default ({
 
                     data[index].type = "big";
 
+                    if (typemain != "monet") {
+                      axios.post(`${import.meta.env.VITE_API_URL}/info/save`, {
+                        initData: launchParams.initDataRaw,
+                        type: typemain,
+                        data: data,
+                      });
+                    } else {
+                      axios.post(
+                        `${import.meta.env.VITE_API_URL}/monet/info/save`,
+                        {
+                          initData: launchParams.initDataRaw,
+                          data: data,
+                          indexmain: buttonactive,
+                          monetindex: monetindex,
+                        }
+                      );
+                    }
+
                     return data;
                   });
                 }}
               >
-                L App
-              </div>*/}
-
-              <div className="settings-items">
-                {Icon("info")}
-                <span style={{ height: "100%", marginLeft: "10px" }}>info</span>
+                {Icon("Lapp", "1.5")}
+                <span style={{ height: "100%", marginLeft: "10px" }}>
+                  L app
+                </span>
               </div>
+              <Border type="center" />
+              {edit && (
+                <div
+                  className="settings-items"
+                  onClick={() => setinfoopen(!infoopen)}
+                >
+                  {Icon("info", "1.5")}
+                  <span style={{ height: "100%", marginLeft: "10px" }}>
+                    info
+                  </span>
+                </div>
+              )}
               <div
                 className="settings-items"
                 onClick={() => {
@@ -204,13 +369,13 @@ export default ({
                   setsettings(false);
                 }}
               >
-                {Icon("icon")}
+                {Icon("icon", "1.5")}
                 <span style={{ height: "100%", marginLeft: "10px" }}>icon</span>
               </div>
               <Border type="center" />
               {!edit ? (
                 <div className="settings-items" onClick={() => setedit(true)}>
-                  {Icon("Edit")}
+                  {Icon("Edit", "1.5")}
                   <span style={{ height: "100%", marginLeft: "10px" }}>
                     Edit
                   </span>
@@ -221,29 +386,58 @@ export default ({
                   onClick={() => {
                     if (setinfodiv && index != undefined) {
                       setedit(false);
+                      setinfoopen(false);
                       setinfodiv((info: Info) => {
-                        const data = [...info];
+                        if (valueheader && (infoheader || infoheader == "")) {
+                          const data = [...info];
 
-                        data[index].name = valueheader;
+                          data[index].name = valueheader;
+                          data[index].info = infoheader;
 
-                        return data;
+                          if (typemain != "monet") {
+                            axios.post(
+                              `${import.meta.env.VITE_API_URL}/info/save`,
+                              {
+                                initData: launchParams.initDataRaw,
+                                type: typemain,
+                                data: data,
+                              }
+                            );
+                          } else {
+                            axios.post(
+                              `${import.meta.env.VITE_API_URL}/monet/info/save`,
+                              {
+                                initData: launchParams.initDataRaw,
+                                data: data,
+                                indexmain: buttonactive,
+                                monetindex: monetindex,
+                              }
+                            );
+                          }
+
+                          return data;
+                        }
                       });
                     }
                   }}
                 >
-                  {Icon("Done")}
+                  {Icon("Done", "1.5")}
                   <span style={{ height: "100%", marginLeft: "10px" }}>
                     Save
                   </span>
                 </div>
               )}
-              <Border type="center" />
-              <div className="settings-items" onClick={handledeleted}>
-                {Icon("Close")}
-                <span style={{ height: "100%", marginLeft: "10px" }}>
-                  Delete
-                </span>
-              </div>
+              {!nodeleted && (
+                <>
+                  <Border type="center" />
+                  <div className="settings-items" onClick={handledeleted}>
+                    {Icon("Close", "1.5")}
+                    <span style={{ height: "100%", marginLeft: "10px" }}>
+                      Delete
+                    </span>
+                  </div>
+                </>
+              )}
             </div>
           )}
           {settngsicon && (
@@ -305,23 +499,23 @@ export default ({
       )}
       <div className="info-content">
         <div className={type == "play" ? "cell-play" : ""}>
-          {Array.isArray(children)
-            ? children.map((data, index2) => {
-                return cloneElement(data, {
+          {/*
+return cloneElement(data, {
                   type: type,
                   setinfodiv: setinfodiv,
                   indexmain: index,
                   index: index2,
                   key: index2,
-                });
-              })
-            : cloneElement(children, {
-                type: type,
-                setinfodiv: setinfodiv,
-                indexmain: index,
-                index: 0,
-                key: 0,
-              })}
+                });*/}
+          <InfoDivContext.Provider
+            value={{
+              type,
+              setinfodiv: setinfodiv ? setinfodiv : () => {},
+              indexmain: index,
+            }}
+          >
+            {children}
+          </InfoDivContext.Provider>
         </div>
       </div>
       {edit && (
@@ -338,6 +532,24 @@ export default ({
                   content: [],
                 });
 
+                if (typemain != "monet") {
+                  axios.post(`${import.meta.env.VITE_API_URL}/info/save`, {
+                    initData: launchParams.initDataRaw,
+                    type: typemain,
+                    data: data,
+                  });
+                } else {
+                  axios.post(
+                    `${import.meta.env.VITE_API_URL}/monet/info/save`,
+                    {
+                      initData: launchParams.initDataRaw,
+                      data: data,
+                      indexmain: buttonactive,
+                      monetindex: monetindex,
+                    }
+                  );
+                }
+
                 return data;
               });
             }
@@ -349,3 +561,5 @@ export default ({
     </div>
   );
 };
+
+export default InfoDiv;

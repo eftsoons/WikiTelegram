@@ -1,33 +1,39 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 
 import Border from "./Border";
 
 import { type Info } from "../type";
 import { Icon } from ".";
+import axios from "axios";
+import { retrieveLaunchParams } from "@telegram-apps/sdk";
+import { InfoDivContext } from "../scripts";
 
-export default ({
+const Cell = ({
   before,
   header,
   text,
   disabled,
   after,
   onClick,
-  type,
-  setinfodiv,
-  indexmain,
   index,
+  typemain,
+  editor,
+  notinternet,
+  buttonactive,
+  monetindex,
 }: {
-  before: string | undefined;
-  header: string;
-  text: string;
+  before?: string | undefined;
+  header?: string;
+  text?: string;
   disabled?: boolean;
   after?: string;
   onClick?: () => void;
-  type?: "normal" | "play" | "big";
-  setinfodiv?: Function;
-  indexmain?: number;
   index?: number;
-  typemain: "explore" | "social" | "study";
+  typemain: "explore" | "social" | "study" | "monet";
+  editor: boolean;
+  notinternet?: boolean;
+  buttonactive?: number;
+  monetindex?: number;
 }) => {
   const menusettings = useRef<HTMLDivElement | null>(null);
   const menusettingsstatus = useRef<HTMLDivElement | null>(null);
@@ -36,11 +42,15 @@ export default ({
   const [settings, setsettings] = useState<boolean>(false);
   const [settingsstatus, setsettingsstatus] = useState<boolean>(false);
   const [edit, setedit] = useState<boolean>(false);
-  const [valuetext, setvaluetext] = useState<string>(text);
-  const [valueheader, setvalueheader] = useState<string>(header);
+  const [valuetext, setvaluetext] = useState<string | undefined>(text);
+  const [valueheader, setvalueheader] = useState<string | undefined>(header);
   const [valuephoto, setvaluephoto] = useState<string | undefined>(before);
 
-  const handleonchaneimg = (
+  const launchParams = retrieveLaunchParams();
+
+  const { type, setinfodiv, indexmain } = useContext(InfoDivContext);
+
+  const handleonchaneimg = async (
     e: React.ChangeEvent<HTMLInputElement>,
     indexmain: number | undefined,
     index: number | undefined
@@ -48,8 +58,14 @@ export default ({
     if (e.target.files) {
       const file = e.target.files[0];
 
-      if (setinfodiv && indexmain != undefined && index != undefined) {
-        setvaluephoto(URL.createObjectURL(file));
+      if (setinfodiv && indexmain !== undefined && index !== undefined) {
+        const data: string = await new Promise<string>((resolve) => {
+          const reader = new FileReader();
+          reader.onload = (event) => resolve(event.target!.result as string);
+          reader.readAsDataURL(file);
+        });
+
+        setvaluephoto(data);
       }
     }
   };
@@ -83,6 +99,33 @@ export default ({
       !menusettingsstatus.current.contains(event.target as Node)
     ) {
       setsettingsstatus(false);
+    }
+  };
+
+  const handlesetafter = (newdata: undefined | "NEW" | "TOP" | "OFCL") => {
+    if (setinfodiv) {
+      setinfodiv((info: Info) => {
+        const data = [...info];
+
+        data[Number(indexmain)].content[Number(index)].after = newdata;
+
+        if (typemain != "monet") {
+          axios.post(`${import.meta.env.VITE_API_URL}/info/save`, {
+            initData: launchParams.initDataRaw,
+            type: typemain,
+            data: data,
+          });
+        } else {
+          axios.post(`${import.meta.env.VITE_API_URL}/monet/info/save`, {
+            initData: launchParams.initDataRaw,
+            data: data,
+            indexmain: buttonactive,
+            monetindex: monetindex,
+          });
+        }
+
+        return data;
+      });
     }
   };
 
@@ -128,7 +171,8 @@ export default ({
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            backgroundImage: `url("notimg.png")`,
+            backgroundImage: !notinternet ? `url("notimg.png")` : "",
+            backgroundColor: notinternet ? "red" : "",
           }}
         />
       )}
@@ -164,7 +208,8 @@ export default ({
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                backgroundImage: `url("notimg.png")`,
+                backgroundImage: !notinternet ? `url("notimg.png")` : "",
+                backgroundColor: notinternet ? "#343434" : "",
               }}
             />
           )
@@ -201,6 +246,7 @@ export default ({
             }}
           >
             <input
+              name="file"
               type="file"
               accept="image/*"
               style={{
@@ -233,13 +279,14 @@ export default ({
               width:
                 type == "big"
                   ? "calc(var(--tg-viewport-width) - 235px)"
-                  : "calc(var(--tg-viewport-width) - 140px)",
+                  : "calc(var(--tg-viewport-width) - 170px)",
             }}
           >
             {!edit ? (
               header
             ) : (
               <input
+                name="cell-input-header"
                 className="cell-input-header"
                 onChange={(e) => {
                   setvalueheader(e.target.value);
@@ -263,6 +310,7 @@ export default ({
           </div>
         ) : (
           <textarea
+            name="cell-input-span-header"
             style={{
               width:
                 type == "big"
@@ -305,30 +353,32 @@ export default ({
             {after}
           </div>
         ) : (
-          <div
-            style={{
-              height: "15px",
-              width: "15px",
-              display: "flex",
-              justifyContent: "center",
-              position: "absolute",
-              right: "10px",
-            }}
-            ref={buttonopensettings}
-            onClick={(e) => {
-              setsettings(!settings);
+          editor && (
+            <div
+              style={{
+                height: "15px",
+                width: "15px",
+                display: "flex",
+                justifyContent: "center",
+                position: "absolute",
+                right: "10px",
+              }}
+              ref={buttonopensettings}
+              onClick={(e) => {
+                setsettings(!settings);
 
-              if (settingsstatus) {
-                setsettings(false);
-                setsettingsstatus(false);
-              }
-              e.stopPropagation();
-            }}
-          >
-            {Icon("Menu", "0.4")}
-          </div>
+                if (settingsstatus) {
+                  setsettings(false);
+                  setsettingsstatus(false);
+                }
+                e.stopPropagation();
+              }}
+            >
+              {Icon("Menu", "1.5")}
+            </div>
+          )
         )}
-        {setinfodiv && (
+        {editor && setinfodiv && (
           <>
             {settings && (
               <div
@@ -345,7 +395,7 @@ export default ({
                     setsettingsstatus(true);
                   }}
                 >
-                  {Icon("icon")}
+                  {Icon("icon", "1.5")}
                   <span style={{ height: "100%", marginLeft: "10px" }}>
                     Status
                   </span>
@@ -355,7 +405,7 @@ export default ({
                     className="cell-settings-items"
                     onClick={() => setedit(true)}
                   >
-                    {Icon("Edit")}
+                    {Icon("Edit", "1.5")}
                     <span style={{ height: "100%", marginLeft: "10px" }}>
                       Edit
                     </span>
@@ -371,18 +421,43 @@ export default ({
                       ) {
                         setedit(false);
                         setinfodiv((info: Info) => {
-                          const data = [...info];
+                          if (valueheader && valuetext) {
+                            const data = [...info];
 
-                          data[indexmain].content[index].header = valueheader;
-                          data[indexmain].content[index].text = valuetext;
-                          data[indexmain].content[index].before = valuephoto;
+                            data[indexmain].content[index].header = valueheader;
+                            data[indexmain].content[index].text = valuetext;
+                            data[indexmain].content[index].before = valuephoto;
 
-                          return data;
+                            if (typemain != "monet") {
+                              axios.post(
+                                `${import.meta.env.VITE_API_URL}/info/save`,
+                                {
+                                  initData: launchParams.initDataRaw,
+                                  type: typemain,
+                                  data: data,
+                                }
+                              );
+                            } else {
+                              axios.post(
+                                `${
+                                  import.meta.env.VITE_API_URL
+                                }/monet/info/save`,
+                                {
+                                  initData: launchParams.initDataRaw,
+                                  data: data,
+                                  indexmain: buttonactive,
+                                  monetindex: monetindex,
+                                }
+                              );
+                            }
+
+                            return data;
+                          }
                         });
                       }
                     }}
                   >
-                    {Icon("Done")}
+                    {Icon("Done", "1.5")}
                     <span style={{ height: "100%", marginLeft: "10px" }}>
                       Save
                     </span>
@@ -403,12 +478,33 @@ export default ({
                         const data = [...info];
                         data[indexmain].content.splice(index, 1);
 
+                        if (typemain != "monet") {
+                          axios.post(
+                            `${import.meta.env.VITE_API_URL}/info/save`,
+                            {
+                              initData: launchParams.initDataRaw,
+                              type: typemain,
+                              data: data,
+                            }
+                          );
+                        } else {
+                          axios.post(
+                            `${import.meta.env.VITE_API_URL}/monet/info/save`,
+                            {
+                              initData: launchParams.initDataRaw,
+                              data: data,
+                              indexmain: buttonactive,
+                              monetindex: monetindex,
+                            }
+                          );
+                        }
+
                         return data;
                       });
                     }
                   }}
                 >
-                  {Icon("Close")}
+                  {Icon("Close", "1.5")}
                   <span style={{ height: "100%", marginLeft: "10px" }}>
                     Delete
                   </span>
@@ -425,53 +521,25 @@ export default ({
               >
                 <div
                   className="cell-settings-items"
-                  onClick={() =>
-                    setinfodiv((info: Info) => {
-                      const data = [...info];
-                      data[Number(indexmain)].content[Number(index)].after =
-                        "TOP";
-                      return data;
-                    })
-                  }
+                  onClick={() => handlesetafter("TOP")}
                 >
                   TOP
                 </div>
                 <div
                   className="cell-settings-items"
-                  onClick={() =>
-                    setinfodiv((info: Info) => {
-                      const data = [...info];
-                      data[Number(indexmain)].content[Number(index)].after =
-                        "OFCL";
-                      return data;
-                    })
-                  }
+                  onClick={() => handlesetafter("OFCL")}
                 >
                   OFCL
                 </div>
                 <div
                   className="cell-settings-items"
-                  onClick={() =>
-                    setinfodiv((info: Info) => {
-                      const data = [...info];
-                      data[Number(indexmain)].content[Number(index)].after =
-                        "NEW";
-                      return data;
-                    })
-                  }
+                  onClick={() => handlesetafter("NEW")}
                 >
                   NEW
                 </div>
                 <div
                   className="cell-settings-items"
-                  onClick={() =>
-                    setinfodiv((info: Info) => {
-                      const data = [...info];
-                      data[Number(indexmain)].content[Number(index)].after =
-                        undefined;
-                      return data;
-                    })
-                  }
+                  onClick={() => handlesetafter(undefined)}
                 >
                   None
                 </div>
@@ -483,3 +551,5 @@ export default ({
     </div>
   );
 };
+
+export default Cell;

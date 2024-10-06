@@ -1,6 +1,6 @@
 import { CSSProperties, ReactNode } from "react";
 
-export default ({
+const ButtonGroupTile = ({
   children,
   style,
 }: {
@@ -13,3 +13,5 @@ export default ({
     </div>
   );
 };
+
+export default ButtonGroupTile;
