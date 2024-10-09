@@ -1,5 +1,7 @@
+@import "../variables.scss";
+
 .buttontilegroup {
-  background-color: rgba(37, 37, 37, 0.6);
+  background-color: $maincolor;
   display: flex;
   width: 86.5%;
   border-radius: 8px;

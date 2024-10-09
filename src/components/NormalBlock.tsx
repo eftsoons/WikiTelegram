@@ -1,6 +1,8 @@
 import { CSSProperties, useState } from "react";
 import { ButtonGroupTile, ButtonTile, Icon } from ".";
 import { ContentPage } from "../type";
+import axios from "axios";
+import { retrieveLaunchParams } from "@telegram-apps/sdk";
 
 const NormalBlock = ({
   style,
@@ -33,56 +35,94 @@ const NormalBlock = ({
 
   const [content, setcontent] = useState(contentmain);
 
+  const launchParams = retrieveLaunchParams();
+
   const handleonchaneimg = async (
     e: React.ChangeEvent<HTMLInputElement>,
     index: number
   ) => {
-    if (e.target.files) {
+    if (e.target.files && launchParams.initDataRaw) {
       const file = e.target.files[0];
 
-      const dataimg: string = await new Promise<string>((resolve) => {
-        const reader = new FileReader();
-        reader.onload = (event) => resolve(event!.target!.result as string);
-        reader.readAsDataURL(file);
-      });
+      /*const cropHeight = async (
+        file: File,
+        targetHeight: number
+      ): Promise<File | null> => {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
 
-      const cropHeight = (
-        imgSrc: string,
-        cropHeight: number
-      ): Promise<string> => {
-        return new Promise((resolve) => {
-          const img = new Image();
-          img.src = imgSrc;
-          img.onload = () => {
-            const canvas = document.createElement("canvas");
-            const ctx = canvas.getContext("2d")!;
+          reader.onload = (event) => {
+            const img = new Image();
+            img.src = event.target?.result as string;
 
-            canvas.width = img.width;
-            canvas.height = cropHeight;
+            img.onload = async () => {
+              const canvas = document.createElement("canvas");
+              const ctx = canvas.getContext("2d");
 
-            ctx.drawImage(
-              img,
-              0,
-              0,
-              img.width,
-              cropHeight,
-              0,
-              0,
-              img.width,
-              cropHeight
-            );
+              if (ctx) {
+                const canvas = document.createElement("canvas");
+                const ctx = canvas.getContext("2d")!;
 
-            resolve(canvas.toDataURL());
+                canvas.width = img.width;
+                canvas.height = targetHeight;
+
+                ctx.drawImage(
+                  img,
+                  0,
+                  0,
+                  img.width,
+                  targetHeight,
+                  0,
+                  0,
+                  img.width,
+                  targetHeight
+                );
+
+                canvas.toBlob((blob) => {
+                  if (blob) {
+                    resolve(
+                      new File([blob], file.name, {
+                        type: file.type,
+                      })
+                    );
+                  }
+                });
+              }
+            };
+
+            img.onerror = (error) => {
+              reject(error);
+            };
           };
+
+          reader.readAsDataURL(file);
         });
       };
 
-      const croppedImage = await cropHeight(dataimg, 140);
+      const croppedImage = await cropHeight(file, 140);*/
+
+      const formData = new FormData();
+      formData.append("photo", file);
+      formData.append("initData", launchParams.initDataRaw);
+
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/upload`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
       setcontent((info) => {
         const data = [...info];
         if (data[index].type === "image") {
-          data[index].content = croppedImage;
+          data[index].content = `${import.meta.env.VITE_API_URL}/img?filename=${
+            response.data
+          }`;
+
+          data[index].click = 0;
         }
 
         return data;
@@ -177,10 +217,11 @@ const NormalBlock = ({
           <img
             key={index}
             style={{
-              height: "150px",
+              height: "35vw",
               width: "100%",
               marginTop: "5px",
             }}
+            loading="lazy"
             className="block-image"
             src={data.content}
             onClick={() => {
@@ -200,7 +241,7 @@ const NormalBlock = ({
           <div
             key={index}
             style={{
-              height: "150px",
+              height: "35vw",
               backgroundImage: `url("notimg.png")`,
               width: "100%",
               marginTop: "5px",
@@ -306,7 +347,7 @@ const NormalBlock = ({
               })
             }
           >
-            {Icon("Text")}
+            {Icon("Text", "1.25")}
           </ButtonTile>
           <ButtonTile
             onClick={() =>
@@ -323,7 +364,7 @@ const NormalBlock = ({
               })
             }
           >
-            {Icon("image")}
+            {Icon("image", "1.25")}
           </ButtonTile>
           <ButtonTile
             onClick={() => {

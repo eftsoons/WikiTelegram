@@ -1,8 +1,10 @@
+@import "../variables.scss";
+
 .tabbar {
   position: fixed;
   bottom: 0;
   display: flex;
-  background-color: #232323;
+  background-color: $maincolor;
   //backdrop-filter: blur(15px);
   z-index: 1;
   width: 100%;

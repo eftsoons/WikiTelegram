@@ -7,7 +7,6 @@ import {
   bindMiniAppCSSVars,
   bindThemeParamsCSSVars,
   bindViewportCSSVars,
-  initCloudStorage,
   initMiniApp,
   postEvent,
   retrieveLaunchParams,
@@ -33,7 +32,7 @@ function App({ root }: { root: HTMLElement }) {
   const viewport = useViewport();
   const lp = useLaunchParams();
 
-  const cloudStorage = initCloudStorage();
+  //const cloudStorage = initCloudStorage();
 
   const [admin, setadmin] = useState(false);
   const [training, settraining] = useState(
@@ -45,8 +44,8 @@ function App({ root }: { root: HTMLElement }) {
 
     postEvent("web_app_expand");
 
-    miniApp.setHeaderColor("#232323");
-    miniApp.setBgColor("#232323");
+    miniApp.setHeaderColor("#101010");
+    miniApp.setBgColor("#101010");
   }, []);
 
   useEffect(() => {
@@ -78,16 +77,16 @@ function App({ root }: { root: HTMLElement }) {
     CheckAdmin();
   }, []);
 
-  cloudStorage.get("training").then((test) => {
+  /* cloudStorage.get("training").then((test) => {
     console.log(test);
-  });
+  });*/
 
   return (
     <AppRoot
       appearance={miniApp.isDark ? "dark" : "light"}
       platform={["macos", "ios"].includes(lp.platform) ? "ios" : "base"}
     >
-      <MotionConfig transition={{ duration: 0.5 }}>
+      <MotionConfig transition={{ duration: 0.25 }}>
         <Navigator
           training={training}
           settraining={settraining}

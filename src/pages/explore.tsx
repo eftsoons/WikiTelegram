@@ -18,6 +18,7 @@ const Explore = ({
   const [infodiv, setinfodiv] = useState<Info>([
     { type: "normal", name: "???", content: [], info: "", icon: null },
   ]);
+  const [data, setdata] = useState(false);
 
   const launchParams = retrieveLaunchParams();
 
@@ -32,6 +33,8 @@ const Explore = ({
       )) as {
         data: Info;
       };
+
+      setdata(true);
 
       if (response.data.length > 0) {
         setinfodiv(response.data);
@@ -68,7 +71,7 @@ const Explore = ({
     });
   }, []);
 
-  return infodiv ? (
+  return data ? (
     <motion.div
       className="main"
       initial={{ opacity: 0 }}
@@ -165,18 +168,7 @@ const Explore = ({
         );
       })}
       {editor && (
-        <div
-          style={{
-            width: "90%",
-            marginTop: "10px",
-            display: "flex",
-            gap: "10px",
-            borderRadius: "8px",
-            backgroundColor: "rgba(37, 37, 37, 0.6)",
-            backdropFilter: "blur(15px)",
-            padding: "10px",
-          }}
-        >
+        <div className="addblock">
           <Button onClick={() => handleaddblock("play")}>
             {Icon("Sapp", "1.5")}
           </Button>

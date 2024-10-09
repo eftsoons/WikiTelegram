@@ -4,6 +4,7 @@
   align-items: flex-end;
   margin-bottom: 10px;
   margin-top: 10px;
+  position: relative;
 }
 
 .cell-before {
@@ -15,7 +16,6 @@
 .cell-main {
   display: flex;
   flex-direction: column;
-  position: relative;
 }
 
 .cell-header {
@@ -24,7 +24,6 @@
   justify-content: space-between;
   width: 90%;
   height: 1.5rem;
-  position: relative;
 }
 
 .cell-span {
@@ -58,7 +57,7 @@
   width: 90%;
 }
 
-.call-header-after {
+.cell-header-after {
   border: 1px solid;
   border-radius: 10px 0px 0px 10px;
   font-family: "Montserrat";
@@ -74,7 +73,8 @@
   width: 46px;
   height: 18px;
   position: absolute;
-  right: 0;
+  right: -2px;
+  top: 0;
 }
 
 .cell-play {
@@ -85,8 +85,11 @@
 }
 
 .cell-main-play {
-  width: 100%;
   height: 132px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
 }
 
 .cell-before-play {
@@ -94,18 +97,32 @@
   width: 100%;
 }
 
-.cell-span-play {
+.cell-div-play {
   margin-top: 5px;
   font-family: "Montserrat";
   font-weight: 500;
   font-size: 16px;
   line-height: 20px;
   display: flex;
-  align-items: center;
   letter-spacing: 0.02em;
   color: #ffffff;
+  width: 100%;
+  bottom: 0;
+  position: absolute;
   justify-content: center;
-  word-wrap: break-word;
+  top: 89px;
+}
+
+.cell-span-play {
+  font-family: "Montserrat";
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 20px;
+  letter-spacing: 0.02em;
+  color: #ffffff;
+  overflow: hidden;
+  word-wrap: nowrap;
+  text-overflow: ellipsis;
 }
 
 .cell-settings {

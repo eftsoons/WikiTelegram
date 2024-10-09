@@ -58,14 +58,29 @@ const Cell = ({
     if (e.target.files) {
       const file = e.target.files[0];
 
-      if (setinfodiv && indexmain !== undefined && index !== undefined) {
-        const data: string = await new Promise<string>((resolve) => {
-          const reader = new FileReader();
-          reader.onload = (event) => resolve(event.target!.result as string);
-          reader.readAsDataURL(file);
-        });
+      if (
+        setinfodiv &&
+        indexmain !== undefined &&
+        index !== undefined &&
+        launchParams.initDataRaw
+      ) {
+        const formData = new FormData();
+        formData.append("photo", file);
+        formData.append("initData", launchParams.initDataRaw);
 
-        setvaluephoto(data);
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_URL}/upload`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+
+        setvaluephoto(
+          `${import.meta.env.VITE_API_URL}/img?filename=${response.data}`
+        );
       }
     }
   };
@@ -104,6 +119,7 @@ const Cell = ({
 
   const handlesetafter = (newdata: undefined | "NEW" | "TOP" | "OFCL") => {
     if (setinfodiv) {
+      setsettingsstatus(false);
       setinfodiv((info: Info) => {
         const data = [...info];
 
@@ -172,11 +188,12 @@ const Cell = ({
             justifyContent: "center",
             alignItems: "center",
             backgroundImage: !notinternet ? `url("notimg.png")` : "",
-            backgroundColor: notinternet ? "red" : "",
           }}
         />
       )}
-      <div className="cell-span-play">{header}</div>
+      <div className="cell-div-play">
+        <span className="cell-span-play">{header}</span>
+      </div>
     </div>
   ) : (
     <div
@@ -302,8 +319,8 @@ const Cell = ({
             style={{
               width:
                 type == "big"
-                  ? "calc(var(--tg-viewport-width) - 180px)"
-                  : "calc(var(--tg-viewport-width) - 110px)",
+                  ? "calc(var(--tg-viewport-width) - 230px)"
+                  : "calc(var(--tg-viewport-width) - 150px)",
             }}
           >
             {text}
@@ -314,69 +331,13 @@ const Cell = ({
             style={{
               width:
                 type == "big"
-                  ? "calc(var(--tg-viewport-width) - 180px)"
-                  : "calc(var(--tg-viewport-width) - 110px)",
+                  ? "calc(var(--tg-viewport-width) - 230px)"
+                  : "calc(var(--tg-viewport-width) - 150px);)",
             }}
             className="cell-input-span"
             onChange={(e) => setvaluetext(e.target.value)}
             value={valuetext}
           />
-        )}
-        {after ? (
-          <div
-            className="call-header-after"
-            style={{
-              color:
-                after == "TOP"
-                  ? "#EA9A00"
-                  : after == "OFCL"
-                  ? "#0098EA"
-                  : "#F75E25",
-              borderColor:
-                after == "TOP"
-                  ? "#EA9A00"
-                  : after == "OFCL"
-                  ? "#0098EA"
-                  : "#F75E25",
-            }}
-            ref={buttonopensettings}
-            onClick={(e) => {
-              setsettings(!settings);
-
-              if (settingsstatus) {
-                setsettings(false);
-                setsettingsstatus(false);
-              }
-              e.stopPropagation();
-            }}
-          >
-            {after}
-          </div>
-        ) : (
-          editor && (
-            <div
-              style={{
-                height: "15px",
-                width: "15px",
-                display: "flex",
-                justifyContent: "center",
-                position: "absolute",
-                right: "10px",
-              }}
-              ref={buttonopensettings}
-              onClick={(e) => {
-                setsettings(!settings);
-
-                if (settingsstatus) {
-                  setsettings(false);
-                  setsettingsstatus(false);
-                }
-                e.stopPropagation();
-              }}
-            >
-              {Icon("Menu", "1.5")}
-            </div>
-          )
         )}
         {editor && setinfodiv && (
           <>
@@ -403,7 +364,10 @@ const Cell = ({
                 {!edit ? (
                   <div
                     className="cell-settings-items"
-                    onClick={() => setedit(true)}
+                    onClick={() => {
+                      setedit(true);
+                      setsettings(false);
+                    }}
                   >
                     {Icon("Edit", "1.5")}
                     <span style={{ height: "100%", marginLeft: "10px" }}>
@@ -420,6 +384,7 @@ const Cell = ({
                         index != undefined
                       ) {
                         setedit(false);
+                        setsettings(false);
                         setinfodiv((info: Info) => {
                           if (valueheader && valuetext) {
                             const data = [...info];
@@ -548,6 +513,63 @@ const Cell = ({
           </>
         )}
       </div>
+      {after ? (
+        <div
+          className="cell-header-after"
+          style={{
+            color:
+              after == "TOP"
+                ? "#EA9A00"
+                : after == "OFCL"
+                ? "#0098EA"
+                : "#F75E25",
+            borderColor:
+              after == "TOP"
+                ? "#EA9A00"
+                : after == "OFCL"
+                ? "#0098EA"
+                : "#F75E25",
+          }}
+          ref={buttonopensettings}
+          onClick={(e) => {
+            setsettings(!settings);
+
+            if (settingsstatus) {
+              setsettings(false);
+              setsettingsstatus(false);
+            }
+            e.stopPropagation();
+          }}
+        >
+          {after}
+        </div>
+      ) : (
+        editor && (
+          <div
+            style={{
+              height: "15px",
+              width: "15px",
+              display: "flex",
+              justifyContent: "center",
+              position: "absolute",
+              right: "10px",
+              top: "0",
+            }}
+            ref={buttonopensettings}
+            onClick={(e) => {
+              setsettings(!settings);
+
+              if (settingsstatus) {
+                setsettings(false);
+                setsettingsstatus(false);
+              }
+              e.stopPropagation();
+            }}
+          >
+            {Icon("Menu", "1.5")}
+          </div>
+        )
+      )}
     </div>
   );
 };

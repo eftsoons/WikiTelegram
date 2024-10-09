@@ -72,6 +72,7 @@ const InfoDiv = ({
   const [settings, setsettings] = useState<boolean>(false);
   const [settngsicon, setsettngsicon] = useState<boolean>(false);
   const [infoopen, setinfoopen] = useState<boolean>(false);
+  const [linkopen, setlinkopen] = useState<boolean>(false);
 
   const [edit, setedit] = useState<boolean>(false);
   const [valueheader, setvalueheader] = useState<string | undefined>(text);
@@ -86,6 +87,7 @@ const InfoDiv = ({
         const seticon = [...infodiv];
 
         seticon[index].icon = element;
+        seticon[index].info = "";
 
         if (typemain != "monet") {
           axios.post(`${import.meta.env.VITE_API_URL}/info/save`, {
@@ -212,6 +214,7 @@ const InfoDiv = ({
               marginRight: "10px",
               transform: infoopen ? "rotate(180deg)" : "",
               alignItems: "end",
+              transition: "0.25s",
             })
           )}
         </div>
@@ -351,6 +354,16 @@ const InfoDiv = ({
                 </span>
               </div>
               <Border type="center" />
+              <div
+                className="settings-items"
+                onClick={() => {
+                  setlinkopen(!linkopen);
+                  setsettings(false);
+                }}
+              >
+                <span style={{ height: "100%", marginLeft: "10px" }}>Link</span>
+              </div>
+              <Border type="center" />
               {edit && (
                 <div
                   className="settings-items"
@@ -362,17 +375,21 @@ const InfoDiv = ({
                   </span>
                 </div>
               )}
-              <div
-                className="settings-items"
-                onClick={() => {
-                  setsettngsicon(true);
-                  setsettings(false);
-                }}
-              >
-                {Icon("icon", "1.5")}
-                <span style={{ height: "100%", marginLeft: "10px" }}>icon</span>
-              </div>
-              <Border type="center" />
+              {edit && (
+                <div
+                  className="settings-items"
+                  onClick={() => {
+                    setsettngsicon(true);
+                    setsettings(false);
+                  }}
+                >
+                  {Icon("icon", "1.5")}
+                  <span style={{ height: "100%", marginLeft: "10px" }}>
+                    icon
+                  </span>
+                  <Border type="center" />
+                </div>
+              )}
               {!edit ? (
                 <div className="settings-items" onClick={() => setedit(true)}>
                   {Icon("Edit", "1.5")}
@@ -495,18 +512,23 @@ const InfoDiv = ({
               />
             </div>
           )}
+          {linkopen && <div>asd</div>}
         </>
       )}
       <div className="info-content">
-        <div className={type == "play" ? "cell-play" : ""}>
-          {/*
-return cloneElement(data, {
-                  type: type,
-                  setinfodiv: setinfodiv,
-                  indexmain: index,
-                  index: index2,
-                  key: index2,
-                });*/}
+        {type == "play" ? (
+          <div className="cell-play">
+            <InfoDivContext.Provider
+              value={{
+                type,
+                setinfodiv: setinfodiv ? setinfodiv : () => {},
+                indexmain: index,
+              }}
+            >
+              {children}
+            </InfoDivContext.Provider>
+          </div>
+        ) : (
           <InfoDivContext.Provider
             value={{
               type,
@@ -516,7 +538,7 @@ return cloneElement(data, {
           >
             {children}
           </InfoDivContext.Provider>
-        </div>
+        )}
       </div>
       {edit && (
         <Button
@@ -526,19 +548,24 @@ return cloneElement(data, {
               setinfodiv((info: Info) => {
                 const data = [...info];
 
-                data[index].content.push({
-                  header: "???",
-                  text: "???",
-                  content: [],
-                });
-
                 if (typemain != "monet") {
+                  data[index].content.push({
+                    header: "???",
+                    text: "???",
+                  });
+
                   axios.post(`${import.meta.env.VITE_API_URL}/info/save`, {
                     initData: launchParams.initDataRaw,
                     type: typemain,
                     data: data,
                   });
                 } else {
+                  data[index].content.push({
+                    header: "???",
+                    text: "???",
+                    content: [],
+                  });
+
                   axios.post(
                     `${import.meta.env.VITE_API_URL}/monet/info/save`,
                     {

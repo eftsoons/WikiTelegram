@@ -11,20 +11,25 @@
 body {
   height: 100vh;
   overflow: hidden;
-  background-image: url("/backgroundup.png");
-  background-size: 200% 50%;
+  background-image: url("/BackBlack.png");
+  background-size: 150% 100%;
   background-position-y: 0%;
   background-repeat: no-repeat;
-  background-color: rgb(37, 37, 37);
+  /*background-image: url("/backgroundup.png");
+  background-size: 200% 50%;
+  background-position-y: 0%;
+  background-repeat: no-repeat;*/
+  background-color: black;
 }
 
 #root {
   height: 100%;
   overflow-y: scroll;
+  /*
   background-image: url("/backgrounddown.png");
   background-size: 200% 50%;
   background-position-x: 100%;
-  background-position-y: 100%;
+  background-position-y: 100%;*/
   background-repeat: no-repeat;
 }
 

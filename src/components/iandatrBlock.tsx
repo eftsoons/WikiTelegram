@@ -29,7 +29,7 @@ const iandatrBlock = ({
       {edit && editor ? (
         <>
           <div style={{ display: "flex", width: "95%", marginTop: "5px" }}>
-            {style ? Icon("Attern") : Icon("info")}
+            {style ? Icon("Attern", "1.5") : Icon("info", "1.5")}
             <input
               name="i-block-title-input"
               className="i-block-title-input"
@@ -54,7 +54,7 @@ const iandatrBlock = ({
       ) : (
         <>
           <div style={{ display: "flex", width: "95%", marginTop: "5px" }}>
-            {style ? Icon("Attern") : Icon("info")}
+            {style ? Icon("Attern", "1.5") : Icon("info", "1.5")}
             <div className="i-block-title">{title}</div>
           </div>
           <div className="i-block-text">{children}</div>
