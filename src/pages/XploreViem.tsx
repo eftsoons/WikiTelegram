@@ -4,13 +4,13 @@ const Xplore = () => {
       <img
         style={{
           position: "absolute",
-          height: "390px",
+          height: "800px  ",
           width: "90%",
-          top: "0",
+          top: "-525px",
           left: "50%",
           transform: "translate(-50%, 0)",
         }}
-        src="phonestudy.png"
+        src="PhoneXplore.png"
       />
 
       <span

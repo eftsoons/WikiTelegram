@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { ButtonGroupTile, ButtonTile, Icon } from ".";
 import { ContentPage } from "../type";
-import { initUtils } from "@telegram-apps/sdk";
+import { initUtils, retrieveLaunchParams } from "@telegram-apps/sdk";
+import axios from "axios";
 
 const PlayBlock = ({
   children,
@@ -34,6 +35,7 @@ const PlayBlock = ({
   const [website2element, setwebsite2element] = useState(website2);
 
   const utils = initUtils();
+  const launchParams = retrieveLaunchParams();
 
   const scrollContainerRef = useRef(null);
 
@@ -84,18 +86,28 @@ const PlayBlock = ({
     e: React.ChangeEvent<HTMLInputElement>,
     index: number
   ) => {
-    if (e.target.files) {
+    if (e.target.files && launchParams.initDataRaw) {
       const file = e.target.files[0];
 
-      const dataimg: string = await new Promise<string>((resolve) => {
-        const reader = new FileReader();
-        reader.onload = (event) => resolve(event!.target!.result as string);
-        reader.readAsDataURL(file);
-      });
+      const formData = new FormData();
+      formData.append("photo", file);
+      formData.append("initData", launchParams.initDataRaw);
+
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/upload`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
       setcontent((info) => {
         const data = [...info];
-        data[index].photo = dataimg;
+        data[index].photo = `${import.meta.env.VITE_API_URL}/img?filename=${
+          response.data
+        }`;
 
         return data;
       });
@@ -173,6 +185,7 @@ const PlayBlock = ({
                     width: "170px",
                     borderRadius: "8px",
                   }}
+                  loading="lazy"
                   src={data.photo}
                   onClick={() => {
                     if (edit) {
@@ -254,7 +267,7 @@ const PlayBlock = ({
             }}
           >
             Играть
-            {Icon("Play")}
+            {Icon("Play", "1,5")}
           </button>
           <button
             className="play-block-button-telegram"
@@ -262,7 +275,7 @@ const PlayBlock = ({
               utils.openTelegramLink(websitetelegram);
             }}
           >
-            {Icon("Telegram")}
+            {Icon("Telegram", "1,5")}
           </button>
           <button
             className="play-block-button-telegram"
@@ -270,7 +283,7 @@ const PlayBlock = ({
               utils.openTelegramLink(website2);
             }}
           >
-            {Icon("Share")}
+            {Icon("Share", "1,5")}
           </button>
         </div>
       )}
@@ -290,7 +303,7 @@ const PlayBlock = ({
               })
             }
           >
-            {Icon("image")}
+            {Icon("image", "1,5")}
           </ButtonTile>
           <ButtonTile
             onClick={() => {

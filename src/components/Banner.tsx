@@ -21,7 +21,7 @@ const Banner = ({
       className="banner"
       style={{
         backgroundColor: backgroundColor,
-        backgroundImage: `url("${backgroundImage}")`,
+        backgroundImage: backgroundImage ? `url("${backgroundImage}")` : "",
         ...style,
       }}
       onClick={onClick}

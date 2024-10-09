@@ -1,5 +1,7 @@
+@import "../variables.scss";
+
 .info {
-  background-color: rgba(37, 37, 37, 0.6);
+  background-color: $maincolor;
   border: 1px solid rgba(255, 255, 255, 0.1);
   //backdrop-filter: blur(15px);
   width: 95%;
@@ -163,4 +165,14 @@
 .infodiv-info-div {
   width: 95%;
   margin-left: 10px;
+}
+
+.addblock {
+  width: 90%;
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+  border-radius: 8px;
+  background-color: $maincolor;
+  padding: 10px;
 }

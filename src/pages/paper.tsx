@@ -1,5 +1,4 @@
 import { type Navigator, Navigate, useParams } from "react-router-dom";
-import { initPopup } from "@telegram-apps/sdk";
 
 import { motion } from "framer-motion";
 import {
@@ -17,8 +16,9 @@ import IBlock from "../components/iandatrBlock";
 import { Fire, Game } from "../svg";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { initBackButton, retrieveLaunchParams } from "@telegram-apps/sdk";
+import { retrieveLaunchParams } from "@telegram-apps/sdk";
 import { Wait } from ".";
+import { BackButton } from "../scripts";
 
 const Paper = ({
   reactNavigator,
@@ -34,13 +34,10 @@ const Paper = ({
   }
 
   const [infodiv, setinfodiv] = useState<ContentPage>();
-  const [response, setresponse] = useState<ContentPage>();
 
   const launchParams = retrieveLaunchParams();
 
-  const [backButton] = initBackButton();
-
-  const popup = initPopup();
+  BackButton(reactNavigator);
 
   useEffect(() => {
     async function fetchData() {
@@ -56,7 +53,6 @@ const Paper = ({
           }
         );
 
-        setresponse(response.data);
         setinfodiv(response.data);
       } else {
         const response = await axios.post(
@@ -69,10 +65,6 @@ const Paper = ({
         );
 
         if (buttonid && indexmain && index) {
-          setresponse(
-            response.data.button[buttonid].content[indexmain].content[index]
-              .content
-          );
           setinfodiv(
             response.data.button[buttonid].content[indexmain].content[index]
               .content
@@ -84,46 +76,8 @@ const Paper = ({
     fetchData();
   }, []);
 
-  useEffect(() => {
+  /*useEffect(() => {
     const hanldebackbutton = async () => {
-      //можно было бы по другому сравнение сделать, но ладно
-      if (editor && infodiv != response) {
-        await popup
-          .open({
-            message: "«Сохранить изменения»",
-            buttons: [
-              { id: "yes", type: "default", text: "Да" },
-              { id: "no", type: "destructive", text: "Нет" },
-            ],
-          })
-          .then((buttonId) => {
-            if (buttonId == "yes") {
-              if (typepage != "monet") {
-                axios.post(`${import.meta.env.VITE_API_URL}/paper/save`, {
-                  initData: launchParams.initDataRaw,
-                  type: typepage,
-                  index: indexmain,
-                  index2: index,
-                  data: infodiv,
-                });
-              } else {
-                console.log(infodiv);
-                axios.post(
-                  `${import.meta.env.VITE_API_URL}/monet/info/page/save`,
-                  {
-                    initData: launchParams.initDataRaw,
-                    indexmain: indexmain,
-                    monetindex: idmonet,
-                    buttonid: buttonid,
-                    data: infodiv,
-                    index: index,
-                  }
-                );
-              }
-            }
-          });
-      }
-
       reactNavigator.go(-1);
     };
 
@@ -131,7 +85,30 @@ const Paper = ({
     backButton.on("click", hanldebackbutton);
 
     return () => backButton.off("click", hanldebackbutton);
-  }, [backButton]);
+  }, []);*/
+
+  useEffect(() => {
+    if (editor && infodiv) {
+      if (typepage != "monet") {
+        axios.post(`${import.meta.env.VITE_API_URL}/paper/save`, {
+          initData: launchParams.initDataRaw,
+          type: typepage,
+          index: indexmain,
+          index2: index,
+          data: infodiv,
+        });
+      } else {
+        axios.post(`${import.meta.env.VITE_API_URL}/monet/info/page/save`, {
+          initData: launchParams.initDataRaw,
+          indexmain: indexmain,
+          monetindex: idmonet,
+          buttonid: buttonid,
+          data: infodiv,
+          index: index,
+        });
+      }
+    }
+  }, [infodiv]);
 
   const handleaddblock = (
     type: "normal" | "citate" | "author" | "i" | "attetion" | "fire" | "play"

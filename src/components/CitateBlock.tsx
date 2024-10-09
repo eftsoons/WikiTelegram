@@ -24,7 +24,7 @@ const CitateBlock = ({
       className="citate-block"
       style={{ border: edit ? "1px solid rgba(255,255,255,1)" : "" }}
     >
-      {Icon("Citate", "1", {
+      {Icon("Citate", "1.5", {
         opacity: "0.6",
         marginTop: "10px",
         alignItems: "start !important",
@@ -61,7 +61,7 @@ const CitateBlock = ({
         ) : (
           <span className="citate-block-author-text">{author}</span>
         )}
-        {Icon("Citate", "1", {
+        {Icon("Citate", "1.5", {
           transform: "rotate(180deg)",
           opacity: "0.6",
           marginRight: "10px",

@@ -52,7 +52,7 @@ const FireBlock = ({
           </div>
           {contentelement.map((data, index) => {
             return (
-              <div className="fire-block-link">
+              <div key={index} className="fire-block-link">
                 <div
                   style={{
                     borderRadius: "999px",

@@ -86,6 +86,7 @@ const InfoDiv = ({
         const seticon = [...infodiv];
 
         seticon[index].icon = element;
+        seticon[index].info = "";
 
         if (typemain != "monet") {
           axios.post(`${import.meta.env.VITE_API_URL}/info/save`, {
@@ -212,6 +213,7 @@ const InfoDiv = ({
               marginRight: "10px",
               transform: infoopen ? "rotate(180deg)" : "",
               alignItems: "end",
+              transition: "0.25s",
             })
           )}
         </div>
@@ -498,15 +500,19 @@ const InfoDiv = ({
         </>
       )}
       <div className="info-content">
-        <div className={type == "play" ? "cell-play" : ""}>
-          {/*
-return cloneElement(data, {
-                  type: type,
-                  setinfodiv: setinfodiv,
-                  indexmain: index,
-                  index: index2,
-                  key: index2,
-                });*/}
+        {type == "play" ? (
+          <div className="cell-play">
+            <InfoDivContext.Provider
+              value={{
+                type,
+                setinfodiv: setinfodiv ? setinfodiv : () => {},
+                indexmain: index,
+              }}
+            >
+              {children}
+            </InfoDivContext.Provider>
+          </div>
+        ) : (
           <InfoDivContext.Provider
             value={{
               type,
@@ -516,7 +522,7 @@ return cloneElement(data, {
           >
             {children}
           </InfoDivContext.Provider>
-        </div>
+        )}
       </div>
       {edit && (
         <Button
@@ -529,7 +535,6 @@ return cloneElement(data, {
                 data[index].content.push({
                   header: "???",
                   text: "???",
-                  content: [],
                 });
 
                 if (typemain != "monet") {

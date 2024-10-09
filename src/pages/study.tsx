@@ -53,7 +53,6 @@ const Study = ({
             {
               header: "???",
               text: "???",
-              content: [],
             },
           ],
         });
@@ -121,18 +120,7 @@ const Study = ({
         );
       })}
       {editor && (
-        <div
-          style={{
-            width: "90%",
-            marginTop: "10px",
-            display: "flex",
-            gap: "10px",
-            borderRadius: "8px",
-            backgroundColor: "rgba(37, 37, 37, 0.6)",
-            backdropFilter: "blur(15px)",
-            padding: "10px",
-          }}
-        >
+        <div className="addblock">
           <Button onClick={() => handleaddblock("play")}>
             {Icon("Sapp", "1.5")}
           </Button>

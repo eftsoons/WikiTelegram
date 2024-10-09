@@ -10,7 +10,7 @@ type Info = Array<{
     before?: string;
     header: string;
     text: string;
-    content: ContentPage;
+    content?: ContentPage;
   }>;
 }>;
 

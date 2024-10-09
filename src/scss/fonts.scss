@@ -4,6 +4,11 @@
 @font-face {
   font-family: "tgico";
   src: url("/fonts/tgico.ttf");
+  src: url("/fonts/tgico.eot");
+  src: url("/fonts/tgico.eot?#iefix") format("embedded-opentype"),
+    url("/fonts/tgico.ttf") format("truetype"),
+    url("/fonts/tgico.woff") format("woff"),
+    url("/fonts/tgico.svg?#tgico") format("svg");
   font-weight: normal;
   font-style: normal;
   font-display: block;

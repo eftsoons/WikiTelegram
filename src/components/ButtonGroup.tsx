@@ -27,7 +27,17 @@ const ButtonGroup = ({
           const wheelEvent = e as WheelEvent;
 
           wheelEvent.preventDefault();
+
           scrollContainer.scrollLeft += wheelEvent.deltaY > 0 ? 50 : -50;
+
+          //console.log(scrollContainer.scrollLeft);
+
+          //scrollContainer.scrollLeft += wheelEvent.deltaY;
+
+          /*scrollContainer.scrollTo({
+            left: test + (wheelEvent.deltaY > 0 ? 25 : -25),
+            behavior: "smooth", // Плавная прокрутка
+          });*/
         };
 
         let startX: number;

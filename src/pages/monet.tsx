@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import { Navigate, useParams, type Navigator } from "react-router-dom";
-import { BackButton } from "../scripts";
 import {
   Banner,
   Border,
@@ -12,16 +11,10 @@ import {
 } from "../components";
 import { useEffect, useState, ChangeEvent } from "react";
 import axios from "axios";
-import {
-  initBackButton,
-  initPopup,
-  initUtils,
-  retrieveLaunchParams,
-} from "@telegram-apps/sdk";
+import { initUtils, retrieveLaunchParams } from "@telegram-apps/sdk";
 import type { MonetType } from "../type";
-import { Base64torl } from "../scripts";
-import base64ToBlob from "../scripts/base64tourl";
 import { Wait } from ".";
+import { BackButton } from "../scripts";
 
 const Monet = ({
   reactNavigator,
@@ -37,20 +30,14 @@ const Monet = ({
   }
 
   const [infomonet, setinfomonet] = useState<MonetType>();
-  const [response, setresponse] = useState<MonetType>();
   const [buttonactive, setbuttonactive] = useState(0);
   const [settingsbanner, setsettingsbanner] = useState(false);
-  const [photo, setphoto] = useState<string>();
 
   const utils = initUtils();
 
   const launchParams = retrieveLaunchParams();
 
-  const [backButton] = initBackButton();
-
-  const popup = initPopup();
-
-  //BackButton(reactNavigator);
+  BackButton(reactNavigator);
 
   useEffect(() => {
     async function fetchData() {
@@ -63,14 +50,6 @@ const Monet = ({
       )) as { data: MonetType | "" };
 
       if (response.data != "") {
-        if (response.data.img) {
-          const blob = base64ToBlob(response.data.img);
-          const blobUrl = URL.createObjectURL(blob);
-
-          setphoto(blobUrl);
-        }
-
-        setresponse(response.data);
         setinfomonet(response.data);
       } else {
         setinfomonet({ website: "", img: null, button: [] });
@@ -80,11 +59,20 @@ const Monet = ({
     fetchData();
   }, []);
 
-  useEffect(() => {
+  /*useEffect(() => {
     const hanldebackbutton = async () => {
-      if (editor && response != infomonet) {
-        await popup
+      reactNavigator.go(-1);
+    };
+    backButton.show();
+    backButton.on("click", hanldebackbutton);
+
+    return () => {
+      backButton.off("click", hanldebackbutton);
+
+      if (editor) {
+        popup
           .open({
+            title: "Telegram",
             message: "«Сохранить изменения»",
             buttons: [
               { id: "yes", type: "default", text: "Да" },
@@ -93,6 +81,7 @@ const Monet = ({
           })
           .then((buttonId) => {
             if (buttonId == "yes") {
+              console.log(infomonet);
               axios.post(`${import.meta.env.VITE_API_URL}/monet/save`, {
                 initData: launchParams.initDataRaw,
                 data: infomonet,
@@ -101,14 +90,18 @@ const Monet = ({
             }
           });
       }
-
-      reactNavigator.go(-1);
     };
-    backButton.show();
-    backButton.on("click", hanldebackbutton);
+  }, []);*/
 
-    return () => backButton.off("click", hanldebackbutton);
-  }, [backButton]);
+  useEffect(() => {
+    if (editor && infomonet) {
+      axios.post(`${import.meta.env.VITE_API_URL}/monet/save`, {
+        initData: launchParams.initDataRaw,
+        data: infomonet,
+        index: index,
+      });
+    }
+  }, [infomonet]);
 
   const handleaddblock = (type: "big" | "play" | "normal") => {
     setinfomonet((info) => {
@@ -134,25 +127,30 @@ const Monet = ({
   };
 
   const handleonchaneimg = async (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
+    if (e.target.files && launchParams.initDataRaw) {
       const file = e.target.files[0];
 
-      const dataimg: string = await new Promise<string>((resolve) => {
-        const reader = new FileReader();
-        reader.onload = (event) => resolve(event!.target!.result as string);
-        reader.readAsDataURL(file);
-      });
+      const formData = new FormData();
+      formData.append("photo", file);
+      formData.append("initData", launchParams.initDataRaw);
 
-      const blob = Base64torl(dataimg);
-      const blobUrl = URL.createObjectURL(blob);
-
-      setphoto(blobUrl);
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/upload`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
       setinfomonet((info) => {
         if (info) {
           return {
             ...info,
-            img: dataimg,
+            img: `${import.meta.env.VITE_API_URL}/img?filename=${
+              response.data
+            }`,
           };
         }
       });
@@ -173,7 +171,6 @@ const Monet = ({
           data.splice(index, 1);
         }
 
-        console.log(data);
         return { ...info, button: data };
       }
     });
@@ -211,7 +208,7 @@ const Monet = ({
             </span>
           </div>
         }
-        backgroundImage={!infomonet.img ? "notimg.png" : photo}
+        backgroundImage={!infomonet.img ? "notimg.png" : infomonet.img}
         style={{
           cursor: "pointer",
           backgroundRepeat: "no-repeat",
@@ -363,7 +360,7 @@ const Monet = ({
                         header={data.header}
                         text={data.text}
                         onClick={async () => {
-                          if (editor && response != infomonet) {
+                          /*if (editor && response != infomonet) {
                             await popup
                               .open({
                                 message: "«Сохранить изменения»",
@@ -390,7 +387,7 @@ const Monet = ({
                                   );
                                 }
                               });
-                          }
+                          }*/
 
                           reactNavigator.push(
                             `/page/monet/${index2}/${index3}/${buttonactive}/${index}`
@@ -410,18 +407,7 @@ const Monet = ({
             );
           })}
         {editor && infomonet.button.length > 0 && (
-          <div
-            style={{
-              width: "90%",
-              marginTop: "10px",
-              display: "flex",
-              gap: "10px",
-              borderRadius: "8px",
-              backgroundColor: "rgba(37, 37, 37, 0.6)",
-              backdropFilter: "blur(15px)",
-              padding: "10px",
-            }}
-          >
+          <div className="addblock">
             <Button onClick={() => handleaddblock("play")}>
               {Icon("Sapp", "1.5")}
             </Button>
